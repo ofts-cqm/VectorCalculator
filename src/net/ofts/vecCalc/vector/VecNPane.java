@@ -1,0 +1,111 @@
+package net.ofts.vecCalc.vector;
+
+import net.ofts.vecCalc.ICalculatorScreen;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.Arrays;
+
+public class VecNPane extends BlankPane{
+    ICalculatorScreen parent;
+    public VecN vector;
+    JTextField[] fields;
+    boolean editable;
+    int size;
+
+    public VecNPane(String name, int size, ICalculatorScreen parent, boolean editable){
+        super();
+        this.size = size;
+        this.editable = editable;
+        this.setBorder(new TitledBorder(name));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.parent = parent;
+
+        vector = new VecN(size);
+        fields = new JTextField[size];
+
+        for (int i = 0; i < size; i++) {
+            JTextField temp = new JTextField("0");
+            temp.setMaximumSize(new Dimension(75, 20));
+
+            if (editable) {
+                temp.addFocusListener(focusManager);
+                temp.getDocument().addDocumentListener(new VecNTextFieldMonitor(i));
+                temp.addActionListener(this::onEnterPressed);
+            }else{
+                temp.setEditable(false);
+                temp.setFocusable(false);
+            }
+
+            fields[i] = temp;
+            add(Box.createRigidArea(new Dimension(100, 7)));
+            add(temp);
+        }
+    }
+
+    public void onEnterPressed(ActionEvent e){
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+        parent.refreshResult();
+    }
+
+    public void setVector(VecN vector){
+        this.vector = vector;
+        for (int i = 0; i < size; i++) {
+            fields[i].setText(formatter.format(vector.elements[i]));
+        }
+        repaint();
+    }
+
+    public void setVectorPreserveLength(VecN vector){
+        if (vector.elements.length == size){
+            setVector(vector);
+        }
+        else {
+            VecN vecn = new VecN(size);
+            vecn.elements = Arrays.copyOf(vector.elements, size);
+            setVector(vecn);
+        }
+    }
+
+    public void resetVector(){
+        setVector(new VecN(size));
+    }
+
+    public void handleVecNChange(JTextField field, int index){
+        double val;
+        try{
+            val = Double.parseDouble(field.getText());
+            if (field.getBackground().equals(Color.red)) field.setBackground(Color.white);
+        }catch (Exception ex){
+            field.setBackground(Color.red);
+            repaint();
+            return;
+        }
+
+        vector.elements[index] = val;
+    }
+
+    public class VecNTextFieldMonitor implements DocumentListener {
+        public int index;
+        public VecNTextFieldMonitor(int index) {
+            this.index = index;
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+            handleVecNChange(fields[index], index);
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            handleVecNChange(fields[index], index);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+
+        }
+    }
+}

@@ -9,12 +9,42 @@ public class Matrix {
         values = new double[size][size];
     }
 
+    public Matrix(int height, int width){
+        values = new double[height][width];
+    }
+
     public String RREF(VecN answer){
+        if (values.length != values[0].length) return "Not Square Matrix";
         int size = values.length;
 
         for (int i = 0; i < size; i++){
             if (values[i][i] == 0){
-                return "(" + (i + 1) + ", " +  (i + 1) + ")cannot be zero!";
+                // if we found a full zero line that probably means it is intended
+                // thus we just make sure it is the last row
+                if (isFullZero(values[i])){
+                    // find a line that is not full zero
+                    int swapWith = -1;
+                    for (int j = i + 1; j < size; j++) {
+                        if (!isFullZero(values[j])) {
+                            swapWith = j;
+                            break;
+                        }
+                    }
+
+                    // if we found, swap
+                    if (swapWith != -1){
+                        swapRowsDuringREFF(i, swapWith, answer);
+                        i--;
+                    }
+
+                    // if we didn't find, do nothing because we are in the last row
+
+                    continue;
+                }
+
+                // if it is not full zero then we can make it work by swaping rows
+                // however, since we are in an awt thread, we can let the user do this
+                //return "(" + (i + 1) + ", " +  (i + 1) + ")cannot be zero, consider swap lines?";
             }
         }
 
@@ -37,10 +67,11 @@ public class Matrix {
                 // if we can't find anything then we have to end here
                 // it is possible that we can swap some previous row to make this work
                 // but that means we need to redo the whole process
-                // since we are in an awt thread, it's better to let the user to the swap
+                // therefore, we can just skip this line and calculate the next.
                 // fuck u linear algebra
+                // Todo: check if we can swap with previous rows
                 if (!foundSomething){
-                    return "(" + (i + 1) + ", " + (i + 1) + ") becomes zero during calculation, consider swap rows?";
+                    continue;
                 }
             }
 

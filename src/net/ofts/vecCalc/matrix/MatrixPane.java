@@ -1,5 +1,6 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.vector.BlankPane;
 
 import javax.swing.*;
@@ -7,33 +8,53 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class MatrixPane extends BlankPane {
     public Matrix matrix;
     public JTextField[][] matrixField;
+    public ICalculatorScreen parent;
 
-    public MatrixPane(String name, int size){
-        matrix = new Matrix(size);
-        setLayout(new GridLayout(size, size));
+    public MatrixPane(String name, int height, int width, ICalculatorScreen parent, boolean editable){
+        this.parent = parent;
+        matrix = new Matrix(height, width);
+        setLayout(new GridLayout(height, width));
         setBorder(new TitledBorder(name));
-        matrixField = new JTextField[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        matrixField = new JTextField[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 JTextField temp = new JTextField("0");
                 matrixField[i][j] = temp;
-                temp.addFocusListener(focusManager);
-                temp.getDocument().addDocumentListener(new TextFieldMonitor(i, j));
+                if (editable) {
+                    temp.addFocusListener(focusManager);
+                    temp.getDocument().addDocumentListener(new TextFieldMonitor(i, j));
+                    temp.addActionListener(this::onEnterPressed);
+                }else{
+                    temp.setEditable(false);
+                    temp.setFocusable(false);
+                }
                 add(temp);
             }
         }
     }
 
+    public void onEnterPressed(ActionEvent e){
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+        parent.refreshResult();
+    }
+
     public void updateMatrixPane(){
         for (int i = 0; i < matrixField.length; i++) {
-            for (int j = 0; j < matrixField.length; j++) {
+            for (int j = 0; j < matrixField[0].length; j++) {
                 matrixField[i][j].setText(formatter.format(matrix.values[i][j]));
             }
         }
+    }
+
+    @Override
+    public void resetPane(){
+        matrix = new Matrix(matrixField.length, matrixField[0].length);
+        updateMatrixPane();
     }
 
     public void handleFieldChange(JTextField field, int i, int j){

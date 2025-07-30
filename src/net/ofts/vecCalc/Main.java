@@ -1,6 +1,7 @@
 package net.ofts.vecCalc;
 
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
+import net.ofts.vecCalc.matrix.MatrixCalcScreen;
 import net.ofts.vecCalc.vector.Vec3Screen;
 import net.ofts.vecCalc.vector.VecNScreen;
 
@@ -32,6 +33,7 @@ public class Main {
         calculatorCodeMap.put("vec3", current = new Vec3Screen());
         calculatorCodeMap.put("vecN", new VecNScreen());
         calculatorCodeMap.put("func", new FunctionSolvingScreen());
+        calculatorCodeMap.put("matx", new MatrixCalcScreen());
 
         frame.add(current);
         current.onPageOpened(frame);
@@ -58,6 +60,11 @@ public class Main {
         func.addActionListener(listener);
         func.setActionCommand("func");
         matrix.add(func);
+
+        JMenuItem matx = new JMenuItem("Matrix Calculation");
+        matx.addActionListener(listener);
+        matx.setActionCommand("matx");
+        matrix.add(matx);
 
         menuBar.add(vector);
         menuBar.add(matrix);

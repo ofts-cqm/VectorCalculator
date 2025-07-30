@@ -29,6 +29,7 @@ public class SwapRowPane extends JPanel {
         JButton button = new JButton(up ? "↑" : "↓");
         button.addActionListener(this::onButtonPressed);
         button.setActionCommand(row + button.getText());
+        button.setFocusable(false);
         return button;
     }
 

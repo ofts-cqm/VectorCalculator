@@ -43,6 +43,11 @@ public class NumPane extends BlankPane {
         repaint();
     }
 
+    @Override
+    public void resetPane(){
+        resetNum();
+    }
+
     public void handleChange(JTextField field){
         double val;
          try{

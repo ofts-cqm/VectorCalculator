@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
-    public MatrixPane pane = new MatrixPane("Matrix", 3);
+    public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true);
     public SwapRowPane swapPane = new SwapRowPane(pane);
     public VecNPane result = new VecNPane("Vector", 3, this, true);
     public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
@@ -32,6 +32,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         dimension.setPaintTicks(true);
         dimension.setPaintLabels(true);
         dimension.setMajorTickSpacing(1);
+        dimension.setFocusable(false);
         dimension.addChangeListener(this::onDimensionChanged);
         dimCtrl.add(dimension);
         add(dimCtrl, BorderLayout.NORTH);
@@ -41,6 +42,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         JPanel resCtrl = new JPanel(new FlowLayout());
         infoLabel.setForeground(Color.GREEN);
         resCtrl.add(infoLabel);
+        calculateButton.setFocusable(false);
         calculateButton.addActionListener(e -> refreshResult());
         resCtrl.add(calculateButton);
         add(resCtrl, BorderLayout.SOUTH);
@@ -50,7 +52,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         currentDimension = dimension.getValue();
 
         remove(pane);
-        pane = new MatrixPane("Matrix", currentDimension);
+        pane = new MatrixPane("Matrix", currentDimension, currentDimension, this, true);
         add(pane, BorderLayout.CENTER);
 
         remove(swapPane);

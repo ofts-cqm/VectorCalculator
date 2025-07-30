@@ -75,6 +75,11 @@ public class VecNPane extends BlankPane{
         setVector(new VecN(size));
     }
 
+    @Override
+    public void resetPane(){
+        resetVector();
+    }
+
     public void handleVecNChange(JTextField field, int index){
         double val;
         try{

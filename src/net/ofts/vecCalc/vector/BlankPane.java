@@ -1,5 +1,7 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.AbstractNumberPane;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,7 +10,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.NumberFormat;
 
-public class BlankPane extends JPanel {
+public class BlankPane extends AbstractNumberPane {
     public static TextFieldFocusMng focusManager = new TextFieldFocusMng();
     public static NumberFormat formatter = NumberFormat.getNumberInstance();
 
@@ -18,6 +20,10 @@ public class BlankPane extends JPanel {
     }
 
     public void handleChange(JTextField field){
+
+    }
+
+    public void resetPane(){
 
     }
 

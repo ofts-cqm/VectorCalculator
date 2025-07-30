@@ -11,16 +11,18 @@ import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
 public class VecNPane extends BlankPane{
-    ICalculatorScreen parent;
+    public ICalculatorScreen parent;
     public VecN vector;
     JTextField[] fields;
-    boolean editable;
-    int size;
+    public boolean editable;
+    public int size;
+    public String name;
 
     public VecNPane(String name, int size, ICalculatorScreen parent, boolean editable){
         super();
         this.size = size;
         this.editable = editable;
+        this.name = name;
         this.setBorder(new TitledBorder(name));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.parent = parent;

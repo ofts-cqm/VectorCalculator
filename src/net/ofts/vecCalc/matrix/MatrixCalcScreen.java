@@ -24,9 +24,10 @@ public class MatrixCalcScreen extends ICalculatorScreen {
                 new VecNPane("x", 3, this, true)
         );
         operandB.setOverrideSize(null);
+        matrixA.sizer.associatedVector = operandB;
         result = new GenericPane(
-                new MatrixPane("Result", 3, 3, this, true),
-                new VecNPane("x", 3, this, true)
+                new MatrixPane("Result", 3, 3, this, false),
+                new VecNPane("x", 3, this, false)
         );
         result.setOverrideSize(null);
         control = new MatrixControlPane(this);
@@ -45,7 +46,7 @@ public class MatrixCalcScreen extends ICalculatorScreen {
 
     @Override
     public void onPageOpened(JFrame frame) {
-        frame.setSize(640, 480);
+        frame.setSize(720, 480);
         frame.setTitle("Matrix Calculator");
     }
 }

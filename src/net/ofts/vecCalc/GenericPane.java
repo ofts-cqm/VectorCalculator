@@ -36,8 +36,15 @@ public class GenericPane extends JPanel {
         return (T)panels.get(type);
     }
 
-    public <T extends AbstractNumberPane> void setPanel(Class<T> type, T panel){
-        panels.replace(type, panel);
+    public <T extends AbstractNumberPane> void setPanel(T panel){
+        panels.replace(panel.getClass(), panel);
+        if(panel.getClass().equals(MatrixWithSizeBarPane.class)){
+            panels.replace(MatrixPane.class, panel);
+        }
+
+        if (current.getClass().equals(panel.getClass())){
+            displayPanel(current.getClass());
+        }
     }
 
     public <T extends AbstractNumberPane> void displayPanel(Class<T> type){

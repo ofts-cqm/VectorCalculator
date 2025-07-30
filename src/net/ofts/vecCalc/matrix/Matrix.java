@@ -4,6 +4,7 @@ import net.ofts.vecCalc.vector.VecN;
 
 public class Matrix {
     public double[][] values;
+    public int height, width;
 
     public Matrix(int size){
         values = new double[size][size];
@@ -11,6 +12,98 @@ public class Matrix {
 
     public Matrix(int height, int width){
         values = new double[height][width];
+        this.height = height;
+        this.width = width;
+    }
+
+    public Matrix(VecN[] columns){
+        values = new double[columns[0].elements.length][columns.length];
+        this.height = values.length;
+        this.width = values[0].length;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                values[i][j] = columns[j].elements[i];
+            }
+        }
+    }
+
+    public VecN[] getColumns(){
+        VecN[] vecs = new VecN[width];
+        for (int i = 0; i < width; i++) {
+            vecs[i] = new VecN(height);
+            for (int j = 0; j < height; j++) {
+                vecs[i].elements[j] = values[j][i];
+            }
+        }
+        return vecs;
+    }
+
+    public static Matrix add(Matrix A, Matrix B){
+        assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
+
+        Matrix result = new Matrix(A.height, A.width);
+        for (int i = 0; i < A.height; i++) {
+            for (int j = 0; j < A.width; j++) {
+                result.values[i][j] = A.values[i][j] + B.values[i][j];
+            }
+        }
+        return result;
+    }
+
+    public static Matrix sub(Matrix A, Matrix B){
+        assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
+
+        Matrix result = new Matrix(A.height, A.width);
+        for (int i = 0; i < A.height; i++) {
+            for (int j = 0; j < A.width; j++) {
+                result.values[i][j] = A.values[i][j] - B.values[i][j];
+            }
+        }
+        return result;
+    }
+
+    public static Matrix scale(Matrix A, float B){
+        Matrix result = new Matrix(A.height, A.width);
+        for (int i = 0; i < A.height; i++) {
+            for (int j = 0; j < A.width; j++) {
+                result.values[i][j] = A.values[i][j] * B;
+            }
+        }
+        return result;
+    }
+
+    public static VecN vecMul(Matrix A, VecN B){
+        assert A.width == B.elements.length : new ArithmeticException("Matrix Width Must Be Equal to Vector Length");
+
+        VecN result = new VecN(A.height);
+        for (int i = 0; i < A.width; i++) {
+            for (int j = 0; j < A.height; j++) {
+                result.elements[j] += A.values[j][i] * B.elements[i];
+            }
+        }
+        return result;
+    }
+
+    public static Matrix matMul(Matrix A, Matrix B){
+        assert A.width == B.height  : new ArithmeticException("Am Must Be Equal To Bn");
+
+        VecN[] vecs = new VecN[B.width], BVecs = B.getColumns();
+        for (int i = 0; i < B.width; i++) {
+            vecs[i] = vecMul(A, BVecs[i]);
+        }
+        return new Matrix(vecs);
+    }
+
+    public static Matrix transpose(Matrix A){
+        Matrix result = new Matrix(A.width, A.height);
+
+        for (int i = 0; i < A.width; i++) {
+            for (int j = 0; j < A.height; j++) {
+                result.values[i][j] = A.values[j][i];
+            }
+        }
+        return result;
     }
 
     public String RREF(VecN answer){

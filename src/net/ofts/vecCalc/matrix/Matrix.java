@@ -3,49 +3,37 @@ package net.ofts.vecCalc.matrix;
 import net.ofts.vecCalc.vector.VecN;
 
 public class Matrix {
-    public double[][] values;
+    public double[][] entries;
     public int height, width;
 
     public Matrix(int size){
-        values = new double[size][size];
+        entries = new double[size][size];
     }
 
     public Matrix(int height, int width){
-        values = new double[height][width];
+        entries = new double[width][height];
         this.height = height;
         this.width = width;
     }
 
     public Matrix(VecN[] columns){
-        values = new double[columns[0].elements.length][columns.length];
-        this.height = values.length;
-        this.width = values[0].length;
+        entries = new double[columns.length][];
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                values[i][j] = columns[j].elements[i];
-            }
+        for (int i = 0; i < columns.length; i++) {
+            entries[i] = columns[i].elements;
         }
-    }
 
-    public VecN[] getColumns(){
-        VecN[] vecs = new VecN[width];
-        for (int i = 0; i < width; i++) {
-            vecs[i] = new VecN(height);
-            for (int j = 0; j < height; j++) {
-                vecs[i].elements[j] = values[j][i];
-            }
-        }
-        return vecs;
+        this.height = entries[0].length;
+        this.width = entries.length;
     }
 
     public static Matrix add(Matrix A, Matrix B){
         assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
 
         Matrix result = new Matrix(A.height, A.width);
-        for (int i = 0; i < A.height; i++) {
-            for (int j = 0; j < A.width; j++) {
-                result.values[i][j] = A.values[i][j] + B.values[i][j];
+        for (int i = 0; i < A.width; i++) {
+            for (int j = 0; j < A.height; j++) {
+                result.entries[i][j] = A.entries[i][j] + B.entries[i][j];
             }
         }
         return result;
@@ -55,9 +43,9 @@ public class Matrix {
         assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
 
         Matrix result = new Matrix(A.height, A.width);
-        for (int i = 0; i < A.height; i++) {
-            for (int j = 0; j < A.width; j++) {
-                result.values[i][j] = A.values[i][j] - B.values[i][j];
+        for (int i = 0; i < A.width; i++) {
+            for (int j = 0; j < A.height; j++) {
+                result.entries[i][j] = A.entries[i][j] - B.entries[i][j];
             }
         }
         return result;
@@ -65,9 +53,9 @@ public class Matrix {
 
     public static Matrix scale(Matrix A, float B){
         Matrix result = new Matrix(A.height, A.width);
-        for (int i = 0; i < A.height; i++) {
-            for (int j = 0; j < A.width; j++) {
-                result.values[i][j] = A.values[i][j] * B;
+        for (int i = 0; i < A.width; i++) {
+            for (int j = 0; j < A.height; j++) {
+                result.entries[i][j] = A.entries[i][j] * B;
             }
         }
         return result;
@@ -78,9 +66,7 @@ public class Matrix {
 
         VecN result = new VecN(A.height);
         for (int i = 0; i < A.width; i++) {
-            for (int j = 0; j < A.height; j++) {
-                result.elements[j] += A.values[j][i] * B.elements[i];
-            }
+            result.mutableAdd(new VecN(A.entries[i]).mutableScale(B.elements[i]));
         }
         return result;
     }
@@ -88,9 +74,9 @@ public class Matrix {
     public static Matrix matMul(Matrix A, Matrix B){
         assert A.width == B.height  : new ArithmeticException("Am Must Be Equal To Bn");
 
-        VecN[] vecs = new VecN[B.width], BVecs = B.getColumns();
+        VecN[] vecs = new VecN[B.width];
         for (int i = 0; i < B.width; i++) {
-            vecs[i] = vecMul(A, BVecs[i]);
+            vecs[i] = vecMul(A, new VecN(B.entries[i]));
         }
         return new Matrix(vecs);
     }
@@ -98,27 +84,30 @@ public class Matrix {
     public static Matrix transpose(Matrix A){
         Matrix result = new Matrix(A.width, A.height);
 
-        for (int i = 0; i < A.width; i++) {
-            for (int j = 0; j < A.height; j++) {
-                result.values[i][j] = A.values[j][i];
+        for (int i = 0; i < A.height; i++) {
+            for (int j = 0; j < A.width; j++) {
+                result.entries[i][j] = A.entries[j][i];
             }
         }
         return result;
     }
 
+    // for RREF, we treat the matrix differently:
+    // we treat entries[i] as rows and entries[][i] as columns
+    // which is opposite for others.
     public String RREF(VecN answer){
-        if (values.length != values[0].length) return "Not Square Matrix";
-        int size = values.length;
+        if (width != height) return "Not Square Matrix";
+        int size = entries.length;
 
         for (int i = 0; i < size; i++){
-            if (values[i][i] == 0){
+            if (entries[i][i] == 0){
                 // if we found a full zero line that probably means it is intended
                 // thus we just make sure it is the last row
-                if (isFullZero(values[i])){
+                if (isFullZero(entries[i])){
                     // find a line that is not full zero
                     int swapWith = -1;
                     for (int j = i + 1; j < size; j++) {
-                        if (!isFullZero(values[j])) {
+                        if (!isFullZero(entries[j])) {
                             swapWith = j;
                             break;
                         }
@@ -143,16 +132,16 @@ public class Matrix {
 
         for (int i = 0; i < size; i++) {
             // check if we have something to work on
-            if(!isNonZero(values[i][i])){
+            if(!isNonZero(entries[i][i])){
                 // if we found full zero lines it means we reached the bottom
-                if (isFullZero(values[i])){
+                if (isFullZero(entries[i])){
                     return "Infinite Many Solutions";
                 }
 
                 boolean foundSomething = false;
                 for (int j = i + 1; j < size; j++) {
                     // if we found some row with target value, swap
-                    if (isNonZero(values[j][i])){
+                    if (isNonZero(entries[j][i])){
                         swapRowsDuringREFF(i, j, answer);
                         foundSomething = true;
                     }
@@ -168,17 +157,17 @@ public class Matrix {
                 }
             }
 
-            answer.elements[i] = reduceToOne(values[i], answer.elements[i], i);
+            answer.elements[i] = reduceToOne(entries[i], answer.elements[i], i);
             for (int j = 0; j < size; j++) {
                 if (j == i) continue;
-                answer.elements[j] = reducedToZero(values[j], values[i], answer.elements[j], answer.elements[i], i);
-                if (isFullZero(values[j])){
+                answer.elements[j] = reducedToZero(entries[j], entries[i], answer.elements[j], answer.elements[i], i);
+                if (isFullZero(entries[j])){
                     if (isNonZero(answer.elements[j])) return "No Solution";
 
                     // make sure to put the empty row to the last
                     if (j != size - 1){
                         for (int k = size - 1; k > j; k--) {
-                            if (!isFullZero(values[k])) {
+                            if (!isFullZero(entries[k])) {
                                 swapRowsDuringREFF(j, k, answer);
                                 break;
                             }
@@ -193,9 +182,9 @@ public class Matrix {
     }
 
     public void swapRowsDuringREFF(int a, int b, VecN vector){
-        double[] temp = values[a];
-        values[a] = values[b];
-        values[b] = temp;
+        double[] temp = entries[a];
+        entries[a] = entries[b];
+        entries[b] = temp;
 
         double v = vector.elements[a];
         vector.elements[a] = vector.elements[b];

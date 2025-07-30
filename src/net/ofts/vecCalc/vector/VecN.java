@@ -7,8 +7,18 @@ public class VecN {
         elements = new double[length];
     }
 
+    public VecN(double[] entries){
+        elements = entries;
+    }
+
     public VecN(VecN copyFrom){
         elements = copyFrom.elements.clone();
+    }
+
+    public void mutableAdd(VecN b){
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] += b.elements[i];
+        }
     }
 
     public static VecN add(VecN a, VecN b){
@@ -25,6 +35,13 @@ public class VecN {
             result.elements[i] -= b.elements[i];
         }
         return result;
+    }
+
+    public VecN mutableScale(double b){
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] *= b;
+        }
+        return this;
     }
 
     public static VecN scale(VecN a, double b){

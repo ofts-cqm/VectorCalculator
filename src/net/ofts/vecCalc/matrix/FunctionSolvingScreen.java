@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
-    public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true);
+    public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true).setInverseRowsAndColumns();
     public SwapRowPane swapPane = new SwapRowPane(pane);
     public VecNPane result = new VecNPane("Vector", 3, this, true);
     public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
@@ -52,7 +52,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         currentDimension = dimension.getValue();
 
         remove(pane);
-        pane = new MatrixPane("Matrix", currentDimension, currentDimension, this, true);
+        pane = new MatrixPane("Matrix", currentDimension, currentDimension, this, true).setInverseRowsAndColumns();
         add(pane, BorderLayout.CENTER);
 
         remove(swapPane);

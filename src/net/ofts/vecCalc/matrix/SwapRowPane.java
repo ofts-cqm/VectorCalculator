@@ -39,7 +39,7 @@ public class SwapRowPane extends JPanel {
         // Programmers count from zero
         int targetRow = command.charAt(0) - '0';
         boolean up = command.charAt(1) == '↑';
-        double[][] entries = matrix.matrix.values;
+        double[][] entries = matrix.matrix.entries;
         if (up){
             double[] temp = entries[targetRow];
             entries[targetRow] = entries[targetRow - 1];

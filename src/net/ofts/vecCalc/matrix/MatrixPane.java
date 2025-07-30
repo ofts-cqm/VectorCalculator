@@ -14,6 +14,7 @@ public class MatrixPane extends BlankPane {
     public Matrix matrix;
     public JTextField[][] matrixField;
     public ICalculatorScreen parent;
+    public boolean inverseRowsAndColumns = false;
 
     public MatrixPane(String name, int height, int width, ICalculatorScreen parent, boolean editable){
         this.parent = parent;
@@ -38,6 +39,12 @@ public class MatrixPane extends BlankPane {
         }
     }
 
+    public MatrixPane setInverseRowsAndColumns(){
+        assert matrix.width == matrix.height;
+        inverseRowsAndColumns = true;
+        return this;
+    }
+
     public void onEnterPressed(ActionEvent e){
         KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
         parent.refreshResult();
@@ -46,7 +53,7 @@ public class MatrixPane extends BlankPane {
     public void updateMatrixPane(){
         for (int i = 0; i < matrixField.length; i++) {
             for (int j = 0; j < matrixField[0].length; j++) {
-                matrixField[i][j].setText(formatter.format(matrix.values[i][j]));
+                matrixField[i][j].setText(formatter.format(inverseRowsAndColumns? matrix.entries[i][j] : matrix.entries[j][i]));
             }
         }
     }
@@ -68,7 +75,8 @@ public class MatrixPane extends BlankPane {
             return;
         }
 
-        matrix.values[i][j] = val;
+        if(inverseRowsAndColumns) matrix.entries[j][i] = val;
+        else matrix.entries[j][i] = val;
     }
 
     public class TextFieldMonitor implements DocumentListener {

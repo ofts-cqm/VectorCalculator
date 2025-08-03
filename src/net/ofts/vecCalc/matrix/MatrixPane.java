@@ -16,6 +16,11 @@ public class MatrixPane extends BlankPane {
     public ICalculatorScreen parent;
     public boolean inverseRowsAndColumns = false;
 
+    public MatrixPane(String name, Matrix matrix, ICalculatorScreen parent){
+        this(name, matrix.height, matrix.width, parent, false);
+        setMatrix(matrix);
+    }
+
     public MatrixPane(String name, int height, int width, ICalculatorScreen parent, boolean editable){
         this.parent = parent;
         matrix = new Matrix(height, width);
@@ -37,6 +42,11 @@ public class MatrixPane extends BlankPane {
                 add(temp);
             }
         }
+    }
+
+    public void setMatrix(Matrix matrix){
+        this.matrix = matrix;
+        updateMatrixPane();
     }
 
     public MatrixPane setInverseRowsAndColumns(){
@@ -75,7 +85,7 @@ public class MatrixPane extends BlankPane {
             return;
         }
 
-        if(inverseRowsAndColumns) matrix.entries[j][i] = val;
+        if(inverseRowsAndColumns) matrix.entries[i][j] = val;
         else matrix.entries[j][i] = val;
     }
 

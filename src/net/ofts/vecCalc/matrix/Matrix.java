@@ -28,7 +28,7 @@ public class Matrix {
     }
 
     public static Matrix add(Matrix A, Matrix B){
-        assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
+        assert A.height == B.height && A.width == B.width : "Matrix Size Not Equal";
 
         Matrix result = new Matrix(A.height, A.width);
         for (int i = 0; i < A.width; i++) {
@@ -40,7 +40,7 @@ public class Matrix {
     }
 
     public static Matrix sub(Matrix A, Matrix B){
-        assert A.height == B.height && A.width == B.width : new ArithmeticException("Matrix Size Not Equal");
+        assert A.height == B.height && A.width == B.width : "Matrix Size Not Equal";
 
         Matrix result = new Matrix(A.height, A.width);
         for (int i = 0; i < A.width; i++) {
@@ -51,7 +51,7 @@ public class Matrix {
         return result;
     }
 
-    public static Matrix scale(Matrix A, float B){
+    public static Matrix scale(Matrix A, double B){
         Matrix result = new Matrix(A.height, A.width);
         for (int i = 0; i < A.width; i++) {
             for (int j = 0; j < A.height; j++) {
@@ -62,17 +62,17 @@ public class Matrix {
     }
 
     public static VecN vecMul(Matrix A, VecN B){
-        assert A.width == B.elements.length : new ArithmeticException("Matrix Width Must Be Equal to Vector Length");
+        assert A.width == B.elements.length : "Matrix Width Must Be Equal to Vector Length";
 
         VecN result = new VecN(A.height);
         for (int i = 0; i < A.width; i++) {
-            result.mutableAdd(new VecN(A.entries[i]).mutableScale(B.elements[i]));
+            result.mutableAdd(VecN.scale(new VecN(A.entries[i]), B.elements[i]));
         }
         return result;
     }
 
     public static Matrix matMul(Matrix A, Matrix B){
-        assert A.width == B.height  : new ArithmeticException("Am Must Be Equal To Bn");
+        assert A.width == B.height  : "Am Must Be Equal To Bn";
 
         VecN[] vecs = new VecN[B.width];
         for (int i = 0; i < B.width; i++) {

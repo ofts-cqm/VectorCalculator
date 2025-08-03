@@ -48,9 +48,10 @@ public class GenericPane extends JPanel {
     }
 
     public <T extends AbstractNumberPane> void displayPanel(Class<T> type){
+        if(current.equals(panels.get(type))) return;
         remove(current);
-        current = panels.get(type);
         current.resetPane();
+        current = panels.get(type);
         if (doOverrideSize){
             current.setPreferredSize(overrideSize);
         }

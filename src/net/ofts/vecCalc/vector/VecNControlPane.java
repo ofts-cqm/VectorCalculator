@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 public class VecNControlPane extends JPanel {
     public JButton currentOperation;
     public JButton move;
-    public String[] operation = new String[]{"+", "-", "X", "·", "X", "Norm", "Len", "Proj", "Perp"};
+    public static final String[] operation = new String[]{"+", "-", "X", "·", "X", "Norm", "Len", "Proj", "Perp"};
     public byte[]operandForm = new byte[]{1, 1, 2, 1, 1, 0, 0, 1, 1};
     public byte[]resultForm = new byte[]{1, 1, 1, 2, 1, 1, 2, 1, 1};
     public int index = 0;
@@ -50,6 +50,14 @@ public class VecNControlPane extends JPanel {
         parent.a.repaint();
         parent.b.vecN.resetVector();
         parent.b.number.resetNum();
+        parent.refreshResult();
+    }
+
+    public void setOperation(int operator){
+        index = operator;
+        currentOperation.setText(operation[index]);
+        parent.b.setOperand(operandForm[index]);
+        parent.result.setOperand(resultForm[index]);
         parent.refreshResult();
     }
 

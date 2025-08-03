@@ -2,7 +2,9 @@ package net.ofts.vecCalc;
 
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
+import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
+import net.ofts.vecCalc.vector.VecN;
 import net.ofts.vecCalc.vector.VecNScreen;
 
 import javax.swing.*;
@@ -44,14 +46,16 @@ public class Main {
         JMenu vector = new JMenu("Vector");
         MenuListener listener = new MenuListener();
 
-        JMenuItem vec3 = new JMenuItem("Vector 3");
+        JMenu vec3 = new JMenu("Vector 3");
         vec3.addActionListener(listener);
         vec3.setActionCommand("vec3");
+        Vec3Screen.addMenuItem(vec3);
         vector.add(vec3);
 
-        JMenuItem vecN = new JMenuItem("Vector N");
+        JMenu vecN = new JMenu("Vector N");
         vecN.addActionListener(listener);
         vecN.setActionCommand("vecN");
+        VecNScreen.addMenuItem(vecN);
         vector.add(vecN);
 
         JMenu matrix = new JMenu("Matrix");
@@ -61,31 +65,45 @@ public class Main {
         func.setActionCommand("func");
         matrix.add(func);
 
-        JMenuItem matx = new JMenuItem("Matrix Calculation");
+        JMenu matx = new JMenu("Matrix Calculation");
         matx.addActionListener(listener);
         matx.setActionCommand("matx");
+        MatrixCalcScreen.addMenuItem(matx);
         matrix.add(matx);
 
         menuBar.add(vector);
         menuBar.add(matrix);
-        currentMenu = vec3;
+        currentMenu = vec3.getItem(0);
         currentMenu.setEnabled(false);
+    }
+
+    public static void operationListener(ActionEvent e){
+        int operator = e.getActionCommand().charAt(4) - 48;
+        ICalculatorScreen calc = calculatorCodeMap.get(e.getActionCommand().substring(0, 4));
+        if (calc != current){
+            setCalculator(calc, (JMenuItem) e.getSource());
+        }
+        ((IMultipleOperation)calc).setOperation(operator);
+    }
+
+    public static void setCalculator(ICalculatorScreen screen, JMenuItem source){
+        frame.remove(current);
+        current = screen;
+        frame.add(current);
+        current.onPageOpened(frame);
+        current.repaint();
+        currentMenu.setEnabled(true);
+        currentMenu = source;
+        currentMenu.setEnabled(false);
+        frame.revalidate();
+        frame.repaint();
     }
 
     public static class MenuListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            frame.remove(current);
-            current = calculatorCodeMap.get(e.getActionCommand());
-            frame.add(current);
-            current.onPageOpened(frame);
-            current.repaint();
-            currentMenu.setEnabled(true);
-            currentMenu = (JMenuItem) e.getSource();
-            currentMenu.setEnabled(false);
-            frame.revalidate();
-            frame.repaint();
+            setCalculator(calculatorCodeMap.get(e.getActionCommand()), (JMenuItem) e.getSource());
         }
     }
 }

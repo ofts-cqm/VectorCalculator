@@ -1,12 +1,15 @@
 package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.IMultipleOperation;
+import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.matrix.MatrixControlPane;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 
-public class VecNScreen extends ICalculatorScreen {
+public class VecNScreen extends ICalculatorScreen implements IMultipleOperation {
     public static int currentLength = 4;
 
     public VecNPane a;
@@ -130,6 +133,21 @@ public class VecNScreen extends ICalculatorScreen {
     public void onPageOpened(JFrame frame) {
         frame.setSize(540, 380);
         frame.setTitle("Vector Calculator (Vector N)");
+    }
+
+    @Override
+    public void setOperation(int operation) {
+        control.setOperation(operation);
+    }
+
+    public static void addMenuItem(JMenu menu){
+        for (int i = 0; i < VecNControlPane.operation.length; i++) {
+            if (i == 4) continue;
+            JMenuItem item = new JMenuItem(VecNControlPane.operation[i]);
+            item.addActionListener(Main::operationListener);
+            item.setActionCommand("vecN" + i);
+            menu.add(item);
+        }
     }
 }
 

@@ -10,8 +10,8 @@ import java.util.function.BiConsumer;
 
 public class MatrixSizerPane extends JPanel {
     public GenericPane associatedVector;
-    public JSlider height = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
-    public JSlider width = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
+    public JSlider height = new JSlider(SwingConstants.HORIZONTAL, 1, 10, 3);
+    public JSlider width = new JSlider(SwingConstants.HORIZONTAL, 1, 10, 3);
 
     public BiConsumer<Integer, Integer> onDimensionChanged;
 

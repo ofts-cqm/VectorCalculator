@@ -54,12 +54,13 @@ public class VecNPane extends BlankPane{
         parent.refreshResult();
     }
 
-    public void setVector(VecN vector){
+    public VecNPane setVector(VecN vector){
         this.vector = vector;
         for (int i = 0; i < size; i++) {
             fields[i].setText(formatter.format(vector.elements[i]));
         }
         repaint();
+        return this;
     }
 
     public void setVectorPreserveLength(VecN vector){

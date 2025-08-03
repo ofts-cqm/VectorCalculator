@@ -1,13 +1,16 @@
 package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.IMultipleOperation;
+import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.matrix.MatrixControlPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Vec3Screen extends ICalculatorScreen {
+public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation {
     public Vec3Pane a;
     public VolatilePane b, result;
     public ControlPane control;
@@ -75,6 +78,20 @@ public class Vec3Screen extends ICalculatorScreen {
     public void onPageOpened(JFrame frame) {
         frame.setSize(540, 380);
         frame.setTitle("Vector Calculator (Vector 3)");
+    }
+
+    @Override
+    public void setOperation(int operation) {
+        control.setOperator(operation);
+    }
+
+    public static void addMenuItem(JMenu menu){
+        for (int i = 0; i < ControlPane.operation.length; i++) {
+            JMenuItem item = new JMenuItem(ControlPane.operation[i]);
+            item.addActionListener(Main::operationListener);
+            item.setActionCommand("vec3" + i);
+            menu.add(item);
+        }
     }
 
     public class KeyboardListener implements KeyListener{

@@ -60,6 +60,12 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                 case 4 -> new MatrixPane("Result", Matrix.matMul(matA, matB), this);
                 //transpose
                 case 5 -> new MatrixPane("Result", Matrix.transpose(matA), this);
+                //inversion
+                case 6 -> {
+                    Matrix mat = new MatrixInversionHelper(matA).getMatrix();
+                    if (mat == null) throw new AssertionError("Matrix Not Invertible");
+                    yield new MatrixPane("Result", mat, this);
+                }
                 default -> throw new IllegalStateException("Unexpected value: " + control.index);
             };
 

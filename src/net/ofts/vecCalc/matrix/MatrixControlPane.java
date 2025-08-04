@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.Main;
 import net.ofts.vecCalc.vector.*;
 
 import javax.swing.*;
@@ -60,6 +61,7 @@ public class MatrixControlPane extends BlankPane {
             parent.operandB.displayPanel(operandForm[index]);
             parent.result.displayPanel(resultForm[index]);
             parent.refreshResult();
+            Main.updateSelectedMenuItem(MatrixCalcScreen.items[index]);
         }else{
             MatrixPane matA = parent.matrixA.matrix;
             MatrixPane matR = parent.result.getPanel(MatrixPane.class);

@@ -86,6 +86,12 @@ public class Main {
         ((IMultipleOperation)calc).setOperation(operator);
     }
 
+    public static void updateSelectedMenuItem(JMenuItem item){
+        currentMenu.setEnabled(true);
+        currentMenu = item;
+        currentMenu.setEnabled(false);
+    }
+
     public static void setCalculator(ICalculatorScreen screen, JMenuItem source){
         frame.remove(current);
         current = screen;

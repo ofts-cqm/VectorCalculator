@@ -15,6 +15,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     public GenericPane result;
     public MatrixControlPane control;
 
+    public static JMenuItem[] items;
+
     public MatrixCalcScreen(){
         matrixA = new MatrixWithSizeBarPane("A", 3, 3, this, true);
         operandB = new GenericPane(
@@ -78,11 +80,13 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     }
 
     public static void addMenuItem(JMenu menu){
+        items = new JMenuItem[MatrixControlPane.operation.length];
         for (int i = 0; i < MatrixControlPane.operation.length; i++) {
             JMenuItem item = new JMenuItem(MatrixControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("matx" + i);
             menu.add(item);
+            items[i] = item;
         }
     }
 

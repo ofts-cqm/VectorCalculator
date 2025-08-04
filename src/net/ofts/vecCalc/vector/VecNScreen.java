@@ -11,6 +11,7 @@ import java.awt.*;
 
 public class VecNScreen extends ICalculatorScreen implements IMultipleOperation {
     public static int currentLength = 4;
+    public static JMenuItem[] items;
 
     public VecNPane a;
     public VolatilePane b, result;
@@ -141,12 +142,14 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
     }
 
     public static void addMenuItem(JMenu menu){
+        items = new JMenuItem[VecNControlPane.operation.length];
         for (int i = 0; i < VecNControlPane.operation.length; i++) {
             if (i == 4) continue;
             JMenuItem item = new JMenuItem(VecNControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("vecN" + i);
             menu.add(item);
+            items[i] = item;
         }
     }
 }

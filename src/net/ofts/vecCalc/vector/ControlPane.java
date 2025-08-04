@@ -1,5 +1,7 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.Main;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -67,6 +69,7 @@ public class ControlPane extends JPanel {
         parent.b.setOperand(operandForm[index]);
         parent.result.setOperand(resultForm[index]);
         parent.refreshResult();
+        Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 
     public void previousOperator(){
@@ -76,6 +79,7 @@ public class ControlPane extends JPanel {
         parent.b.setOperand(operandForm[index]);
         parent.result.setOperand(resultForm[index]);
         parent.refreshResult();
+        Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 
     public class ClickHandler implements ActionListener{

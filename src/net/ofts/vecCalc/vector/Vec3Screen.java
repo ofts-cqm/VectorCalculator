@@ -15,6 +15,8 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
     public VolatilePane b, result;
     public ControlPane control;
 
+    public static JMenuItem[] items;
+
     public Vec3Screen(){
         setLayout(new FlowLayout());
         setSize(540, 380);
@@ -86,11 +88,13 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
     }
 
     public static void addMenuItem(JMenu menu){
+        items = new JMenuItem[ControlPane.operation.length];
         for (int i = 0; i < ControlPane.operation.length; i++) {
             JMenuItem item = new JMenuItem(ControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("vec3" + i);
             menu.add(item);
+            items[i] = item;
         }
     }
 

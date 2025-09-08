@@ -19,5 +19,8 @@
 - I know that doing these repetitive computations is incredibly boring. Therefore, I developed this app. It's intended to help students save their time, so they can spend more time on more interesting things, like playing Minecraft
 - Please do not use this app during Tutorials, Quizzes, Midterms, and Finals. The author is not responsible for any penalties received due to violation of academic integrity.
 
+# Warning:
+- This app is initially designed for personal use. Therefore, I used Java's default "double" to store all data. So, the thing is, double is not designed to store high-precision numbers. Therefore, it's common that the number you get from this app slightly differs from the standard answers, due to float point rounding error. Please do not use this when you need high precision. 
+
 # For My Fellow Programmers:
 - If you want to fork this repository and make some tweaks, just remember to enable assersion (add the following to VM Options: -ea:net.ofts.vecCalc...)

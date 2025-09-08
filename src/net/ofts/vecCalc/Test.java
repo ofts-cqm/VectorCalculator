@@ -1,13 +1,17 @@
 package net.ofts.vecCalc;
 
 import net.ofts.vecCalc.matrix.Matrix;
-import net.ofts.vecCalc.matrix.MatrixInversionHelper;
-import net.ofts.vecCalc.vector.VecN;
+import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 
 public class Test {
     public static void main(String[] args) {
-        Matrix matrix = new Matrix(3);
-        matrix.entries = new double[][]{{1, 1, 1}, {0, 1, 2}, {-1, -2, -2}};
-        Matrix result = new MatrixInversionHelper(matrix).getMatrix();
+        /*
+         * |1 2 3 4
+         * |3 1 4 7
+         * |1 1 2 3
+         * **/
+        Matrix matrix = new Matrix(3, 4);
+        matrix.entries = new double[][]{{1, 3, 1}, {2, 1, 1}, {3, 4, 2}, {4, 7, 3}};
+        System.out.println(new AugmentedMatrix(matrix).rref().getCombinedMatrix().toString());
     }
 }

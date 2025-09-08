@@ -29,6 +29,14 @@ public class Matrix {
         this.width = entries.length;
     }
 
+    public static Matrix identity(int size){
+        Matrix mat = new Matrix(size);
+        for (int i = 0; i < size; i++){
+            mat.entries[i][i] = 1;
+        }
+        return mat;
+    }
+
     public static Matrix add(Matrix A, Matrix B){
         assert A.height == B.height && A.width == B.width : "Matrix Size Not Equal";
 
@@ -223,5 +231,18 @@ public class Matrix {
 
     public boolean isNonZero(double v){
         return v > 1e-10 || v < -(1e-10);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < height; i++) {
+            builder.append('|');
+            for (int j = 0; j < width; j++) {
+                builder.append(entries[j][i]).append(' ');
+            }
+            builder.append("|\n");
+        }
+        return builder.toString();
     }
 }

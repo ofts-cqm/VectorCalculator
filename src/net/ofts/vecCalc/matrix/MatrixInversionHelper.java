@@ -1,5 +1,6 @@
 package net.ofts.vecCalc.matrix;
 
+@Deprecated
 public class MatrixInversionHelper {
     private final double[][] entries;
     private boolean invertible = true;

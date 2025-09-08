@@ -245,4 +245,17 @@ public class Matrix {
         }
         return builder.toString();
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof Matrix matrix))return false;
+        if (width != matrix.width || height != matrix.height) return false;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (entries[i][j] != matrix.entries[i][j]) return false;
+            }
+        }
+        return true;
+    }
 }

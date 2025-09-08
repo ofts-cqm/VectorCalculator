@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.vector.BlankPane;
 import net.ofts.vecCalc.vector.NumPane;
 import net.ofts.vecCalc.vector.VecN;
@@ -64,9 +65,12 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                 case 5 -> new MatrixPane("Result", Matrix.transpose(matA), this);
                 //inversion
                 case 6 -> {
-                    Matrix mat = new MatrixInversionHelper(matA).getMatrix();
-                    if (mat == null) throw new AssertionError("Matrix Not Invertible");
-                    yield new MatrixPane("Result", mat, this);
+                    if (matA.width != matA.height) throw new AssertionError("Matrix Not Invertible");
+
+                    Matrix identity = Matrix.identity(matA.width);
+                    AugmentedMatrix mat = new AugmentedMatrix(matA, identity).rref();//new MatrixInversionHelper(matA).getMatrix();
+                    if (!mat.getMainMatrix().equals(identity)) throw new AssertionError("Matrix Not Invertible");
+                    yield new MatrixPane("Result", mat.getRightMatrix(), this);
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + control.index);
             };

@@ -48,7 +48,7 @@ public class AugmentedMatrix {
         assert boundry != width;
         Matrix matrix = new Matrix(height, boundry);
         for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < width - boundry; j++) {
                 matrix.entries[j][i] = entries[i][j + boundry];
             }
         }

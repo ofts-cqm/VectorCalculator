@@ -30,7 +30,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
         matrixA.sizer.associatedVector = operandB;
         result = new GenericPane(
                 new MatrixPane("Result", 3, 3, this, false),
-                new VecNPane("x", 3, this, false)
+                new VecNPane("Result", 3, this, false),
+                new NumPane("Result", this, false)
         );
         result.setOverrideSize(null);
         control = new MatrixControlPane(this);
@@ -74,6 +75,15 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                 }
                 //rref
                 case 7 -> new MatrixPane("Result", new AugmentedMatrix(matA).rref().getMainMatrix(), this);
+
+                //rank
+                case 8 -> {
+                    int rank = new AugmentedMatrix(matA).rref().rank();
+                    NumPane num = new NumPane("Result", this, false);
+                    num.setNum(rank);
+                    yield  num;
+                }
+
                 default -> throw new IllegalStateException("Unexpected value: " + control.index);
             };
 

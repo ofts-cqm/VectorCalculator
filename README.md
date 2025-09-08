@@ -9,11 +9,13 @@
   - Matrix Multiplications
   - Matrix Inversion and Transposition
   - Matrix RREF
-  - Function Solving (in other words, RREF)
+  - Matrix Rank
+  - Function Solving
  - The following functions are after midterm in **University of Waterloo**'s **MATH 115**, and will be implemented during reading week
-   - Kernel & Range
+   - NullSpace(Kernal) & ColumnSpace(Range)
    - Eigenvalues and Eigenvectors
    - Determinants
+ - **Note: Some features are still experimental and thus are not included in the released version. To use these feature, please compile by yourself.**
 # About the Author and This App
 - I, OFTS_CQM, am currently studying at the University of Waterloo's Honours Software Engineering (SE30).
 - I know that doing these repetitive computations is incredibly boring. Therefore, I developed this app. It's intended to help students save their time, so they can spend more time on more interesting things, like playing Minecraft

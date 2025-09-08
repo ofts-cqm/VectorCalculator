@@ -74,6 +74,20 @@ public class AugmentedMatrix {
         return vec;
     }
 
+    private boolean isFullZero(int row){
+        for (int i = 0; i < width; i++) {
+            if (!isZero(entries[row][i])) return false;
+        }
+        return true;
+    }
+
+    public int rank(){
+        for (int i = 0; i < height; i++) {
+            if (isFullZero(i)) return i;
+        }
+        return height;
+    }
+
     /**
      * whether a number should be treated as zero
      * @param n the number

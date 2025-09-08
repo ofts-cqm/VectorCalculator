@@ -24,7 +24,7 @@ public class SpanSetControlPane extends JPanel {
         this.parent = root;
         setBorder(new TitledBorder("Operation"));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createRigidArea(new Dimension(100, 100)));
+        add(Box.createRigidArea(new Dimension(100, 60)));
         error = new JLabel("<html>Press Enter to Calculate</html>");
         error.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentOperation = new JButton("+");
@@ -34,6 +34,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(currentOperation);
         add(Box.createRigidArea(new Dimension(100, 60)));
+        add(parent.operandB.sizer);
     }
 
     public void setOperation(int opCode){

@@ -3,8 +3,8 @@ package net.ofts.vecCalc.span;
 import net.ofts.vecCalc.*;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
-import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.BlankPane;
+import net.ofts.vecCalc.vector.NumPane;
 import net.ofts.vecCalc.vector.VecN;
 import net.ofts.vecCalc.vector.VecNPane;
 
@@ -32,7 +32,8 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
         operandB.sizer.associatedVector = operandA;
         result = new GenericPane(
                 new SpanSetPane("Base", 3, 3, this, false),
-                new BooleanPane("Is in", this, true)
+                new BooleanPane("Is in", this, true),
+                new NumPane("Is in", this, false)
         );
         result.setOverrideSize(null);
         control = new SpanSetControlPane(this);
@@ -67,12 +68,14 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
     }
 
     public VecN[] findBase(SpanSetPane span){
+        //Matrix original = span.list.toMatrix();
         Matrix mat = new AugmentedMatrix(span.list.toMatrix()).rref().getMainMatrix();
         ArrayList<Integer> pivots = new ArrayList<>();
         for (int i = 0; i < mat.height; i++) {
             for (int j = 0; j < mat.width; j++) {
                 if (!isZero(mat.entries[j][i])) {
                     pivots.add(j);
+                    break;
                 }
             }
         }
@@ -93,7 +96,6 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
                 if (!isZero(main.entries[j][i])) continue lp;
             }
             if(!isZero(answer.elements[i])) return false;
-            new FunctionAnalyzer(main, answer).analyzeAndDisplay();
             return true;
         }
         return true;

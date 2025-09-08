@@ -33,6 +33,8 @@ public class VectorListPane extends JScrollPane {
         vectors = new VecNPane[length];
         for (int i = 0; i < length; i++) {
             vectors[i] = new VecNPane("", dimension, parent, editable);
+            vectors[i].setSize(50, 300);
+            vectors[i].setPreferredSize(new Dimension(50, 300));
             vectorPanel.add(vectors[i]);
         }
     }

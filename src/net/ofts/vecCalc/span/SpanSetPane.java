@@ -22,11 +22,13 @@ public class SpanSetPane extends AbstractNumberPane {
         this.sizer = new MatrixSizerPane(this::onDimensionChanged);
         setLayout(new BorderLayout());
         add(list, BorderLayout.CENTER);
-        if (editable) add(sizer, BorderLayout.NORTH);
     }
 
     public SpanSetPane(String name, ICalculatorScreen parent, VecN[] values, boolean editable){
         this(name, values.length, values.length > 0 ? values[0].elements.length : 0, parent, editable);
+        for (int i = 0; i < values.length; i++) {
+            list.vectors[i].setVector(values[i]);
+        }
     }
 
     @Override

@@ -57,7 +57,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
             }
         }
 
-        String info = pane.matrix.matrix.RREF_New(result.vector);
+        String info = pane.matrix.matrix.solveFunction(result.vector);
         if(!Objects.equals(info, "")){
             infoLabel.setText(info);
             infoLabel.setForeground(Color.red);

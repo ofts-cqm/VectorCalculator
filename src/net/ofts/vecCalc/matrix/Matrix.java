@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
+import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
 public class Matrix {
@@ -28,6 +29,10 @@ public class Matrix {
 
         this.height = entries[0].length;
         this.width = entries.length;
+    }
+
+    public VecN getColumn(int column){
+        return new VecN(entries[column]);
     }
 
     public static Matrix identity(int size){
@@ -103,17 +108,22 @@ public class Matrix {
         return result;
     }
 
-    public String RREF_New(VecN answer){
+    public String solveFunction(VecN answer){
         AugmentedMatrix mat = new AugmentedMatrix(this, answer).rref();
-        this.entries = mat.getMainMatrix().entries;
+        Matrix main = mat.getMainMatrix();
         answer.elements = mat.getVector().elements;
         lp: for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (isNonZero(entries[j][i])) continue lp;
+                if (isNonZero(main.entries[j][i])) continue lp;
             }
-            return isNonZero(answer.elements[i]) ? "No Solutions" : "Infinite Many Solutions";
+            if(isNonZero(answer.elements[i])) return "No Solutions";
+            new FunctionAnalyzer(main, answer).analyzeAndDisplay();
+            return "Infinite Many Solutions";
         }
-        if (width > height) return "Infinite Many Solutions";
+        if (width > height){
+            new FunctionAnalyzer(main, answer).analyzeAndDisplay();
+            return "Infinite Many Solutions";
+        }
         return "";
     }
 

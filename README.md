@@ -8,9 +8,9 @@
   - Matrix-Vector Product
   - Matrix Multiplications
   - Matrix Inversion and Transposition
+  - Matrix RREF
   - Function Solving (in other words, RREF)
  - The following functions are after midterm in **University of Waterloo**'s **MATH 115**, and will be implemented during reading week
-   - Pure RREF Function
    - Kernel & Range
    - Eigenvalues and Eigenvectors
    - Determinants

@@ -79,7 +79,7 @@ public class AugmentedMatrix {
      * @param n the number
      * @return whether it should be treated as zero
      */
-    private boolean isZero(double n){
+    public static boolean isZero(double n){
         return n < 1e-10 && n > -(1e-10);
     }
 

@@ -18,7 +18,7 @@ public class MatrixWithSizeBarPane extends AbstractNumberPane {
         this.name = name;
         this.parent = parent;
         this.editable = editable;
-        this.sizer = new MatrixSizerPane(matrix, this::onDimensionChanged);
+        this.sizer = new MatrixSizerPane(this::onDimensionChanged);
         setLayout(new BorderLayout());
         add(matrix, BorderLayout.CENTER);
         add(sizer, BorderLayout.NORTH);

@@ -18,7 +18,7 @@ public class MatrixSizerPane extends JPanel {
 
     public BiConsumer<Integer, Integer> onDimensionChanged;
 
-    public MatrixSizerPane(MatrixPane pane, BiConsumer<Integer, Integer> onDimensionChanged){
+    public MatrixSizerPane(BiConsumer<Integer, Integer> onDimensionChanged){
         setBorder(new TitledBorder("Config"));
         this.onDimensionChanged = onDimensionChanged;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

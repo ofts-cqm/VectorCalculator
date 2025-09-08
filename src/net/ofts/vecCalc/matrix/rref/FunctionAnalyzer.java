@@ -73,7 +73,7 @@ public class FunctionAnalyzer extends ICalculatorScreen {
         }
 
         JFrame frame = new JFrame("Function Solutions");
-        frame.setSize(Math.max((assignedVariable + 1) * 150, 400), width * 27 + 75);
+        frame.setSize(Math.max((assignedVariable + 1) * 150, 400), width * 35 + 75);
         frame.setAlwaysOnTop(true);
         frame.setLayout(new BorderLayout());
         frame.setResizable(false);
@@ -82,14 +82,14 @@ public class FunctionAnalyzer extends ICalculatorScreen {
         frame.setVisible(true);
 
         JPanel vectorPane = new JPanel(new FlowLayout());
-        vectorPane.setSize((assignedVariable + 1) * 150, width * 27 + 75);
+        vectorPane.setSize((assignedVariable + 1) * 150, width * 35 + 75);
 
         vectorPane.add(new JLabel("X = "));
         for (int i = 0; i < assignedVariable + 1; i++) {
             VecNPane pane = new VecNPane(i == 0 ? "Const" : (variableList[i - 1] + ""), height, this, false);
             pane.setVector(answerMatrix.getColumn(i));
             pane.setSize(100, width * 27 + 20);
-            pane.setPreferredSize(new Dimension(100, width * 27 + 25));
+            pane.setPreferredSize(new Dimension(100, width * 35 + 25));
             vectorPane.add(pane);
             if (i < assignedVariable){
                 vectorPane.add(new JLabel(" + " + variableList[i] + " "));

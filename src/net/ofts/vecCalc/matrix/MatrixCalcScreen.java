@@ -72,6 +72,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                     if (!mat.getMainMatrix().equals(identity)) throw new AssertionError("Matrix Not Invertible");
                     yield new MatrixPane("Result", mat.getRightMatrix(), this);
                 }
+                //rref
+                case 7 -> new MatrixPane("Result", new AugmentedMatrix(matA).rref().getMainMatrix(), this);
                 default -> throw new IllegalStateException("Unexpected value: " + control.index);
             };
 

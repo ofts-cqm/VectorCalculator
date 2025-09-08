@@ -13,9 +13,9 @@ public class MatrixControlPane extends BlankPane {
     public JButton currentOperation;
     public JButton move;
     public JLabel error;
-    public static final String[] operation = new String[]{"+", "-", "scale", "x Vec", "x Mat", "Transpose", "Inversion"};
-    public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{MatrixPane.class, MatrixPane.class, NumPane.class, VecNPane.class, MatrixPane.class, BlankPane.class, BlankPane.class};
-    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{MatrixPane.class, MatrixPane.class, MatrixPane.class, VecNPane.class, MatrixPane.class, MatrixPane.class, MatrixPane.class};
+    public static final String[] operation = new String[]{"+", "-", "scale", "x Vec", "x Mat", "Transpose", "Inversion", "RREF"};
+    public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{MatrixPane.class, MatrixPane.class, NumPane.class, VecNPane.class, MatrixPane.class, BlankPane.class, BlankPane.class, BlankPane.class};
+    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{MatrixPane.class, MatrixPane.class, MatrixPane.class, VecNPane.class, MatrixPane.class, MatrixPane.class, MatrixPane.class, MatrixPane.class};
     public int index = 0;
     public MatrixCalcScreen parent;
 

@@ -82,6 +82,10 @@ public class Main {
         ICalculatorScreen calc = calculatorCodeMap.get(e.getActionCommand().substring(0, 4));
         if (calc != current){
             setCalculator(calc, (JMenuItem) e.getSource());
+        }else{
+            currentMenu.setEnabled(true);
+            currentMenu = (JMenuItem) e.getSource();
+            currentMenu.setEnabled(false);
         }
         ((IMultipleOperation)calc).setOperation(operator);
     }

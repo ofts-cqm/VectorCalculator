@@ -1,5 +1,6 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.vector.VecN;
 
 public class Matrix {
@@ -102,9 +103,24 @@ public class Matrix {
         return result;
     }
 
+    public String RREF_New(VecN answer){
+        AugmentedMatrix mat = new AugmentedMatrix(this, answer).rref();
+        this.entries = mat.getMainMatrix().entries;
+        answer.elements = mat.getVector().elements;
+        lp: for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (isNonZero(entries[j][i])) continue lp;
+            }
+            return isNonZero(answer.elements[i]) ? "No Solutions" : "Infinite Many Solutions";
+        }
+        if (width > height) return "Infinite Many Solutions";
+        return "";
+    }
+
     // for RREF, we treat the matrix differently:
     // we treat entries[i] as rows and entries[][i] as columns
     // which is opposite for others.
+    @Deprecated
     public String RREF(VecN answer){
         if (width != height) return "Not Square Matrix";
         int size = entries.length;

@@ -5,6 +5,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+@Deprecated
 public class SwapRowPane extends JPanel {
     public int rows;
     public MatrixPane matrix;

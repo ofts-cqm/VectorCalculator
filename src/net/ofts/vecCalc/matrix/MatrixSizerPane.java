@@ -1,15 +1,18 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.GenericPane;
+import net.ofts.vecCalc.vector.VecN;
 import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
+import java.awt.*;
 import java.util.function.BiConsumer;
 
 public class MatrixSizerPane extends JPanel {
     public GenericPane associatedVector;
+    public FunctionSolvingScreen associatedFuncSolvScreen;
     public JSlider height = new JSlider(SwingConstants.HORIZONTAL, 1, 10, 3);
     public JSlider width = new JSlider(SwingConstants.HORIZONTAL, 1, 10, 3);
 
@@ -42,6 +45,10 @@ public class MatrixSizerPane extends JPanel {
             if (associatedVector != null){
                 VecNPane oldPane = associatedVector.getPanel(VecNPane.class);
                 associatedVector.setPanel(new VecNPane(oldPane.name, width.getValue(), oldPane.parent, oldPane.editable));
+            }
+        }else if(e.getSource().equals(height)){
+            if (associatedFuncSolvScreen != null){
+                associatedFuncSolvScreen.onDimensionChanged(height.getValue());
             }
         }
     }

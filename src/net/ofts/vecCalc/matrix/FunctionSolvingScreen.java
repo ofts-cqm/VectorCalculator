@@ -4,15 +4,15 @@ import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
-    public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true).setInverseRowsAndColumns();
-    public SwapRowPane swapPane = new SwapRowPane(pane);
+    public MatrixWithSizeBarPane pane = new MatrixWithSizeBarPane("Matrix", 3, 3, this, true);
+    //public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true).setInverseRowsAndColumns();
+    //public SwapRowPane swapPane = new SwapRowPane(pane);
     public VecNPane result = new VecNPane("Vector", 3, this, true);
-    public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
+    //public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
     public JButton calculateButton = new JButton("Solve");
     public JLabel infoLabel = new JLabel("Click \"Solve\" to solve the function set!");
 
@@ -21,22 +21,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     public FunctionSolvingScreen(){
         setLayout(new BorderLayout());
 
-        add(swapPane, BorderLayout.WEST);
-
         add(pane, BorderLayout.CENTER);
-
-        JPanel dimCtrl = new JPanel(new FlowLayout());
-        JLabel dimText = new JLabel("Dimension: ");
-        dimText.setForeground(Color.red);
-        dimCtrl.add(dimText);
-        dimension.setPaintTicks(true);
-        dimension.setPaintLabels(true);
-        dimension.setMajorTickSpacing(1);
-        dimension.setFocusable(false);
-        dimension.addChangeListener(this::onDimensionChanged);
-        dimCtrl.add(dimension);
-        add(dimCtrl, BorderLayout.NORTH);
-
         add(result, BorderLayout.EAST);
 
         JPanel resCtrl = new JPanel(new FlowLayout());
@@ -46,18 +31,11 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         calculateButton.addActionListener(e -> refreshResult());
         resCtrl.add(calculateButton);
         add(resCtrl, BorderLayout.SOUTH);
+        pane.sizer.associatedFuncSolvScreen = this;
     }
 
-    public void onDimensionChanged(ChangeEvent e){
-        currentDimension = dimension.getValue();
-
-        remove(pane);
-        pane = new MatrixPane("Matrix", currentDimension, currentDimension, this, true).setInverseRowsAndColumns();
-        add(pane, BorderLayout.CENTER);
-
-        remove(swapPane);
-        swapPane = new SwapRowPane(pane);
-        add(swapPane, BorderLayout.WEST);
+    public void onDimensionChanged(int length){
+        currentDimension = length;
 
         remove(result);
         result = new VecNPane("Vector", currentDimension, this, true);
@@ -71,7 +49,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     public void refreshResult() {
         for (int i = 0; i < currentDimension; i++) {
             for (int j = 0; j < currentDimension; j++) {
-                if (pane.matrixField[i][j].getBackground().equals(Color.red)) {
+                if (pane.matrix.matrixField[i][j].getBackground().equals(Color.red)) {
                     infoLabel.setText("Please Complete The Matrix First!");
                     infoLabel.setForeground(Color.red);
                     return;
@@ -79,7 +57,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
             }
         }
 
-        String info = pane.matrix.RREF(result.vector);
+        String info = pane.matrix.matrix.RREF_New(result.vector);
         if(!Objects.equals(info, "")){
             infoLabel.setText(info);
             infoLabel.setForeground(Color.red);
@@ -88,7 +66,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
             infoLabel.setForeground(Color.GREEN);
         }
 
-        pane.updateMatrixPane();
+        pane.matrix.updateMatrixPane();
         result.setVector(result.vector);
         revalidate();
         repaint();

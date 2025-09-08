@@ -1,5 +1,10 @@
 package net.ofts.vecCalc.vector;
 
+/**
+ * When designed, I set the vector's size as constant
+ * However, when required to resize the vector, it becomes so painful. The only way is to create a new vec instead of resize it
+ * This is a major engineering fatal!
+ */
 public class VecN {
     public double[] elements;
 

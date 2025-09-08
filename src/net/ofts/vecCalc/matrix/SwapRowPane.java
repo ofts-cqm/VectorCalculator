@@ -5,6 +5,11 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * because of a defect in the original rref algorithm, there is a chance that the function is solvable but it just cannot be rrefed.
+ * Therefore, this component is added to let users switch the order of the functions, so it might be rrefed by the old algorithm
+ * Now, there is no need for this because the current algorithm is perfect.
+ */
 @Deprecated
 public class SwapRowPane extends JPanel {
     public int rows;

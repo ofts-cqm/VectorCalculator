@@ -11,6 +11,8 @@
   - Matrix RREF
   - Matrix Rank
   - Function Solving
+  - Finding Base for span
+  - Determine if a vec is in a span
  - The following functions are after midterm in **University of Waterloo**'s **MATH 115**, and will be implemented during reading week
    - NullSpace(Kernal) & ColumnSpace(Range)
    - Eigenvalues and Eigenvectors

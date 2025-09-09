@@ -34,6 +34,7 @@ public class AugmentedMatrix {
         }
     }
 
+    // returns the left matrix of an augmented matrix
     public Matrix getMainMatrix(){
         Matrix matrix = new Matrix(height, boundry);
         for (int i = 0; i < height; i++) {
@@ -44,6 +45,7 @@ public class AugmentedMatrix {
         return matrix;
     }
 
+    // returns the right matrix of an augmented matrix
     public Matrix getRightMatrix(){
         assert boundry != width;
         Matrix matrix = new Matrix(height, boundry);
@@ -55,6 +57,7 @@ public class AugmentedMatrix {
         return matrix;
     }
 
+    // return combined augmented matrix
     public Matrix getCombinedMatrix(){
         Matrix matrix = new Matrix(height, width);
         for (int i = 0; i < height; i++) {
@@ -65,6 +68,7 @@ public class AugmentedMatrix {
         return matrix;
     }
 
+    // return the right column-matrix as a vector
     public VecN getVector(){
         assert boundry == width - 1;
         VecN vec = new VecN(height);
@@ -74,6 +78,7 @@ public class AugmentedMatrix {
         return vec;
     }
 
+    // test if a row is full zero
     private boolean isFullZero(int row){
         for (int i = 0; i < width; i++) {
             if (!isZero(entries[row][i])) return false;
@@ -81,6 +86,7 @@ public class AugmentedMatrix {
         return true;
     }
 
+    // the rank of the matrix
     public int rank(){
         for (int i = 0; i < height; i++) {
             if (isFullZero(i)) return i;
@@ -110,6 +116,7 @@ public class AugmentedMatrix {
         return -1;
     }
 
+    // row swaping
     private void swapRow(int rowA, int rowB){
         double[] tmp = entries[rowA];
         entries[rowA] = entries[rowB];
@@ -144,28 +151,36 @@ public class AugmentedMatrix {
     }
 
     /**
-     * helper function used to ref a sub-matrix
+     * helper function used to ref a specific column of a specific sub-matrix
      * @param fromIndex the index of the top line to be considered
      * @param startingColumn the starting column of ref procedure
      * @return the new starting column
      */
     private int ref(int fromIndex, int startingColumn){
+        // find the pivot entry
         int nonZeroIndex = firstNonZeroInColumn(startingColumn, fromIndex);
         while (nonZeroIndex == -1){
+            // no pivot entry??? next row!
             startingColumn++;
             if (startingColumn == width) return width;
             nonZeroIndex = firstNonZeroInColumn(startingColumn, fromIndex);
         }
 
+        // if the current row (from index) is not the row containing pivot entry...
+        // just swap them
         if (fromIndex != nonZeroIndex){
             swapRow(fromIndex, nonZeroIndex);
             nonZeroIndex = fromIndex;
         }
 
+        // reduce the pivot entry to one.
+        // this is not necessary in ref, but for convenience in later calculation, we reduce to 1
         divideBy(nonZeroIndex, entries[nonZeroIndex][startingColumn], startingColumn);
         for (int i = nonZeroIndex + 1; i < height; i++) {
+            // for each row below, reduce to zero
             clearEntry(i, nonZeroIndex, startingColumn);
         }
+        // next time, start in the next column
         return startingColumn + 1;
     }
 
@@ -175,21 +190,29 @@ public class AugmentedMatrix {
      */
     public AugmentedMatrix rref(){
         int startingColumn = 0, refed_row = 0;
+        // reduce each column to ref form
         while (startingColumn != width){
             startingColumn = ref(refed_row, startingColumn);
             refed_row++;
+            // reached the bottom? break!
             if (refed_row == height) break;
         }
 
+        // in ref, we already cleared rows below each pivot entry.
+        // now, we need to clear rows above each pivot entry
         int currentRow = 0;
-        for (int i = 0; i < width; i++) {
-            if (currentRow == height) break;
-            if (isZero(entries[currentRow][i])) continue;
+        for (int i = 0; i < width; i++) { // scan from left to right
+            if (currentRow == height) break; // break if reached bottom
+            if (isZero(entries[currentRow][i])) continue; // skip if not pivot entry
+
+            // we found a pivot entry! clear all rows from row 0 to this row!
             for (int j = 0; j < currentRow; j++) {
                 clearEntry(j, currentRow, i);
             }
             currentRow++;
         }
+
+        // done!
         return this;
     }
 }

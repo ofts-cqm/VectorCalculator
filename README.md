@@ -13,8 +13,8 @@
   - Function Solving
   - Finding Base for span
   - Determine if a vec is in a span
+  - NullSpace(Kernal) & ColumnSpace(Range)
  - The following functions are after midterm in **University of Waterloo**'s **MATH 115**, and will be implemented during reading week
-   - NullSpace(Kernal) & ColumnSpace(Range)
    - Eigenvalues and Eigenvectors
    - Determinants
  - **Note: Some features are still experimental and thus are not included in the released version. To use these feature, please compile by yourself.**

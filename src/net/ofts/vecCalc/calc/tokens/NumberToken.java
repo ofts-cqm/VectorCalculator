@@ -55,7 +55,8 @@ public record NumberToken(double value) implements IToken {
                 input.ignore();
                 return new NumberToken(number + fp);
             }
-        } else if (input.matchIgnoreCase("e")) {
+        }
+        if (input.matchIgnoreCase("e")) {
             boolean flip = input.match("-");
             digit = getNextDigit(input);
             if (digit != -1) {

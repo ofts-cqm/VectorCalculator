@@ -2,6 +2,9 @@ package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.*;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
+import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
+import net.ofts.vecCalc.span.SpanSetPane;
+import net.ofts.vecCalc.span.SpanSetScreen;
 import net.ofts.vecCalc.vector.BlankPane;
 import net.ofts.vecCalc.vector.NumPane;
 import net.ofts.vecCalc.vector.VecN;
@@ -31,7 +34,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
         result = new GenericPane(
                 new MatrixPane("Result", 3, 3, this, false),
                 new VecNPane("Result", 3, this, false),
-                new NumPane("Result", this, false)
+                new NumPane("Result", this, false),
+                new SpanSetPane("Span", 0, 0, this, false)
         );
         result.setOverrideSize(null);
         control = new MatrixControlPane(this);
@@ -84,6 +88,17 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                     yield  num;
                 }
 
+                // nullspace
+                case 9 -> {
+                    VecN[] nullspace = new FunctionAnalyzer(new AugmentedMatrix(matA, new VecN(matA.height)).rref().getMainMatrix(), new VecN(matA.height)).analyzeSolution().toVectors();
+                    VecN[] ansVec = new VecN[nullspace.length - 1];
+                    System.arraycopy(nullspace, 1, ansVec, 0, nullspace.length - 1);
+                    yield new SpanSetPane("Result", this, ansVec, false);
+                }
+
+                // kernal space
+                case 10 -> new SpanSetPane("Result", this, SpanSetScreen.findBase(new SpanSetPane("", this, matA.toVectors(), false)), false);
+
                 default -> throw new IllegalStateException("Unexpected value: " + control.index);
             };
 
@@ -100,7 +115,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
         for (int i = 0; i < MatrixControlPane.operation.length; i++) {
             JMenuItem item = new JMenuItem(MatrixControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
-            item.setActionCommand("matx" + i);
+            item.setActionCommand("matx" + (i > 9 ? ":" : i));
             menu.add(item);
             items[i] = item;
         }

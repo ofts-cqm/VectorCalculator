@@ -2,6 +2,7 @@ package net.ofts.vecCalc;
 
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
+import net.ofts.vecCalc.span.SpanSetScreen;
 import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
 import net.ofts.vecCalc.vector.VecN;
@@ -36,6 +37,10 @@ public class Main {
         calculatorCodeMap.put("vecN", new VecNScreen());
         calculatorCodeMap.put("func", new FunctionSolvingScreen());
         calculatorCodeMap.put("matx", new MatrixCalcScreen());
+        SpanSetScreen tmp = new SpanSetScreen();
+        calculatorCodeMap.put("span", tmp);
+        calculatorCodeMap.put("span0", tmp);
+        calculatorCodeMap.put("span1", tmp);
 
         frame.add(current);
         current.onPageOpened(frame);
@@ -71,8 +76,21 @@ public class Main {
         MatrixCalcScreen.addMenuItem(matx);
         matrix.add(matx);
 
+        JMenu span = new JMenu("Span");
+
+        JMenuItem base = new JMenuItem("Find Base");
+        base.addActionListener(Main::operationListener);
+        base.setActionCommand("span0");
+        span.add(base);
+
+        JMenuItem isIn = new JMenuItem("Is Vector In Subspace");
+        isIn.addActionListener(Main::operationListener);
+        isIn.setActionCommand("span1");
+        span.add(isIn);
+
         menuBar.add(vector);
         menuBar.add(matrix);
+        menuBar.add(span);
         currentMenu = vec3.getItem(0);
         currentMenu.setEnabled(false);
     }

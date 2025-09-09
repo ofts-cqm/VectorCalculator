@@ -26,7 +26,7 @@ public class FunctionAnalyzer extends ICalculatorScreen {
         this.width = mat.width;
     }
 
-    public void analyzeAndDisplay(){
+    public Matrix analyzeSolution(){
         int number_variables = 0;
         int last_exist = -1;
         int[] variable = new int[width];
@@ -54,7 +54,7 @@ public class FunctionAnalyzer extends ICalculatorScreen {
             }
         }
 
-        for (int i = 0; i < number_variables; i++) {
+        for (int i = 0; i < solvedMatrix.height/*number_variables*/; i++) {
             int pivot = -1;
 
             for (int j = 0; j < width; j++) {
@@ -64,6 +64,8 @@ public class FunctionAnalyzer extends ICalculatorScreen {
                 }
             }
 
+            if (pivot == -1) break;
+
             for (int j = pivot + 1; j < width; j++) {
                 if (!isZero(solvedMatrix.entries[j][i])){
                     answerMatrix.entries[variable[j]][pivot] = -solvedMatrix.entries[j][i];
@@ -71,6 +73,13 @@ public class FunctionAnalyzer extends ICalculatorScreen {
             }
             answerMatrix.entries[0][pivot] = -solvedAnswer.elements[i];
         }
+
+        return answerMatrix;
+    }
+
+    public void analyzeAndDisplay(){
+        Matrix answerMatrix = analyzeSolution();
+        int assignedVariable = answerMatrix.width - 1;
 
         JFrame frame = new JFrame("Function Solutions");
         frame.setSize(Math.max((assignedVariable + 1) * 150, 400), width * 35 + 75);

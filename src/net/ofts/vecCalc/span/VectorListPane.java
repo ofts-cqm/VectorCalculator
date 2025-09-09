@@ -37,6 +37,9 @@ public class VectorListPane extends JScrollPane {
             vectors[i].setPreferredSize(new Dimension(50, 300));
             vectorPanel.add(vectors[i]);
         }
+        if (length == 0){
+            vectorPanel.add(new JLabel("<html>This Set is Empty</html>", SwingConstants.CENTER));
+        }
     }
 
     public void resetPane(){

@@ -67,7 +67,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
         }
     }
 
-    public VecN[] findBase(SpanSetPane span){
+    public static VecN[] findBase(SpanSetPane span){
         //Matrix original = span.list.toMatrix();
         Matrix mat = new AugmentedMatrix(span.list.toMatrix()).rref().getMainMatrix();
         ArrayList<Integer> pivots = new ArrayList<>();
@@ -87,7 +87,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
         return entries;
     }
 
-    public boolean isIn(SpanSetPane span, VecN vector){
+    public static boolean isIn(SpanSetPane span, VecN vector){
         AugmentedMatrix mat = new AugmentedMatrix(span.list.toMatrix(), vector).rref();
         Matrix main = mat.getMainMatrix();
         VecN answer = mat.getVector();

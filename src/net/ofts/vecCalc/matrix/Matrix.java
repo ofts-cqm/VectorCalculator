@@ -35,6 +35,14 @@ public class Matrix {
         return new VecN(entries[column]);
     }
 
+    public VecN[] toVectors(){
+        VecN[] vecs = new VecN[width];
+        for (int i = 0; i < width; i++) {
+            vecs[i] = getColumn(i);
+        }
+        return vecs;
+    }
+
     public static Matrix identity(int size){
         Matrix mat = new Matrix(size);
         for (int i = 0; i < size; i++){

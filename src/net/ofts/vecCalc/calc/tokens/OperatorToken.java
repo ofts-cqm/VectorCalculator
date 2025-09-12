@@ -1,9 +1,13 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
+
+import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.calc.StringMatcher;
+import net.ofts.vecCalc.calc.StructureTreeLogger;
 
 import java.util.Hashtable;
 import java.util.function.Function;
 
-public class OperatorToken implements IToken{
+public class OperatorToken implements IToken {
     public IToken right;
     public final int precedence;
     public final String matcher;
@@ -22,8 +26,8 @@ public class OperatorToken implements IToken{
 
     @Override
     public IToken parse(StringMatcher input, IToken lastInput) {
+        input.push();
         if (input.match(matcher)){
-            input.push();
             OperatorToken currentToken = create();
             currentToken.right = Calculator.matchNext(currentToken);
             if (currentToken.right != null){
@@ -31,8 +35,8 @@ public class OperatorToken implements IToken{
                 return currentToken;
             }
             Calculator.error("No Token Matched");
-            input.pop();
         }
+        input.pop();
         return null;
     }
 

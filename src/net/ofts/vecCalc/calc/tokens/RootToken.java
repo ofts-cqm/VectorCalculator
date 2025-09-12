@@ -1,6 +1,6 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
 
-public class RootToken extends OperatorToken{
+public class RootToken extends OperatorToken {
     public RootToken(IToken start) {
         super("", 114514);
         right = start;

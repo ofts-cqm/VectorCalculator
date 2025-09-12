@@ -1,4 +1,6 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
+
+import net.ofts.vecCalc.calc.StringMatcher;
 
 public interface IToken {
     double evaluate();

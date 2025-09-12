@@ -1,7 +1,6 @@
 package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.Main;
-import net.ofts.vecCalc.matrix.MatrixCalcScreen;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -12,7 +11,7 @@ import java.awt.event.ActionListener;
 public class VecNControlPane extends JPanel {
     public JButton currentOperation;
     public JButton move;
-    public static final String[] operation = new String[]{"+", "-", "X", "·", "X", "Norm", "Len", "Proj", "Perp"};
+    public static final String[] operation = new String[]{"+", "-", "Scale", "Dot", "Cross", "Normalize", "Length", "Proj", "Perp"};
     public byte[]operandForm = new byte[]{1, 1, 2, 1, 1, 0, 0, 1, 1};
     public byte[]resultForm = new byte[]{1, 1, 1, 2, 1, 1, 2, 1, 1};
     public int index = 0;

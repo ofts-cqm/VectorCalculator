@@ -1,4 +1,8 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
+
+import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.calc.StringMatcher;
+import net.ofts.vecCalc.calc.StructureTreeLogger;
 
 public record NumberToken(double value) implements IToken {
 
@@ -32,6 +36,8 @@ public record NumberToken(double value) implements IToken {
     public IToken parse(StringMatcher input, IToken lastInput) {
         if (input.matchIgnoreCase("E")) return new NumberToken(Math.E);
         if (input.matchIgnoreCase("PI")) return new NumberToken(Math.PI);
+        if (input.match("π")) return new NumberToken(Math.PI);
+        if (input.matchIgnoreCase("ans")) return new NumberToken(Calculator.previousAnswer);
 
         input.push();
         int digit = getNextDigit(input);
@@ -56,7 +62,7 @@ public record NumberToken(double value) implements IToken {
                 long exponent = matchNum(input, digit);
                 if (flip) exponent *= -1;
                 input.ignore();
-                return new NumberToken(Math.pow(number, exponent));
+                return new NumberToken(number * Math.pow(10, exponent));
             }
             Calculator.error("Missing Expression After E");
             input.pop();

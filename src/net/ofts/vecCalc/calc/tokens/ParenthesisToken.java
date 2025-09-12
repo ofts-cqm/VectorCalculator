@@ -1,4 +1,7 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
+
+import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.calc.StringMatcher;
 
 public class ParenthesisToken implements IToken {
     public RootToken content;
@@ -14,8 +17,8 @@ public class ParenthesisToken implements IToken {
 
     @Override
     public IToken parse(StringMatcher input, IToken lastInput) {
-        if (!input.match("(")) return null;
         input.push();
+        if (!input.match("(")) { input.pop(); return null; }
         IToken matched = Calculator.matchNext(null);
         RootToken root = new RootToken(matched);
 

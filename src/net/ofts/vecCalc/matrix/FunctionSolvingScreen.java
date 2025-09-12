@@ -16,7 +16,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     public JButton calculateButton = new JButton("Solve");
     public JLabel infoLabel = new JLabel("Click \"Solve\" to solve the function set!");
 
-    public int currentDimension = 3;
+    //public int currentDimension = 3;
 
     public FunctionSolvingScreen(){
         setLayout(new BorderLayout());
@@ -35,10 +35,10 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     }
 
     public void onDimensionChanged(int length){
-        currentDimension = length;
+        //currentDimension = length;
 
         remove(result);
-        result = new VecNPane("Vector", currentDimension, this, true);
+        result = new VecNPane("Vector", length, this, true);
         add(result, BorderLayout.EAST);
 
         revalidate();
@@ -47,8 +47,8 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
 
     @Override
     public void refreshResult() {
-        for (int i = 0; i < currentDimension; i++) {
-            for (int j = 0; j < currentDimension; j++) {
+        for (int i = 0; i < pane.matrix.matrix.height; i++) {
+            for (int j = 0; j < pane.matrix.matrix.width; j++) {
                 if (pane.matrix.matrixField[i][j].getBackground().equals(Color.red)) {
                     infoLabel.setText("Please Complete The Matrix First!");
                     infoLabel.setForeground(Color.red);

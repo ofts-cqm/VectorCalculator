@@ -1,9 +1,11 @@
-package net.ofts.vecCalc.calc;
+package net.ofts.vecCalc.calc.tokens;
+
+import net.ofts.vecCalc.calc.*;
 
 import java.util.Hashtable;
 import java.util.function.BiFunction;
 
-public class BinaryOperatorToken extends OperatorToken{
+public class BinaryOperatorToken extends OperatorToken {
     public IToken left;
 
     public static Hashtable<String, BiFunction<Double, Double, Double>> algorithms = new Hashtable<>();
@@ -14,24 +16,32 @@ public class BinaryOperatorToken extends OperatorToken{
 
     @Override
     public IToken parse(StringMatcher input, IToken lastToken){
+        input.push();
         if (input.match(matcher)){
-            input.push();
             BinaryOperatorToken currentToken = create();
             IToken previousToken;
 
             if (lastToken instanceof OperatorToken opToken && opToken.precedence > precedence){
-                currentToken.left = opToken.right;
-                opToken.right = currentToken;
-                previousToken = lastToken;
-
-                if (currentToken.left == null){
-                    Calculator.error("No Matched Token Before Binary Operator " + matcher);
+                if (opToken.right == null){
+                    if(!matcher.equals("-")) Calculator.error("No Matched Token Before Binary Operator " + matcher);
                     input.pop();
                     return null;
                 }
+                currentToken.left = opToken.right;
+                opToken.right = currentToken;
+                previousToken = lastToken;
             }else{
                 previousToken = currentToken;
                 currentToken.left = lastToken;
+                if (currentToken.left == null){
+                    if(!matcher.equals("-")) Calculator.error("No Matched Token Before Binary Operator " + matcher);
+                    input.pop();
+                    return null;
+                }
+                if (lastToken instanceof OperatorToken op2 && op2.right == null) {
+                    input.pop();
+                    return null;
+                }
             }
 
             currentToken.right = Calculator.matchNext(previousToken);
@@ -40,8 +50,8 @@ public class BinaryOperatorToken extends OperatorToken{
                 return currentToken;
             }
             Calculator.error("No Token Matched");
-            input.pop();
         }
+        input.pop();
         return null;
     }
 
@@ -79,6 +89,6 @@ public class BinaryOperatorToken extends OperatorToken{
         register("*", 2, (a, b) -> a * b);
         register("/", 2, (a, b) -> a / b);
         register("^", 1, Math::pow);
-        register("%", 1, (a, b) -> a % b);
+        register("mod", 1, (a, b) -> a % b);
     }
 }

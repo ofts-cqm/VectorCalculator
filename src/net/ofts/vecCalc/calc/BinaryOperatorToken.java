@@ -58,11 +58,11 @@ public class BinaryOperatorToken extends OperatorToken{
     @Override
     public void debug() {
         StructureTreeLogger.push();
-        StructureTreeLogger.write("Binary Operator token: " + matcher);
+        StructureTreeLogger.write("Binary Operator token: " + matcher, true);
         StructureTreeLogger.push();
-        StructureTreeLogger.write("Left: ");
+        StructureTreeLogger.write("Left: ", false);
         left.debug();
-        StructureTreeLogger.write("Right: ");
+        StructureTreeLogger.write("Right: ", true);
         right.debug();
         StructureTreeLogger.pop();
         StructureTreeLogger.pop();

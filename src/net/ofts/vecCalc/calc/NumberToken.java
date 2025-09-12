@@ -75,7 +75,7 @@ public record NumberToken(double value) implements IToken {
     @Override
     public void debug() {
         StructureTreeLogger.push();
-        StructureTreeLogger.write("Number Token: " + value);
+        StructureTreeLogger.write("Number Token: " + value, true);
         StructureTreeLogger.pop();
     }
 }

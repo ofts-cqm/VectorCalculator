@@ -38,7 +38,7 @@ public class SpanSetPane extends AbstractNumberPane {
 
     public void onDimensionChanged(int height, int width){
         remove(list);
-        list = new VectorListPane(name, height, width, parent, editable);
+        list = new VectorListPane(name, width, height, parent, editable);
         add(list, BorderLayout.CENTER);
         revalidate();
         repaint();

@@ -44,9 +44,9 @@ public class OperatorToken implements IToken{
     @Override
     public void debug() {
         StructureTreeLogger.push();
-        StructureTreeLogger.write("Unary Operator token: " + matcher);
+        StructureTreeLogger.write("Unary Operator token: " + matcher, true);
         StructureTreeLogger.push();
-        StructureTreeLogger.write("Right: ");
+        StructureTreeLogger.write("Right: ", true);
         right.debug();
         StructureTreeLogger.pop();
         StructureTreeLogger.pop();
@@ -87,6 +87,7 @@ public class OperatorToken implements IToken{
         register("atan", 3, OperatorToken::arctan);
         register("log", 3, Math::log10);
         register("ln", 3, Math::log);
+        register("abs", 3, Math::abs);
         register("sqrt", 1, Math::sqrt);
         register("cbrt", 1, Math::cbrt);
         register("-", 0, a -> -a);

@@ -18,6 +18,7 @@ public class Calculator {
         BinaryOperatorToken.init();
         OperatorToken.init();
         registeredTokens.add(new NumberToken(0));
+        registeredTokens.add(new ParenthesisToken(null));
     }
 
     private static void initialize(String input){

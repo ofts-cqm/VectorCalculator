@@ -30,3 +30,7 @@
 
 # For My Fellow Programmers:
 - If you want to fork this repository and make some tweaks, just remember to enable assersion (add the following to VM Options: -ea:net.ofts.vecCalc...)
+
+# SE101 Lab 67:
+- For all students enrolled in SE101 or higher classes, **Please feel free to open an issue if you encountered a bug**. I don't have enough time to thoroughly examine the code, so there may be bugs.
+- If you have an idea, feel free to fork this repository and make your changes. We should collaborate to conquer these math courses. We have even more math courses than students in the faculty of math, which is unfair, but we have the resources that they don't have: coding! We let computers do numerous things for us, so why not open your IntelliJ or VS Code and start coding?

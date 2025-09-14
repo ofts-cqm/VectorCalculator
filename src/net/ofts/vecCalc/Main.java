@@ -1,11 +1,11 @@
 package net.ofts.vecCalc;
 
+import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.calc.CalculatorScreen;
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
 import net.ofts.vecCalc.span.SpanSetScreen;
-import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
-import net.ofts.vecCalc.vector.VecN;
 import net.ofts.vecCalc.vector.VecNScreen;
 
 import javax.swing.*;
@@ -41,9 +41,11 @@ public class Main {
         calculatorCodeMap.put("span", tmp);
         calculatorCodeMap.put("span0", tmp);
         calculatorCodeMap.put("span1", tmp);
+        calculatorCodeMap.put("calc", new CalculatorScreen());
 
         frame.add(current);
         current.onPageOpened(frame);
+        Calculator.setUp();
     }
 
     public static void setUpMenuBar(){
@@ -88,9 +90,14 @@ public class Main {
         isIn.setActionCommand("span1");
         span.add(isIn);
 
+        JMenuItem calc = new JMenuItem("Calculator");
+        calc.addActionListener(Main::operationListener);
+        calc.setActionCommand("calc1");
+
         menuBar.add(vector);
         menuBar.add(matrix);
         menuBar.add(span);
+        menuBar.add(calc);
         currentMenu = vec3.getItem(0);
         currentMenu.setEnabled(false);
     }
@@ -105,7 +112,7 @@ public class Main {
             currentMenu = (JMenuItem) e.getSource();
             currentMenu.setEnabled(false);
         }
-        ((IMultipleOperation)calc).setOperation(operator);
+        if (calc instanceof IMultipleOperation mul) mul.setOperation(operator);
     }
 
     public static void updateSelectedMenuItem(JMenuItem item){

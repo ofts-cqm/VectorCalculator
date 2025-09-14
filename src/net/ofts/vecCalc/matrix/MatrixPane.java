@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.vector.BlankPane;
 
 import javax.swing.*;
@@ -82,9 +83,15 @@ public class MatrixPane extends BlankPane {
             val = Double.parseDouble(field.getText());
             if (field.getBackground().equals(Color.red)) field.setBackground(Color.white);
         }catch (Exception ex){
-            field.setBackground(Color.red);
-            repaint();
-            return;
+            Calculator.logLevel = Calculator.LogLevel.WARNING;
+            val = Calculator.evaluate(field.getText(), false);
+            if (Calculator.getLog().isBlank()){
+                if (field.getBackground().equals(Color.red)) field.setBackground(Color.white);
+            }else{
+                field.setBackground(Color.red);
+                repaint();
+                return;
+            }
         }
 
         if(inverseRowsAndColumns) matrix.entries[i][j] = val;

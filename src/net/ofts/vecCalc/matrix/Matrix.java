@@ -125,6 +125,7 @@ public class Matrix {
                 if (isNonZero(main.entries[j][i])) continue lp;
             }
             if(isNonZero(answer.elements[i])) return "No Solutions";
+            if (i >= width) continue;
             new FunctionAnalyzer(main, answer).analyzeAndDisplay();
             return "Infinite Many Solutions";
         }
@@ -165,7 +166,7 @@ public class Matrix {
 
                     // if we didn't find, do nothing because we are in the last row
 
-                    continue;
+                    //continue;
                 }
 
                 // if it is not full zero then we can make it work by swaping rows

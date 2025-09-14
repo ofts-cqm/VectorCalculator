@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.calc.Calculator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -89,9 +90,15 @@ public class VecNPane extends BlankPane{
             val = Double.parseDouble(field.getText());
             if (field.getBackground().equals(Color.red)) field.setBackground(Color.white);
         }catch (Exception ex){
-            field.setBackground(Color.red);
-            repaint();
-            return;
+            Calculator.logLevel = Calculator.LogLevel.WARNING;
+            val = Calculator.evaluate(field.getText(), false);
+            if (Calculator.getLog().isBlank()){
+                if (field.getBackground().equals(Color.red)) field.setBackground(Color.white);
+            }else{
+                field.setBackground(Color.red);
+                repaint();
+                return;
+            }
         }
 
         vector.elements[index] = val;

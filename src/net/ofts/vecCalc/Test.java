@@ -7,7 +7,7 @@ public class Test {
         Calculator.debugMode = true;
         Calculator.logLevel = Calculator.LogLevel.INFO;
         Calculator.setUp();
-        double val = Calculator.evaluate("1E7", true);
+        double val = Calculator.evaluate("1+", true);
         System.out.println("Value: " + val);
         System.out.println("Log: ");
         System.out.println(Calculator.getLog());

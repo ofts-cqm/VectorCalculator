@@ -47,6 +47,7 @@ public class CalculatorScreen extends ICalculatorScreen {
 
     @Override
     public void onPageOpened(JFrame frame) {
+        Calculator.logLevel = Calculator.LogLevel.ERROR;
         frame.setSize(540, 380);
         frame.setTitle("Calculator (Scientific)");
     }

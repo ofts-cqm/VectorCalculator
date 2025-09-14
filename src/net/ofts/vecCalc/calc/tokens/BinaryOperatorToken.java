@@ -50,6 +50,10 @@ public class BinaryOperatorToken extends OperatorToken {
                 return currentToken;
             }
             Calculator.error("No Token Matched");
+
+            if (lastToken instanceof OperatorToken opToken && opToken.right == currentToken){
+                opToken.right = currentToken.left;
+            }
         }
         input.pop();
         return null;

@@ -29,8 +29,8 @@ public class Calculator {
     public static void setUp(){
         BinaryOperatorToken.init();
         OperatorToken.init();
-        registeredTokens.add(new NumberToken(0));
-        registeredTokens.add(new ParenthesisToken(null));
+        registeredTokens.add(new NumberToken(0, null));
+        registeredTokens.add(new ParenthesisToken(null, null));
     }
 
     private static void initialize(String input){
@@ -63,9 +63,11 @@ public class Calculator {
         initialize(expression);
         IToken matched = matchNext(null);
         RootToken root = new RootToken(matched);
+        IToken lastOpToken = matched instanceof OperatorToken opt ? opt : root;
 
         while (matched != null){
-            matched = matchNext(root);
+            matched = matchNext(lastOpToken);
+            lastOpToken = matched instanceof OperatorToken opt ? opt : root;
         }
 
         if (!inputStream.isEnd()){

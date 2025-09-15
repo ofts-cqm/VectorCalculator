@@ -4,6 +4,7 @@ public class RootToken extends OperatorToken {
     public RootToken(IToken start) {
         super("", 114514);
         right = start;
+        if (start != null) start.parent = this;
     }
 
     @Override

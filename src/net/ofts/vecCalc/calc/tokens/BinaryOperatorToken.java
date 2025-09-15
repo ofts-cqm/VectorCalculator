@@ -19,7 +19,7 @@ public class BinaryOperatorToken extends OperatorToken {
         input.push();
         if (input.match(matcher)){
             BinaryOperatorToken currentToken = create();
-            IToken previousToken;
+            //IToken previousToken;
 
             if (lastToken instanceof OperatorToken opToken && opToken.precedence > precedence){
                 if (opToken.right == null){
@@ -29,22 +29,30 @@ public class BinaryOperatorToken extends OperatorToken {
                 }
                 currentToken.left = opToken.right;
                 opToken.right = currentToken;
-                previousToken = lastToken;
+                //previousToken = lastToken;
+                currentParent = lastToken;
             }else{
-                previousToken = currentToken;
+                //previousToken = currentToken;
                 currentToken.left = lastToken;
-                if (currentToken.left == null){
+                currentParent = lastToken.parent;
+
+                if (lastToken.parent instanceof OperatorToken opt){
+                    opt.right = currentToken;
+                }
+
+                /*if (currentToken.left == null){
                     if(!matcher.equals("-")) Calculator.error("No Matched Token Before Binary Operator " + matcher);
                     input.pop();
                     return null;
-                }
+                }*/
                 if (lastToken instanceof OperatorToken op2 && op2.right == null) {
                     input.pop();
                     return null;
                 }
             }
 
-            currentToken.right = Calculator.matchNext(previousToken);
+            currentToken.right = Calculator.matchNext(currentToken);//previousToken);
+            currentToken.parent = currentParent;
             if (currentToken.right != null){
                 input.ignore();
                 return currentToken;
@@ -53,6 +61,8 @@ public class BinaryOperatorToken extends OperatorToken {
 
             if (lastToken instanceof OperatorToken opToken && opToken.right == currentToken){
                 opToken.right = currentToken.left;
+            }else if (lastToken.parent instanceof OperatorToken opt){
+                opt.right = currentToken.left;
             }
         }
         input.pop();
@@ -90,8 +100,8 @@ public class BinaryOperatorToken extends OperatorToken {
     public static void init(){
         register("+", 4, Double::sum);
         register("-", 4, (a, b)-> a - b);
-        register("*", 2, (a, b) -> a * b);
-        register("/", 2, (a, b) -> a / b);
+        register("*", 3, (a, b) -> a * b);
+        register("/", 3, (a, b) -> a / b);
         register("^", 1, Math::pow);
         register("mod", 1, (a, b) -> a % b);
     }

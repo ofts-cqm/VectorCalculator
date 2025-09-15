@@ -7,14 +7,17 @@ import net.ofts.vecCalc.calc.StructureTreeLogger;
 import java.util.Hashtable;
 import java.util.function.Function;
 
-public class OperatorToken implements IToken {
+public class OperatorToken extends IToken {
     public IToken right;
     public final int precedence;
     public final String matcher;
 
+    public static IToken currentParent = null;
+
     public static Hashtable<String, Function<Double, Double>> algorithms = new Hashtable<>();
 
     public OperatorToken(String matcher, int precedence) {
+        super(currentParent);
         this.matcher = matcher;
         this.precedence = precedence;
     }
@@ -28,6 +31,7 @@ public class OperatorToken implements IToken {
     public IToken parse(StringMatcher input, IToken lastInput) {
         input.push();
         if (input.match(matcher)){
+            currentParent = lastInput;
             OperatorToken currentToken = create();
             currentToken.right = Calculator.matchNext(currentToken);
             if (currentToken.right != null){
@@ -77,21 +81,21 @@ public class OperatorToken implements IToken {
     }
 
     public static void init(){
-        register("sin", 3, OperatorToken::sin);
-        register("cos", 3, OperatorToken::cos);
-        register("tan", 3, OperatorToken::tan);
-        register("csc", 3, OperatorToken::csc);
-        register("sec", 3, OperatorToken::sec);
-        register("cot", 3, OperatorToken::cot);
-        register("arcsin", 3, OperatorToken::arcsin);
-        register("asin", 3, OperatorToken::arcsin);
-        register("arccos", 3, OperatorToken::arccos);
-        register("acos", 3, OperatorToken::arccos);
-        register("arctan", 3, OperatorToken::arctan);
-        register("atan", 3, OperatorToken::arctan);
-        register("log", 3, Math::log10);
-        register("ln", 3, Math::log);
-        register("abs", 3, Math::abs);
+        register("sin", 2, OperatorToken::sin);
+        register("cos", 2, OperatorToken::cos);
+        register("tan", 2, OperatorToken::tan);
+        register("csc", 2, OperatorToken::csc);
+        register("sec", 2, OperatorToken::sec);
+        register("cot", 2, OperatorToken::cot);
+        register("arcsin", 2, OperatorToken::arcsin);
+        register("asin", 2, OperatorToken::arcsin);
+        register("arccos", 2, OperatorToken::arccos);
+        register("acos", 2, OperatorToken::arccos);
+        register("arctan", 2, OperatorToken::arctan);
+        register("atan", 2, OperatorToken::arctan);
+        register("log", 2, Math::log10);
+        register("ln", 2, Math::log);
+        register("abs", 2, Math::abs);
         register("sqrt", 1, Math::sqrt);
         register("cbrt", 1, Math::cbrt);
         register("-", 0, a -> -a);

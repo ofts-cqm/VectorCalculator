@@ -3,10 +3,11 @@ package net.ofts.vecCalc.calc.tokens;
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.calc.StringMatcher;
 
-public class ParenthesisToken implements IToken {
+public class ParenthesisToken extends IToken {
     public RootToken content;
 
-    public ParenthesisToken(RootToken content){
+    public ParenthesisToken(RootToken content, IToken parent){
+        super(parent);
         this.content = content;
     }
 
@@ -38,12 +39,12 @@ public class ParenthesisToken implements IToken {
         }
 
         input.ignore();
-        return new ParenthesisToken(root);
+        return new ParenthesisToken(root, lastInput);
     }
 
     @Override
     public IToken create() {
-        return new ParenthesisToken(null);
+        return new ParenthesisToken(null, null);
     }
 
     @Override

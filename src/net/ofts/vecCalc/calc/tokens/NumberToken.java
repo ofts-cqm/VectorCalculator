@@ -4,7 +4,13 @@ import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.calc.StringMatcher;
 import net.ofts.vecCalc.calc.StructureTreeLogger;
 
-public record NumberToken(double value) implements IToken {
+public class NumberToken extends IToken{
+    public double value;
+
+    public NumberToken(double val, IToken parent) {
+        super(parent);
+        this.value =val;
+    }
 
     @Override
     public double evaluate() {
@@ -34,10 +40,10 @@ public record NumberToken(double value) implements IToken {
 
     @Override
     public IToken parse(StringMatcher input, IToken lastInput) {
-        if (input.matchIgnoreCase("E")) return new NumberToken(Math.E);
-        if (input.matchIgnoreCase("PI")) return new NumberToken(Math.PI);
-        if (input.match("π")) return new NumberToken(Math.PI);
-        if (input.matchIgnoreCase("ans")) return new NumberToken(Calculator.previousAnswer);
+        if (input.matchIgnoreCase("E")) return new NumberToken(Math.E, lastInput);
+        if (input.matchIgnoreCase("PI")) return new NumberToken(Math.PI ,lastInput);
+        if (input.match("π")) return new NumberToken(Math.PI, lastInput);
+        if (input.matchIgnoreCase("ans")) return new NumberToken(Calculator.previousAnswer, lastInput);
 
         input.push();
         int digit = getNextDigit(input);
@@ -53,7 +59,7 @@ public record NumberToken(double value) implements IToken {
                 long decimal = matchNum(input, digit);
                 double fp = decimal / Math.pow(10, String.valueOf(decimal).length());
                 input.ignore();
-                return new NumberToken(number + fp);
+                return new NumberToken(number + fp, lastInput);
             }
         }
         if (input.matchIgnoreCase("e")) {
@@ -63,7 +69,7 @@ public record NumberToken(double value) implements IToken {
                 long exponent = matchNum(input, digit);
                 if (flip) exponent *= -1;
                 input.ignore();
-                return new NumberToken(number * Math.pow(10, exponent));
+                return new NumberToken(number * Math.pow(10, exponent), lastInput);
             }
             Calculator.error("Missing Expression After E");
             input.pop();
@@ -71,12 +77,12 @@ public record NumberToken(double value) implements IToken {
         }
 
         input.ignore();
-        return new NumberToken(number);
+        return new NumberToken(number, lastInput);
     }
 
     @Override
     public IToken create() {
-        return new NumberToken(0);
+        return new NumberToken(0, null);
     }
 
     @Override

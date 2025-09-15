@@ -34,17 +34,18 @@ public class BinaryOperatorToken extends OperatorToken {
             }else{
                 //previousToken = currentToken;
                 currentToken.left = lastToken;
-                currentParent = lastToken.parent;
+
+                if (lastToken == null){
+                    if(!matcher.equals("-")) Calculator.error("No Matched Token Before Binary Operator " + matcher);
+                    input.pop();
+                    return null;
+                }
 
                 if (lastToken.parent instanceof OperatorToken opt){
                     opt.right = currentToken;
                 }
 
-                /*if (currentToken.left == null){
-                    if(!matcher.equals("-")) Calculator.error("No Matched Token Before Binary Operator " + matcher);
-                    input.pop();
-                    return null;
-                }*/
+                currentParent = lastToken.parent;
                 if (lastToken instanceof OperatorToken op2 && op2.right == null) {
                     input.pop();
                     return null;

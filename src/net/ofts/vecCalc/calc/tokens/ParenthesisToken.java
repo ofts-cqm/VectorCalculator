@@ -7,7 +7,7 @@ public class ParenthesisToken extends IToken {
     public RootToken content;
 
     public ParenthesisToken(RootToken content, IToken parent){
-        super(parent);
+        super(parent instanceof OperatorToken opt ? opt : null);
         this.content = content;
     }
 
@@ -20,8 +20,9 @@ public class ParenthesisToken extends IToken {
     public IToken parse(StringMatcher input, IToken lastInput) {
         input.push();
         if (!input.match("(")) { input.pop(); return null; }
-        IToken matched = Calculator.matchNext(null);
-        RootToken root = new RootToken(matched);
+        RootToken root = new RootToken();
+        IToken matched = Calculator.matchNext(root);
+        root.right = matched;
 
         if (matched == null){
             Calculator.error("Nothing In Parenthesis");
@@ -39,7 +40,7 @@ public class ParenthesisToken extends IToken {
         }
 
         input.ignore();
-        return new ParenthesisToken(root, lastInput);
+        return finalizeNumber(lastInput, new ParenthesisToken(root, lastInput));
     }
 
     @Override

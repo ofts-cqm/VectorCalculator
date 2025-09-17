@@ -12,7 +12,7 @@ public class OperatorToken extends IToken {
     public final int precedence;
     public final String matcher;
 
-    public static IToken currentParent = null;
+    public static OperatorToken currentParent = null;
 
     public static Hashtable<String, Function<Double, Double>> algorithms = new Hashtable<>();
 
@@ -31,12 +31,12 @@ public class OperatorToken extends IToken {
     public IToken parse(StringMatcher input, IToken lastInput) {
         input.push();
         if (input.match(matcher)){
-            currentParent = lastInput;
+            if (lastInput instanceof OperatorToken o) currentParent = o;
             OperatorToken currentToken = create();
             currentToken.right = Calculator.matchNext(currentToken);
             if (currentToken.right != null){
                 input.ignore();
-                return currentToken;
+                return finalizeNumber(lastInput, currentToken);
             }
             Calculator.error("No Token Matched");
         }
@@ -75,6 +75,18 @@ public class OperatorToken extends IToken {
     private static double arccos(double val) {return angleOut(Math.acos(val));}
     private static double arctan(double val) {return angleOut(Math.atan(val));}
 
+    private static double arcsinh(double val){
+        return Math.log(val + Math.sqrt(val * val + 1));
+    }
+
+    private static double arccosh(double val){
+        return Math.log(val + Math.sqrt(val * val - 1));
+    }
+
+    private static double arctanh(double val){
+        return 0.5 * Math.log((1 + val) / (1 - val));
+    }
+
     private static void register(String name, int precedence, Function<Double, Double> func){
         algorithms.put(name, func);
         Calculator.registeredTokens.add(new OperatorToken(name, precedence));
@@ -93,6 +105,18 @@ public class OperatorToken extends IToken {
         register("acos", 2, OperatorToken::arccos);
         register("arctan", 2, OperatorToken::arctan);
         register("atan", 2, OperatorToken::arctan);
+        register("sinh", 2, Math::sinh);
+        register("cosh", 2, Math::cosh);
+        register("tanh", 2, Math::tanh);
+        register("asinh", 2, OperatorToken::arcsinh);
+        register("arsinh", 2, OperatorToken::arcsinh);
+        register("arcsinh", 2, OperatorToken::arcsinh);
+        register("acosh", 2, OperatorToken::arccosh);
+        register("arcosh", 2, OperatorToken::arccosh);
+        register("arccosh", 2, OperatorToken::arccosh);
+        register("atanh", 2, OperatorToken::arctanh);
+        register("artanh", 2, OperatorToken::arctanh);
+        register("arctanh", 2, OperatorToken::arctanh);
         register("log", 2, Math::log10);
         register("ln", 2, Math::log);
         register("abs", 2, Math::abs);

@@ -1,10 +1,8 @@
 package net.ofts.vecCalc.calc.tokens;
 
 public class RootToken extends OperatorToken {
-    public RootToken(IToken start) {
+    public RootToken() {
         super("", 114514);
-        right = start;
-        if (start != null) start.parent = this;
     }
 
     @Override

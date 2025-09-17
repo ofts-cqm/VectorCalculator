@@ -61,8 +61,9 @@ public class Calculator {
 
     public static double evaluate(String expression, boolean recordResult){
         initialize(expression);
-        IToken matched = matchNext(null);
-        RootToken root = new RootToken(matched);
+        RootToken root = new RootToken();
+        IToken matched = matchNext(root);
+        root.right = matched;
         IToken lastOpToken = matched instanceof OperatorToken opt ? opt : root;
 
         while (matched != null){
@@ -99,7 +100,12 @@ public class Calculator {
         IToken matched;
         for (IToken token : registeredTokens) {
             matched = token.parse(inputStream, lastInput);
-            if (matched != null) return matched;
+            if (matched != null) {
+                if (matched.parent == null){
+                    error("Unconnected Node!");
+                }
+                return matched;
+            }
         }
         return null;
     }

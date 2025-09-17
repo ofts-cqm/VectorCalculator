@@ -8,7 +8,7 @@ public class NumberToken extends IToken{
     public double value;
 
     public NumberToken(double val, IToken parent) {
-        super(parent);
+        super(parent instanceof OperatorToken opt ? opt : null);
         this.value =val;
     }
 
@@ -40,10 +40,10 @@ public class NumberToken extends IToken{
 
     @Override
     public IToken parse(StringMatcher input, IToken lastInput) {
-        if (input.matchIgnoreCase("E")) return new NumberToken(Math.E, lastInput);
-        if (input.matchIgnoreCase("PI")) return new NumberToken(Math.PI ,lastInput);
-        if (input.match("π")) return new NumberToken(Math.PI, lastInput);
-        if (input.matchIgnoreCase("ans")) return new NumberToken(Calculator.previousAnswer, lastInput);
+        if (input.matchIgnoreCase("E")) return finalizeNumber(lastInput, new NumberToken(Math.E, lastInput));
+        if (input.matchIgnoreCase("PI")) return finalizeNumber(lastInput, new NumberToken(Math.PI ,lastInput));
+        if (input.match("π")) return finalizeNumber(lastInput, new NumberToken(Math.PI, lastInput));
+        if (input.matchIgnoreCase("ans")) return finalizeNumber(lastInput, new NumberToken(Calculator.previousAnswer, lastInput));
 
         input.push();
         int digit = getNextDigit(input);
@@ -62,6 +62,8 @@ public class NumberToken extends IToken{
                 return new NumberToken(number + fp, lastInput);
             }
         }
+        input.ignore();
+        input.push();
         if (input.matchIgnoreCase("e")) {
             boolean flip = input.match("-");
             digit = getNextDigit(input);
@@ -71,9 +73,10 @@ public class NumberToken extends IToken{
                 input.ignore();
                 return new NumberToken(number * Math.pow(10, exponent), lastInput);
             }
-            Calculator.error("Missing Expression After E");
+            // maybe use means 5 * E?
+            //Calculator.error("Missing Expression After E");
             input.pop();
-            return null;
+            return new NumberToken(number, lastInput);
         }
 
         input.ignore();

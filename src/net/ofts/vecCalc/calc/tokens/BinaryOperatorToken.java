@@ -29,10 +29,8 @@ public class BinaryOperatorToken extends OperatorToken {
                 }
                 currentToken.left = opToken.right;
                 opToken.right = currentToken;
-                //previousToken = lastToken;
-                currentParent = lastToken;
+                currentParent = opToken;
             }else{
-                //previousToken = currentToken;
                 currentToken.left = lastToken;
 
                 if (lastToken == null){
@@ -41,12 +39,12 @@ public class BinaryOperatorToken extends OperatorToken {
                     return null;
                 }
 
-                if (lastToken.parent instanceof OperatorToken opt){
-                    opt.right = currentToken;
-                }
+                IToken temp = lastToken.parent.right;
+                lastToken.parent.right = currentToken;
 
                 currentParent = lastToken.parent;
                 if (lastToken instanceof OperatorToken op2 && op2.right == null) {
+                    lastToken.parent.right = temp;
                     input.pop();
                     return null;
                 }
@@ -62,8 +60,8 @@ public class BinaryOperatorToken extends OperatorToken {
 
             if (lastToken instanceof OperatorToken opToken && opToken.right == currentToken){
                 opToken.right = currentToken.left;
-            }else if (lastToken.parent instanceof OperatorToken opt){
-                opt.right = currentToken.left;
+            }else {
+                lastToken.parent.right = currentToken.left;
             }
         }
         input.pop();

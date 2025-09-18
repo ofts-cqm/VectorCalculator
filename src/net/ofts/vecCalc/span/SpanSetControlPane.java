@@ -1,10 +1,8 @@
 package net.ofts.vecCalc.span;
 
-import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.Main;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
-import net.ofts.vecCalc.vector.BlankPane;
-import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

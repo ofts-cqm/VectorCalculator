@@ -1,8 +1,8 @@
-package net.ofts.vecCalc.matrix;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.calc.Calculator;
-import net.ofts.vecCalc.vector.BlankPane;
+import net.ofts.vecCalc.matrix.Matrix;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

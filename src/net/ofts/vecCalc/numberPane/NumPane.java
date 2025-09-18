@@ -1,4 +1,4 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.calc.Calculator;
@@ -32,10 +32,11 @@ public class NumPane extends BlankPane {
         this.add(Box.createRigidArea(new Dimension(100, 125)));
     }
 
-    public void setNum(double num){
+    public NumPane setNum(double num){
         this.num = num;
         text.setText(formatter.format(num));
         repaint();
+        return this;
     }
 
     public void resetNum(){

@@ -3,7 +3,7 @@ package net.ofts.vecCalc.matrix.rref;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.VecN;
-import net.ofts.vecCalc.vector.VecNPane;
+import net.ofts.vecCalc.numberPane.VecNPane;
 
 import javax.swing.*;
 

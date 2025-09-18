@@ -1,4 +1,4 @@
-package net.ofts.vecCalc;
+package net.ofts.vecCalc.numberPane;
 
 import javax.swing.*;
 

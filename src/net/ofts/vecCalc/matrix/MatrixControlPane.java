@@ -1,9 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
-import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.Main;
-import net.ofts.vecCalc.span.SpanSetPane;
-import net.ofts.vecCalc.vector.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

@@ -1,7 +1,13 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.numberPane.BlankPane;
+import net.ofts.vecCalc.numberPane.NumPane;
+import net.ofts.vecCalc.numberPane.Vec3Pane;
+import net.ofts.vecCalc.numberPane.VecNPane;
+
 import javax.swing.*;
 
+@Deprecated
 public class VolatilePane extends BlankPane {
     public Vec3Pane vector;
     public VecNPane vecN;

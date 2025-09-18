@@ -1,6 +1,8 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.Vec3;
+import net.ofts.vecCalc.vector.Vec3Screen;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -44,12 +46,13 @@ public class Vec3Pane extends BlankPane {
         this.add(Box.createRigidArea(new Dimension(100, 25)));
     }
 
-    public void setVector(Vec3 vector){
+    public Vec3Pane setVector(Vec3 vector){
         this.vector = vector;
         x1.setText(formatter.format(vector.x1));
         x2.setText(formatter.format(vector.x2));
         x3.setText(formatter.format(vector.x3));
         repaint();
+        return this;
     }
 
     public void resetVector(){

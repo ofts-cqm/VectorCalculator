@@ -1,7 +1,8 @@
 package net.ofts.vecCalc;
 
-import net.ofts.vecCalc.matrix.MatrixPane;
-import net.ofts.vecCalc.matrix.MatrixWithSizeBarPane;
+import net.ofts.vecCalc.numberPane.MatrixPane;
+import net.ofts.vecCalc.numberPane.MatrixWithSizeBarPane;
+import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,9 @@ public class GenericPane extends JPanel {
         current = panel[0];
     }
 
+    public AbstractNumberPane getCurrent(){
+        return current;
+    }
 
     public void setOverrideSize(Dimension size){
         overrideSize = size;

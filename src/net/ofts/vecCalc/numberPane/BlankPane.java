@@ -1,6 +1,4 @@
-package net.ofts.vecCalc.vector;
-
-import net.ofts.vecCalc.AbstractNumberPane;
+package net.ofts.vecCalc.numberPane;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

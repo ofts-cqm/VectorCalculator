@@ -1,5 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.numberPane.MatrixPane;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;

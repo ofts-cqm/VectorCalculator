@@ -1,6 +1,5 @@
-package net.ofts.vecCalc.matrix;
+package net.ofts.vecCalc.numberPane;
 
-import net.ofts.vecCalc.AbstractNumberPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 
 import java.awt.*;

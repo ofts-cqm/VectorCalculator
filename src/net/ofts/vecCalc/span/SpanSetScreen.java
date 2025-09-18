@@ -3,10 +3,8 @@ package net.ofts.vecCalc.span;
 import net.ofts.vecCalc.*;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
-import net.ofts.vecCalc.vector.BlankPane;
-import net.ofts.vecCalc.vector.NumPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.vector.VecN;
-import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import java.awt.*;

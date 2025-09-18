@@ -1,7 +1,8 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,10 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
-public class VecNPane extends BlankPane{
+public class VecNPane extends BlankPane {
     public ICalculatorScreen parent;
     public VecN vector;
-    JTextField[] fields;
+    public JTextField[] fields;
     public boolean editable;
     public int size;
     public String name;

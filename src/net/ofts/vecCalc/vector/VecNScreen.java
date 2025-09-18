@@ -3,7 +3,7 @@ package net.ofts.vecCalc.vector;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.IMultipleOperation;
 import net.ofts.vecCalc.Main;
-import net.ofts.vecCalc.matrix.MatrixControlPane;
+import net.ofts.vecCalc.numberPane.VecNPane;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -6,7 +6,6 @@ import net.ofts.vecCalc.IMultipleOperation;
 import net.ofts.vecCalc.Main;
 import net.ofts.vecCalc.numberPane.BlankPane;
 import net.ofts.vecCalc.numberPane.NumPane;
-import net.ofts.vecCalc.numberPane.Vec3Pane;
 import net.ofts.vecCalc.numberPane.VecNPane;
 
 import javax.swing.*;
@@ -25,7 +24,7 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
         setSize(540, 380);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screenSize.width / 2 + 270, screenSize.height / 2);
-        dimension = new JSlider(SwingConstants.VERTICAL, 2, 10, 4);
+        dimension = new JSlider(SwingConstants.VERTICAL, 2, 10, 2);
         dimension.setPaintTicks(true);
         dimension.setPaintLabels(true);
         dimension.setMajorTickSpacing(1);
@@ -61,56 +60,6 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
         result.setPanel(new VecNPane("Result", currentLength, this, false));
 
         refreshResult();
-        /*
-        // remove everything and add again so the layout doesn't change
-        // I know this is a stupid method, but (kinda) it works at least
-        remove(a);
-        remove(b);
-        remove(control);
-        remove(result);
-
-        // try to preserve previous level's data
-        VecN fieldA = a.vector;
-        VecN fieldB = b.vecN.vector;
-        double numB = b.number.num;
-
-        currentLength = dimension.getValue();
-        a = new VecNPane("Vector A", currentLength, this, true);
-        a.setVectorPreserveLength(fieldA);
-        add(a);
-        add(control);
-        a.repaint();
-        b.vecN = new VecNPane("Vector B", currentLength, this, true);
-        if (b.current == b.vecN) {
-            b.remove(b.current);
-            b.add(b.vecN);
-            b.current = b.vecN;
-            b.repaint();
-        }
-        add(b);
-        result.vecN = new VecNPane("Result", currentLength, this, false);
-        if (result.current == result.vecN){
-            result.remove(result.current);
-            result.add(result.vecN);
-            result.current = result.vecN;
-            result.repaint();
-        }
-        add(result);
-        // God knows why I need to go to the next operator and then go back......
-        // if I don't do so, Vector A will shift to the left side of the slider......
-        // BUT WHY??? control.nextOperator does nothing to Vector A!!! IT DOES NOTHING TO V1!!!
-        // Can anyone tell me why this works?
-        // Anyway, since it works, let's just not change it.
-        control.nextOperator();
-        control.previousOperator();
-
-        if (b.current == b.vecN){
-            b.vecN.setVectorPreserveLength(fieldB);
-        } else if (b.current == b.number){
-            b.number.setNum(numB);
-        }
-
-        repaint();*/
     }
 
     public void refreshResult(){
@@ -146,7 +95,6 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
     public static void addMenuItem(JMenu menu){
         items = new JMenuItem[VecNControlPane.operation.length];
         for (int i = 0; i < VecNControlPane.operation.length; i++) {
-            if (i == 4) continue;
             JMenuItem item = new JMenuItem(VecNControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("vecN" + i);

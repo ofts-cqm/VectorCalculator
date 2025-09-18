@@ -46,9 +46,10 @@ public class VecNPane extends BlankPane {
             }
 
             fields[i] = temp;
-            add(Box.createRigidArea(new Dimension(100, 7)));
+            add(Box.createVerticalGlue());
             add(temp);
         }
+        add(Box.createVerticalGlue());
     }
 
     public void onEnterPressed(ActionEvent e){

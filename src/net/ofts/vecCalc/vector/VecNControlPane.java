@@ -13,7 +13,9 @@ public class VecNControlPane extends JPanel {
     public JButton currentOperation;
     public JButton move;
     public static final String[] operation = new String[]{"+", "-", "Scale", "Dot", "Normalize", "Length", "Proj", "Perp"};
+    @SuppressWarnings("unchecked")
     public static Class<? extends AbstractNumberPane>[] operandForm = new Class[]{VecNPane.class, VecNPane.class, NumPane.class, VecNPane.class, BlankPane.class, BlankPane.class, VecNPane.class, VecNPane.class};
+    @SuppressWarnings("unchecked")
     public static Class<? extends AbstractNumberPane>[] resultForm = new Class[]{VecNPane.class, VecNPane.class, VecNPane.class, NumPane.class, VecNPane.class, NumPane.class, VecNPane.class, VecNPane.class};
     public int index = 0;
     public VecNScreen parent;

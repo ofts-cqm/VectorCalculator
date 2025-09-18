@@ -2,9 +2,7 @@ package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 import net.ofts.vecCalc.Main;
-import net.ofts.vecCalc.numberPane.BlankPane;
-import net.ofts.vecCalc.numberPane.NumPane;
-import net.ofts.vecCalc.numberPane.Vec3Pane;
+import net.ofts.vecCalc.numberPane.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -12,16 +10,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControlPane extends JPanel {
+public class Vec3ControlPane extends JPanel {
     public JButton currentOperation;
     public JButton move;
     public static final String[] operation = new String[]{"+", "-", "Scale", "Dot", "Cross", "Normalize", "Length", "Proj", "Perp"};
-    public Class<? extends AbstractNumberPane>[] operandForm = new Class[]{Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, BlankPane.class, BlankPane.class, Vec3Pane.class, Vec3Pane.class};
-    public Class<? extends AbstractNumberPane>[] resultForm = new Class[]{Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class};
+    public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, BlankPane.class, BlankPane.class, Vec3Pane.class, Vec3Pane.class};
+    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class};
     public int index = 0;
     public Vec3Screen parent;
 
-    public ControlPane(Vec3Screen root){
+    public Vec3ControlPane(Vec3Screen root){
         this.parent = root;
         setBorder(new TitledBorder("Operation"));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

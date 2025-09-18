@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
 
 public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation {
     public GenericPane operandA, operandB, operandC;
-    public ControlPane control;
+    public Vec3ControlPane control;
 
     public static JMenuItem[] items;
 
@@ -35,7 +35,7 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
                 new NumPane("Result", this, true)
         );
         add(operandA);
-        add(control = new ControlPane(this));
+        add(control = new Vec3ControlPane(this));
         add(operandB);
         add(operandC);
     }
@@ -73,9 +73,9 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
     }
 
     public static void addMenuItem(JMenu menu){
-        items = new JMenuItem[ControlPane.operation.length];
-        for (int i = 0; i < ControlPane.operation.length; i++) {
-            JMenuItem item = new JMenuItem(ControlPane.operation[i]);
+        items = new JMenuItem[Vec3ControlPane.operation.length];
+        for (int i = 0; i < Vec3ControlPane.operation.length; i++) {
+            JMenuItem item = new JMenuItem(Vec3ControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("vec3" + i);
             menu.add(item);

@@ -93,6 +93,21 @@ public class OperatorToken extends IToken {
     }
 
     public static void init(){
+        register("sinh", 2, Math::sinh);
+        register("cosh", 2, Math::cosh);
+        register("tanh", 2, Math::tanh);
+        register("csch", 2, a -> 1 / Math.sinh(a));
+        register("sech", 2, a -> 1 / Math.cosh(a));
+        register("coth", 2, a -> 1 / Math.tanh(a));
+        register("asinh", 2, OperatorToken::arcsinh);
+        register("arsinh", 2, OperatorToken::arcsinh);
+        register("arcsinh", 2, OperatorToken::arcsinh);
+        register("acosh", 2, OperatorToken::arccosh);
+        register("arcosh", 2, OperatorToken::arccosh);
+        register("arccosh", 2, OperatorToken::arccosh);
+        register("atanh", 2, OperatorToken::arctanh);
+        register("artanh", 2, OperatorToken::arctanh);
+        register("arctanh", 2, OperatorToken::arctanh);
         register("sin", 2, OperatorToken::sin);
         register("cos", 2, OperatorToken::cos);
         register("tan", 2, OperatorToken::tan);
@@ -105,18 +120,6 @@ public class OperatorToken extends IToken {
         register("acos", 2, OperatorToken::arccos);
         register("arctan", 2, OperatorToken::arctan);
         register("atan", 2, OperatorToken::arctan);
-        register("sinh", 2, Math::sinh);
-        register("cosh", 2, Math::cosh);
-        register("tanh", 2, Math::tanh);
-        register("asinh", 2, OperatorToken::arcsinh);
-        register("arsinh", 2, OperatorToken::arcsinh);
-        register("arcsinh", 2, OperatorToken::arcsinh);
-        register("acosh", 2, OperatorToken::arccosh);
-        register("arcosh", 2, OperatorToken::arccosh);
-        register("arccosh", 2, OperatorToken::arccosh);
-        register("atanh", 2, OperatorToken::arctanh);
-        register("artanh", 2, OperatorToken::arctanh);
-        register("arctanh", 2, OperatorToken::arctanh);
         register("log", 2, Math::log10);
         register("ln", 2, Math::log);
         register("abs", 2, Math::abs);

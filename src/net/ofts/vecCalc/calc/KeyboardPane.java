@@ -8,14 +8,17 @@ import java.util.function.Consumer;
 public class KeyboardPane extends JPanel {
     public Consumer<String> inputStream;
     public Runnable clear, evaluate;
+    public boolean hyperbolaForm = false;
 
     public static final String[][] layout = new String[][]{
             {"|x|",  "√x",   "∛x",   "(", ")", "^", "+", "clear"},
             {"sin",  "cos",  "tan",  "1", "2", "3", "-", "Rad"},
-            {"csc",  "sec",  "cot",  "4", "5", "6", "*", "mod"},
+            {"csc",  "sec",  "cot",  "4", "5", "6", "*", "Alt"},
             {"asin", "acos", "atan", "7", "8", "9", "/", "ans"},
             {"log",  "ln",   "e",    "π", "0", ".", "EXP", "="}
     };
+
+    public static final JButton[][] buttons = new JButton[layout.length][layout[0].length];
 
     public KeyboardPane(Consumer<String> inputStream, Runnable clear, Runnable evaluate){
         this.inputStream = inputStream;
@@ -29,6 +32,7 @@ public class KeyboardPane extends JPanel {
                 button.addActionListener(this::onButtonPressed);
                 button.setAlignmentX(Component.CENTER_ALIGNMENT);
                 add(button);
+                buttons[i][j] = button;
             }
         }
     }
@@ -54,6 +58,25 @@ public class KeyboardPane extends JPanel {
             }
             case "=" -> {
                 evaluate.run();
+                yield "";
+            }
+            case "Alt" -> {
+                hyperbolaForm = !hyperbolaForm;
+                if (hyperbolaForm){
+                    for (int i = 1; i < 4; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            buttons[i][j].setText(buttons[i][j].getText() + "h");
+                            buttons[i][j].setActionCommand(buttons[i][j].getText());
+                        }
+                    }
+                }else{
+                    for (int i = 1; i < 4; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            buttons[i][j].setText(buttons[i][j].getText().substring(0, buttons[i][j].getText().length() - 1));
+                            buttons[i][j].setActionCommand(buttons[i][j].getText());
+                        }
+                    }
+                }
                 yield "";
             }
             case "EXP" -> "E";

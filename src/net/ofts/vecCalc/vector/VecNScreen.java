@@ -1,8 +1,12 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.IMultipleOperation;
 import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.numberPane.BlankPane;
+import net.ofts.vecCalc.numberPane.NumPane;
+import net.ofts.vecCalc.numberPane.Vec3Pane;
 import net.ofts.vecCalc.numberPane.VecNPane;
 
 import javax.swing.*;
@@ -10,11 +14,9 @@ import javax.swing.event.ChangeEvent;
 import java.awt.*;
 
 public class VecNScreen extends ICalculatorScreen implements IMultipleOperation {
-    public static int currentLength = 4;
+    public static int currentLength = 2;
     public static JMenuItem[] items;
-
-    public VecNPane a;
-    public VolatilePane b, result;
+    public GenericPane operandA, operandB, result;
     public VecNControlPane control;
     public JSlider dimension;
 
@@ -29,13 +31,37 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
         dimension.setMajorTickSpacing(1);
         dimension.addChangeListener(this::onDimensionChanged);
         add(dimension);
-        add(a = new VecNPane("Vector A", currentLength, this, true));
+        operandA = new GenericPane(
+                new VecNPane("Vector A", currentLength, this, true)
+        );
+        operandB = new GenericPane(
+                new VecNPane("Vector A", currentLength, this, true),
+                new NumPane("Number B", this, true),
+                new BlankPane()
+        );
+        result = new GenericPane(
+                new VecNPane("Result", currentLength, this, false),
+                new NumPane("Result", this, false)
+        );
+        add(operandA);
         add(control = new VecNControlPane(this));
-        add(b = new VolatilePane("Vector B", "Number B", this, true));
-        add(result = new VolatilePane("Result", "Result", this, false));
+        add(operandB);
+        add(result);
     }
 
     public void onDimensionChanged(ChangeEvent e){
+        currentLength = dimension.getValue();
+
+        // try to preserve previous level's data
+        VecN fieldA = operandA.getPanel(VecNPane.class).vector;
+        VecN fieldB = operandB.getPanel(VecNPane.class).vector;
+
+        operandA.setPanel(new VecNPane("Vector A", currentLength, this, true).setVectorPreserveLength(fieldA));
+        operandB.setPanel(new VecNPane("Vector B", currentLength, this, true).setVectorPreserveLength(fieldB));
+        result.setPanel(new VecNPane("Result", currentLength, this, false));
+
+        refreshResult();
+        /*
         // remove everything and add again so the layout doesn't change
         // I know this is a stupid method, but (kinda) it works at least
         remove(a);
@@ -84,50 +110,26 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
             b.number.setNum(numB);
         }
 
-        repaint();
+        repaint();*/
     }
 
     public void refreshResult(){
-        VecN v1 = a.vector;
-        VecN v2 = b.vecN.vector;
-        double num2 = b.number.num;
+        VecN v1 = operandA.getPanel(VecNPane.class).vector;
+        VecN v2 = operandB.getPanel(VecNPane.class).vector;
+        double num2 = operandB.getPanel(NumPane.class).num;
 
         //"+", "-", "X", "·", "X", "Norm", "Len", "Proj", "Perp"
-        switch (control.index){
-            case 0: {
-                result.vecN.setVector(VecN.add(v1, v2));
-                return;
-            }
-            case 1: {
-                result.vecN.setVector(VecN.sub(v1, v2));
-                return;
-            }
-            case 2: {
-                result.vecN.setVector(VecN.scale(v1, num2));
-                return;
-            }
-            case 3: {
-                result.number.setNum(VecN.dot(v1, v2));
-                return;
-            }
-            case 5: {
-                result.vecN.setVector(VecN.norm(v1));
-                return;
-            }
-            case 6: {
-                result.number.setNum(VecN.len(v1));
-                return;
-            }
-            case 7: {
-                result.vecN.setVector(VecN.Proj(v1, v2));
-                return;
-            }
-            case 8: {
-                result.vecN.setVector(VecN.Perp(v1, v2));
-                return;
-            }
-            default:
-        }
+        result.setPanel(switch (control.index){
+            case 0 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.add(v1, v2));
+            case 1 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.sub(v1, v2));
+            case 2 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.scale(v1, num2));
+            case 3 -> new NumPane("Result", this, false).setNum(VecN.dot(v1, v2));
+            case 4 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.norm(v1));
+            case 5 -> new NumPane("Result", this, false).setNum(VecN.len(v1));
+            case 6 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.Proj(v1, v2));
+            case 7 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.Perp(v1, v2));
+            default -> null;
+        });
     }
 
     @Override

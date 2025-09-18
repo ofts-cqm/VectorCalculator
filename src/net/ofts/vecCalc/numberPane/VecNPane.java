@@ -65,15 +65,15 @@ public class VecNPane extends BlankPane {
         return this;
     }
 
-    public void setVectorPreserveLength(VecN vector){
+    public VecNPane setVectorPreserveLength(VecN vector){
         if (vector.elements.length == size){
             setVector(vector);
-        }
-        else {
+        } else {
             VecN vecn = new VecN(size);
             vecn.elements = Arrays.copyOf(vector.elements, size);
             setVector(vecn);
         }
+        return this;
     }
 
     public void resetVector(){

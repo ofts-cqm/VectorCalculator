@@ -31,8 +31,8 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
                 new BlankPane()
         );
         operandC = new GenericPane(
-                new Vec3Pane("Result", this, true),
-                new NumPane("Result", this, true)
+                new Vec3Pane("Result", this, false),
+                new NumPane("Result", this, false)
         );
         add(operandA);
         add(control = new Vec3ControlPane(this));

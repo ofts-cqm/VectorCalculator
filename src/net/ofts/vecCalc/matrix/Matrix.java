@@ -4,8 +4,6 @@ import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
-import java.util.Arrays;
-
 public class Matrix {
     public double[][] entries;
     public int height, width;

@@ -14,7 +14,7 @@ import static net.ofts.vecCalc.matrix.rref.AugmentedMatrix.isZero;
 
 public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperation {
     public GenericPane operandA;
-    public SpanSetPane operandB;
+    public GenericPane operandB;
     public GenericPane result;
     public SpanSetControlPane control;
 
@@ -26,8 +26,8 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
                 new VecNPane("Vector", 3, this, true)
         );
         operandA.setOverrideSize(null);
-        operandB = new SpanSetPane("Span Set", 3, 3, this, true);
-        operandB.sizer.associatedVector = operandA;
+        operandB = new GenericPane(new SpanSetPane("Span Set", 3, 3, this, true));
+        operandB.getPanel(SpanSetPane.class).sizer.associatedVector = operandA;
         result = new GenericPane(
                 new SpanSetPane("Base", 3, 3, this, false),
                 new BooleanPane("Is in", this, true),
@@ -45,7 +45,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
 
     @Override
     public void refreshResult() {
-        SpanSetPane span = operandB;
+        SpanSetPane span = operandB.getPanel(SpanSetPane.class);
         VecN vector = operandA.getPanel(VecNPane.class).vector;
 
         try{

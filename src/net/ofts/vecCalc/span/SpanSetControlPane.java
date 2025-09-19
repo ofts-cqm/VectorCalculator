@@ -32,7 +32,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(currentOperation);
         add(Box.createRigidArea(new Dimension(100, 60)));
-        add(parent.operandB.sizer);
+        add(parent.operandB.getPanel(SpanSetPane.class).sizer);
     }
 
     public void setOperation(int opCode){

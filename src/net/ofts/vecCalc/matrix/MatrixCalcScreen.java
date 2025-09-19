@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOperation {
-    public MatrixWithSizeBarPane matrixA;
+    public GenericPane matrixA;
     public GenericPane operandB;
     public GenericPane result;
     public MatrixControlPane control;
@@ -19,7 +19,9 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     public static JMenuItem[] items;
 
     public MatrixCalcScreen(){
-        matrixA = new MatrixWithSizeBarPane("A", 3, 3, this, true);
+        matrixA = new GenericPane(
+                new MatrixWithSizeBarPane("A", 3, 3, this, true)
+        );
         operandB = new GenericPane(
                 new MatrixWithSizeBarPane("B", 3, 3, this, true),
                 new NumPane("Scale", this, true),
@@ -27,7 +29,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                 new VecNPane("x", 3, this, true)
         );
         operandB.setOverrideSize(null);
-        matrixA.sizer.associatedVector = operandB;
+        matrixA.getPanel(MatrixWithSizeBarPane.class).sizer.associatedVector = operandB;
         result = new GenericPane(
                 new MatrixPane("Result", 3, 3, this, false),
                 new VecNPane("Result", 3, this, false),
@@ -46,7 +48,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
 
     @Override
     public void refreshResult() {
-        Matrix matA = matrixA.matrix.matrix;
+        Matrix matA = matrixA.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         Matrix matB = operandB.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         VecN vecB = operandB.getPanel(VecNPane.class).vector;
         double numB = operandB.getPanel(NumPane.class).num;

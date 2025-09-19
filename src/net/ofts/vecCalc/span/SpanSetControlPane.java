@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 public class SpanSetControlPane extends JPanel {
     public JButton currentOperation;
     public static final String[] operation = new String[]{"Find Base", "Is In"};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{BlankPane.class, VecNPane.class};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{SpanSetPane.class, BooleanPane.class};
     public int index = 0;
     public SpanSetScreen parent;

@@ -93,8 +93,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
             for (int j = 0; j < main.width; j++) {
                 if (!isZero(main.entries[j][i])) continue lp;
             }
-            if(!isZero(answer.elements[i])) return false;
-            return true;
+            return isZero(answer.elements[i]);
         }
         return true;
     }
@@ -110,6 +109,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
         control.setOperation(operation);
     }
 
+    @Deprecated
     public static void addMenuItem(JMenu menu){
         items = new JMenuItem[SpanSetControlPane.operation.length];
         for (int i = 0; i < SpanSetControlPane.operation.length; i++) {

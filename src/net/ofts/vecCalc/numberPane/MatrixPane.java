@@ -50,6 +50,11 @@ public class MatrixPane extends BlankPane {
         updateMatrixPane();
     }
 
+    public void setMatrixPreserveSize(Matrix matrix){
+        this.matrix.setMatrixPreserveSize(matrix);
+        updateMatrixPane();
+    }
+
     // there used to be a horizontally oriented matrix. This should not be used now
     @Deprecated
     public MatrixPane setInverseRowsAndColumns(){

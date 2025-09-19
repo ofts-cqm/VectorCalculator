@@ -4,6 +4,8 @@ import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
+import java.util.Arrays;
+
 public class Matrix {
     public double[][] entries;
     public int height, width;
@@ -266,6 +268,12 @@ public class Matrix {
 
     public boolean isNonZero(double v){
         return v > 1e-10 || v < -(1e-10);
+    }
+
+    public void setMatrixPreserveSize(Matrix other){
+        for(int i = 0; i < Math.min(width, other.width); i++){
+            System.arraycopy(other.entries[i], 0, entries[i], 0, Math.min(height, other.height));
+        }
     }
 
     @Override

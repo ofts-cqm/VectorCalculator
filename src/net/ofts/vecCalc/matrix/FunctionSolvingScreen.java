@@ -10,14 +10,9 @@ import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
     public MatrixWithSizeBarPane pane = new MatrixWithSizeBarPane("Matrix", 3, 3, this, true);
-    //public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true).setInverseRowsAndColumns();
-    //public SwapRowPane swapPane = new SwapRowPane(pane);
     public VecNPane result = new VecNPane("Vector", 3, this, true);
-    //public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
     public JButton calculateButton = new JButton("Solve");
     public JLabel infoLabel = new JLabel("Click \"Solve\" to solve the function set!");
-
-    //public int currentDimension = 3;
 
     public FunctionSolvingScreen(){
         setLayout(new BorderLayout());

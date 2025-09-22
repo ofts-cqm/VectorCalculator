@@ -29,6 +29,8 @@ public class SuperNumber {
         }else if (num instanceof VecN vn){
             this.elements = vn.elements;
             type = "vecN";
+        }else if(num == null){
+            type = "null";
         }
     }
 

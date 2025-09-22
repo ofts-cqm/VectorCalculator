@@ -35,6 +35,7 @@ public class HistoryItem {
         for (AbstractNumberPane pane : panes) {
             INumber temp = pane.getNumber();
             if (temp != null) numbers.add(temp.clone());
+            else numbers.add(null);
         }
         HistoryItem item = new HistoryItem(operatorCode, numbers.toArray(new INumber[]{}));
         histories.add(item);
@@ -47,9 +48,7 @@ public class HistoryItem {
             String userHome = System.getProperty("user.home");
             File file = new File(Paths.get(userHome, "vecCalc", "history.json").toUri());
             Files.createDirectories(Paths.get(userHome, "vecCalc"));
-            if(!file.createNewFile()){
-                System.err.println("Error: File Creation Failed!");
-            }
+            file.createNewFile();
             FileWriter writer = new FileWriter(file);
             save(writer);
             writer.close();
@@ -66,7 +65,8 @@ public class HistoryItem {
         ICalculatorScreen calc = Main.openCalculatorPage(operatorCode, Main.menuItemMap.get(operatorCode));
         for (int i = 0; i < operands.length - 1; i++) {
             GenericPane pane = calc.getPaneByIndex(i);
-            pane.setPanel(pane.getCurrent().cloneWithValue(operands[i].degrade().clone()));
+            INumber num = operands[i].degrade();
+            pane.setPanel(pane.getCurrent().cloneWithValue(num == null ? null : num.clone()));
         }
         calc.refreshResult(false);
     }

@@ -41,6 +41,7 @@ public class GenericPane extends AbstractNumberPane {
     }
 
     public <T extends AbstractNumberPane> void setPanel(T panel){
+        if (panel == null) return;
         panels.replace(panel.getClass(), panel);
         if(panel.getClass().equals(MatrixWithSizeBarPane.class)){
             panels.replace(MatrixPane.class, panel);

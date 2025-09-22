@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.span;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.numberPane.*;
@@ -60,6 +61,10 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
             result.setPanel(ans);
             result.displayPanel(ans.getClass());
             control.setNoError();
+
+            if(recordResult){
+                HistoryItem.recordHistory("span" + control.index, operandA, operandB, result);
+            }
         }catch (AssertionError e){
             control.setError(e.getMessage());
         }

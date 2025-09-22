@@ -68,6 +68,12 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
     }
 
     @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return operandA;
+        else return operandB;
+    }
+
+    @Override
     public void setOperation(int operation) {
         control.setOperator(operation);
     }

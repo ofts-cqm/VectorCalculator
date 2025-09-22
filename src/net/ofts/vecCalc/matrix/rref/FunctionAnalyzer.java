@@ -1,5 +1,6 @@
 package net.ofts.vecCalc.matrix.rref;
 
+import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.VecN;
@@ -173,5 +174,10 @@ public class FunctionAnalyzer extends ICalculatorScreen {
     @Override
     public void onPageOpened(JFrame frame) {
 
+    }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        return null;
     }
 }

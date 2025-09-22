@@ -71,6 +71,11 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     }
 
     @Override
+    public GenericPane getPaneByIndex(int index) {
+        return pane;
+    }
+
+    @Override
     public void onPageOpened(JFrame frame) {
         frame.setSize(540, 440);
         frame.setTitle("Function Solver (Matrix)");

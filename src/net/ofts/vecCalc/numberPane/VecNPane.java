@@ -1,7 +1,9 @@
 package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
@@ -124,5 +126,11 @@ public class VecNPane extends BlankPane {
         public void changedUpdate(DocumentEvent e) {
 
         }
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof VecN;
+        VecN vec = (VecN) number;
+        return new VecNPane(this.name, vec.elements.length, this.parent, this.editable).setVector(vec);
     }
 }

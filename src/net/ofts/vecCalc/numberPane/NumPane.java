@@ -1,7 +1,10 @@
 package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.matrix.Matrix;
+import net.ofts.vecCalc.vector.Number;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -10,11 +13,15 @@ import java.awt.*;
 public class NumPane extends BlankPane {
     public ICalculatorScreen parent;
     public double num;
+    public String name;
+    public boolean editable;
     public TitledBorder title;
     public JTextField text = new JTextField("0");
 
     public NumPane(String name, ICalculatorScreen parent, boolean editable){
         title = new TitledBorder(name);
+        this.name = name;
+        this.editable = editable;
         this.setBorder(title);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.parent = parent;
@@ -68,5 +75,11 @@ public class NumPane extends BlankPane {
          }
          num = val;
          parent.refreshResult();
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof Number;
+        double num = ((Number) number).num;
+        return new NumPane(this.name, this.parent, this.editable).setNum(num);
     }
 }

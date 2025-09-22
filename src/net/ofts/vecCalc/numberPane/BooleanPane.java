@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.vector.Number;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -9,11 +11,13 @@ import java.awt.*;
 public class BooleanPane extends AbstractNumberPane {
     public ICalculatorScreen parent;
     public boolean bool;
+    public String name;
     public JLabel label;
 
     public BooleanPane(String name, ICalculatorScreen parent, boolean value){
         this.parent = parent;
         this.bool = value;
+        this.name = name;
         this.setBorder(new TitledBorder(name));
         this.setPreferredSize(new Dimension(100, 300));
         this.setSize(100, 300);
@@ -36,5 +40,11 @@ public class BooleanPane extends AbstractNumberPane {
     @Override
     public void resetPane() {
         setValue(false);
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        assert number instanceof Number;
+        return new BooleanPane(this.name, this.parent, ((Number)number).num != 0);
     }
 }

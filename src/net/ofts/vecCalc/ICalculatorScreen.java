@@ -6,4 +6,6 @@ public abstract class ICalculatorScreen extends JPanel{
     public abstract void refreshResult();
 
     public abstract void onPageOpened(JFrame frame);
+
+    public abstract GenericPane getPaneByIndex(int index);
 }

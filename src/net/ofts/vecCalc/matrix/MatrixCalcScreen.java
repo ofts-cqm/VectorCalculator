@@ -128,6 +128,12 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     }
 
     @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return matrixA;
+        return operandB;
+    }
+
+    @Override
     public void setOperation(int operation) {
         control.setOperation(operation);
     }

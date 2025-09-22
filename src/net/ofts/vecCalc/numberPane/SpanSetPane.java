@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.VecN;
 
 import java.awt.*;
@@ -32,6 +34,12 @@ public class SpanSetPane extends AbstractNumberPane {
     @Override
     public void resetPane() {
         list.resetPane();
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        assert number instanceof Matrix;
+        return new SpanSetPane(this.name, this.parent, ((Matrix) number).toVectors(), this.editable);
     }
 
     public void onDimensionChanged(int height, int width){

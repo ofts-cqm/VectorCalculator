@@ -111,7 +111,7 @@ public class Main {
         openCalculatorPage(e.getActionCommand(), (JMenuItem) e.getSource());
     }
 
-    public static void openCalculatorPage(String operationCode, JMenuItem source){
+    public static ICalculatorScreen openCalculatorPage(String operationCode, JMenuItem source){
         int operator = operationCode.charAt(4) - 48;
         ICalculatorScreen calc = calculatorCodeMap.get(operationCode.substring(0, 4));
         if (calc != current){
@@ -122,6 +122,7 @@ public class Main {
             currentMenu.setEnabled(false);
         }
         if (calc instanceof IMultipleOperation mul) mul.setOperation(operator);
+        return calc;
     }
 
     public static void updateSelectedMenuItem(JMenuItem item){

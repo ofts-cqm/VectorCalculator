@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.numberPane;
 
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
 
@@ -11,11 +13,15 @@ import java.awt.*;
 public class Vec3Pane extends BlankPane {
     public Vec3Screen parent;
     public Vec3 vector = new Vec3(0, 0, 0);
+    public String name;
+    public boolean editable;
     public TitledBorder title;
     public JTextField x1 = new JTextField("0"), x2 = new JTextField("0"), x3 = new JTextField("0");
 
     public Vec3Pane(String name, Vec3Screen parent, boolean editable){
         super();
+        this.name = name;
+        this.editable = editable;
         title = new TitledBorder(name);
         this.setBorder(title);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -88,5 +94,11 @@ public class Vec3Pane extends BlankPane {
 
         vector.setByIndex(index, val);
         parent.refreshResult();
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof Vec3;
+        Vec3 vec3 = (Vec3) number;
+        return new Vec3Pane(this.name, this.parent, this.editable).setVector(vec3);
     }
 }

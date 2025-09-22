@@ -103,5 +103,11 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
             items[i] = item;
         }
     }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return operandA;
+        else return operandB;
+    }
 }
 

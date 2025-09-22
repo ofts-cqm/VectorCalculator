@@ -1,5 +1,7 @@
 package net.ofts.vecCalc.numberPane;
 
+import net.ofts.vecCalc.INumber;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,6 +25,11 @@ public class BlankPane extends AbstractNumberPane {
 
     public void resetPane(){
 
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        return null;
     }
 
     public static class TextFieldFocusMng implements FocusListener {

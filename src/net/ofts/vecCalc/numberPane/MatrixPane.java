@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.matrix.Matrix;
 
@@ -15,6 +16,8 @@ public class MatrixPane extends BlankPane {
     public Matrix matrix;
     public JTextField[][] matrixField;
     public ICalculatorScreen parent;
+    public String name;
+    public boolean editable;
     public boolean inverseRowsAndColumns = false;
 
     public MatrixPane(String name, Matrix matrix, ICalculatorScreen parent){
@@ -24,6 +27,8 @@ public class MatrixPane extends BlankPane {
 
     public MatrixPane(String name, int height, int width, ICalculatorScreen parent, boolean editable){
         this.parent = parent;
+        this.name = name;
+        this.editable = editable;
         matrix = new Matrix(height, width);
         setLayout(new GridLayout(height, width));
         setBorder(new TitledBorder(name));
@@ -101,6 +106,14 @@ public class MatrixPane extends BlankPane {
 
         if(inverseRowsAndColumns) matrix.entries[i][j] = val;
         else matrix.entries[j][i] = val;
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof Matrix;
+        Matrix matrix = (Matrix) number;
+        MatrixPane pane = new MatrixPane(this.name, matrix.height, matrix.width, this.parent, this.editable);
+        pane.setMatrix(matrix);
+        return pane;
     }
 
     public class TextFieldMonitor implements DocumentListener {

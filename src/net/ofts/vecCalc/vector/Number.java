@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.vector;
 
-public class Number {
+import net.ofts.vecCalc.INumber;
+
+public class Number implements INumber {
     public double num;
 
     public Number(){}

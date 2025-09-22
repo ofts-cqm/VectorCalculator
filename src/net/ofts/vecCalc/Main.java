@@ -16,6 +16,7 @@ import java.util.Hashtable;
 
 public class Main {
     public static Hashtable<String, ICalculatorScreen> calculatorCodeMap;
+    public static Hashtable<String, JMenuItem> menuItemMap = new Hashtable<>();
     public static ICalculatorScreen current;
     public static JMenuBar menuBar;
     public static JMenuItem currentMenu;
@@ -70,6 +71,7 @@ public class Main {
         JMenuItem func = new JMenuItem("Function Solving");
         func.addActionListener(listener);
         func.setActionCommand("func");
+        menuItemMap.put("func", func);
         matrix.add(func);
 
         JMenu matx = new JMenu("Matrix Calculation");
@@ -83,16 +85,19 @@ public class Main {
         JMenuItem base = new JMenuItem("Find Base");
         base.addActionListener(Main::operationListener);
         base.setActionCommand("span0");
+        menuItemMap.put("span0", base);
         span.add(base);
 
         JMenuItem isIn = new JMenuItem("Is Vector In Subspace");
         isIn.addActionListener(Main::operationListener);
         isIn.setActionCommand("span1");
+        menuItemMap.put("span1", isIn);
         span.add(isIn);
 
         JMenuItem calc = new JMenuItem("Calculator");
         calc.addActionListener(Main::operationListener);
         calc.setActionCommand("calc1");
+        menuItemMap.put("calc1", calc);
 
         menuBar.add(vector);
         menuBar.add(matrix);
@@ -103,13 +108,17 @@ public class Main {
     }
 
     public static void operationListener(ActionEvent e){
-        int operator = e.getActionCommand().charAt(4) - 48;
-        ICalculatorScreen calc = calculatorCodeMap.get(e.getActionCommand().substring(0, 4));
+        openCalculatorPage(e.getActionCommand(), (JMenuItem) e.getSource());
+    }
+
+    public static void openCalculatorPage(String operationCode, JMenuItem source){
+        int operator = operationCode.charAt(4) - 48;
+        ICalculatorScreen calc = calculatorCodeMap.get(operationCode.substring(0, 4));
         if (calc != current){
-            setCalculator(calc, (JMenuItem) e.getSource());
+            setCalculator(calc, source);
         }else{
             currentMenu.setEnabled(true);
-            currentMenu = (JMenuItem) e.getSource();
+            currentMenu = source;
             currentMenu.setEnabled(false);
         }
         if (calc instanceof IMultipleOperation mul) mul.setOperation(operator);

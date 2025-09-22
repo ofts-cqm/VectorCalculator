@@ -115,6 +115,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
             JMenuItem item = new JMenuItem(MatrixControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("matx" + (i > 9 ? ":" : i));
+            Main.menuItemMap.put("matx" + (i > 9 ? ":" : i), item);
             menu.add(item);
             items[i] = item;
         }

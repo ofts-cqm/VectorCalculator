@@ -98,6 +98,7 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
             JMenuItem item = new JMenuItem(VecNControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("vecN" + i);
+            Main.menuItemMap.put("vecN" + i, item);
             menu.add(item);
             items[i] = item;
         }

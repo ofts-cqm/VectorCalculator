@@ -1,10 +1,11 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
-public class Matrix {
+public class Matrix implements INumber {
     public double[][] entries;
     public int height, width;
 

@@ -1,11 +1,32 @@
 package net.ofts.vecCalc.history;
 
-import javax.swing.*;
+import net.ofts.vecCalc.INumber;
 
-public class HistoryPanel extends JScrollPane {
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+
+public class HistoryPanel extends JPanel {
     public HistoryItem item;
+    public JButton button;
 
     public HistoryPanel(HistoryItem item){
         this.item = item;
+        this.setBorder(new TitledBorder(item.getOperationName()));
+        this.setLayout(new FlowLayout());
+        this.setMaximumSize(new Dimension(275, 105));
+        this.setPreferredSize(new Dimension(275, 105));
+
+        button = new JButton("open");
+        button.addActionListener(a -> item.openHistory());
+        add(button);
+
+        for (INumber number : item.operands){
+            add(new HistoryNumberPanel(number));
+        }
+
+        HistoryFrame.contentPanel.add(this);
+        HistoryFrame.instance.revalidate();
+        HistoryFrame.instance.repaint();
     }
 }

@@ -22,6 +22,14 @@ public class HistoryItem {
         this.operatorCode = operatorCode;
     }
 
+    public static void recordHistory(String operatorCode, GenericPane... panes){
+
+    }
+
+    public String getOperationName(){
+        return Main.calculatorCodeMap.get(operatorCode.substring(0, 4)).getOperationName(operatorCode);
+    }
+
     public void openHistory() {
         ICalculatorScreen calc = Main.openCalculatorPage(operatorCode, Main.menuItemMap.get(operatorCode));
         for (int i = 0; i < operands.length - 1; i++) {

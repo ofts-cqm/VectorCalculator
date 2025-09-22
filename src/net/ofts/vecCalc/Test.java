@@ -1,12 +1,13 @@
 package net.ofts.vecCalc;
 
+import net.ofts.vecCalc.history.HistoryFrame;
 import net.ofts.vecCalc.history.HistoryItem;
+import net.ofts.vecCalc.history.HistoryPanel;
+import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Vec3;
 
 public class Test {
     public static void main(String[] args) {
-        Main.main(null);
-        new HistoryItem("vec31", new Vec3[]{ new Vec3(1, 2, 3), new Vec3(3, 2, 1), new Vec3()}).openHistory();
     }
     //45(1+1)
     // 4pi + 5e

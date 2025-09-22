@@ -46,6 +46,7 @@ public class VecN implements INumber {
         return result;
     }
 
+    @Deprecated
     public VecN mutableScale(double b){
         for (int i = 0; i < elements.length; i++) {
             elements[i] *= b;

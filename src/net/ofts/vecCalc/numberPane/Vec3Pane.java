@@ -2,7 +2,6 @@ package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
-import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
 

@@ -40,7 +40,7 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
         add(operandC);
     }
 
-    public void refreshResult(){
+    public void refreshResult(boolean recordResult){
         Vec3 v1 = operandA.getPanel(Vec3Pane.class).vector;
         Vec3 v2 = operandB.getPanel(Vec3Pane.class).vector;
         double num2 = operandB.getPanel(NumPane.class).num;

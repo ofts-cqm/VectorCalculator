@@ -42,7 +42,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandA.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void onOperationChanged(ActionEvent e){
@@ -52,7 +52,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandA.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(MatrixCalcScreen.items[index]);
     }
 

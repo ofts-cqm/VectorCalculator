@@ -59,10 +59,10 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
         operandB.setPanel(new VecNPane("Vector B", currentLength, this, true).setVectorPreserveLength(fieldB));
         result.setPanel(new VecNPane("Result", currentLength, this, false));
 
-        refreshResult();
+        refreshResult(false);
     }
 
-    public void refreshResult(){
+    public void refreshResult(boolean recordResult){
         VecN v1 = operandA.getPanel(VecNPane.class).vector;
         VecN v2 = operandB.getPanel(VecNPane.class).vector;
         double num2 = operandB.getPanel(NumPane.class).num;

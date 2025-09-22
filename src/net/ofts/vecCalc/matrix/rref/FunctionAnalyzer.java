@@ -167,7 +167,7 @@ public class FunctionAnalyzer extends ICalculatorScreen {
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
 
     }
 

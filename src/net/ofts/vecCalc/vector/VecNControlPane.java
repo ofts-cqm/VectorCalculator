@@ -52,7 +52,7 @@ public class VecNControlPane extends JPanel {
         else{
             parent.operandA.getPanel(VecNPane.class).setVector(parent.result.getPanel(VecNPane.class).vector);
         }
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void setOperation(int operator){
@@ -60,7 +60,7 @@ public class VecNControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void nextOperator(){
@@ -69,7 +69,7 @@ public class VecNControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(VecNScreen.items[index]);
     }
 

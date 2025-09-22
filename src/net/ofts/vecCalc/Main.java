@@ -2,6 +2,7 @@ package net.ofts.vecCalc;
 
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.calc.CalculatorScreen;
+import net.ofts.vecCalc.history.HistoryFrame;
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
 import net.ofts.vecCalc.span.SpanSetScreen;
@@ -21,6 +22,7 @@ public class Main {
     public static JMenuBar menuBar;
     public static JMenuItem currentMenu;
     public static JFrame frame;
+    public static JMenuItem hist;
 
     public static void main(String[] args){
         frame = new JFrame();
@@ -47,6 +49,7 @@ public class Main {
         frame.add(current);
         current.onPageOpened(frame);
         Calculator.setUp();
+        new HistoryFrame();
     }
 
     public static void setUpMenuBar(){
@@ -99,12 +102,26 @@ public class Main {
         calc.setActionCommand("calc1");
         menuItemMap.put("calc1", calc);
 
+        hist = new JMenuItem("Open History");
+        hist.addActionListener(e -> openHistory((JMenuItem) e.getSource()));
+
         menuBar.add(vector);
         menuBar.add(matrix);
         menuBar.add(span);
         menuBar.add(calc);
+        menuBar.add(hist);
         currentMenu = vec3.getItem(0);
         currentMenu.setEnabled(false);
+    }
+
+    public static void openHistory(JMenuItem item){
+        if(item.getText().equals("Open History")){
+            item.setText("Close History");
+            HistoryFrame.instance.setVisible(true);
+        }else{
+            item.setText("Open History");
+            HistoryFrame.instance.setVisible(false);
+        }
     }
 
     public static void operationListener(ActionEvent e){

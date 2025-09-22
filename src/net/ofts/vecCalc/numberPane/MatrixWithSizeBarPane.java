@@ -3,6 +3,7 @@ package net.ofts.vecCalc.numberPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.matrix.Matrix;
+import net.ofts.vecCalc.vector.Number;
 
 import java.awt.*;
 
@@ -45,5 +46,10 @@ public class MatrixWithSizeBarPane extends AbstractNumberPane {
         MatrixWithSizeBarPane mat = new MatrixWithSizeBarPane(this.name, matrix.height, matrix.width, this.parent, this.editable);
         mat.matrix.setMatrix(matrix);
         return mat;
+    }
+
+    @Override
+    public INumber getNumber() {
+        return matrix.matrix;
     }
 }

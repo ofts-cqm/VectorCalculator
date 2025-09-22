@@ -47,4 +47,9 @@ public class BooleanPane extends AbstractNumberPane {
         assert number instanceof Number;
         return new BooleanPane(this.name, this.parent, ((Number)number).num != 0);
     }
+
+    @Override
+    public INumber getNumber() {
+        return new Number(bool ? 1 : 0);
+    }
 }

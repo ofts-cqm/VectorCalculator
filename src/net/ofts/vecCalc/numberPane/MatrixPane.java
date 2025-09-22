@@ -4,6 +4,7 @@ import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.matrix.Matrix;
+import net.ofts.vecCalc.vector.Number;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -70,7 +71,7 @@ public class MatrixPane extends BlankPane {
 
     public void onEnterPressed(ActionEvent e){
         KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
-        parent.refreshResult();
+        parent.refreshResult(true);
     }
 
     public void updateMatrixPane(){
@@ -114,6 +115,11 @@ public class MatrixPane extends BlankPane {
         MatrixPane pane = new MatrixPane(this.name, matrix.height, matrix.width, this.parent, this.editable);
         pane.setMatrix(matrix);
         return pane;
+    }
+
+    @Override
+    public INumber getNumber() {
+        return matrix;
     }
 
     public class TextFieldMonitor implements DocumentListener {

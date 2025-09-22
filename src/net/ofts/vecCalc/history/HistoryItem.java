@@ -23,7 +23,14 @@ public class HistoryItem {
     }
 
     public static void recordHistory(String operatorCode, GenericPane... panes){
-
+        ArrayList<INumber> numbers = new ArrayList<>();
+        for (GenericPane pane : panes) {
+            INumber temp = pane.getCurrent().getNumber();
+            if (temp != null) numbers.add(temp);
+        }
+        HistoryItem item = new HistoryItem(operatorCode, numbers.toArray(new INumber[]{}));
+        histories.add(item);
+        new HistoryPanel(item);
     }
 
     public String getOperationName(){
@@ -36,7 +43,7 @@ public class HistoryItem {
             GenericPane pane = calc.getPaneByIndex(i);
             pane.setPanel(pane.getCurrent().cloneWithValue(operands[i]));
         }
-        calc.refreshResult();
+        calc.refreshResult(false);
     }
 
     public static void save(FileWriter writer) throws IOException {

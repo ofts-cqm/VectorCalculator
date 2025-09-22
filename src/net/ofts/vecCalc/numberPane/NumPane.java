@@ -30,6 +30,7 @@ public class NumPane extends BlankPane {
             text.setFocusable(false);
         }else {
             text.addFocusListener(focusManager);
+            text.addActionListener(e -> handleChange((JTextField) e.getSource(), true));
             text.getDocument().addDocumentListener(new TextFieldMonitor(text));
         }
 
@@ -56,7 +57,7 @@ public class NumPane extends BlankPane {
         resetNum();
     }
 
-    public void handleChange(JTextField field){
+    public void handleChange(JTextField field, boolean recordResult){
         double val;
          try{
              val = Double.parseDouble(field.getText());
@@ -73,12 +74,17 @@ public class NumPane extends BlankPane {
              }
          }
          num = val;
-         parent.refreshResult();
+         parent.refreshResult(recordResult);
     }
 
     public AbstractNumberPane cloneWithValue(INumber number){
         assert number instanceof Number;
         double num = ((Number) number).num;
         return new NumPane(this.name, this.parent, this.editable).setNum(num);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return new Number(num);
     }
 }

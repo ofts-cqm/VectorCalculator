@@ -25,7 +25,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         infoLabel.setForeground(Color.GREEN);
         resCtrl.add(infoLabel);
         calculateButton.setFocusable(false);
-        calculateButton.addActionListener(e -> refreshResult());
+        calculateButton.addActionListener(e -> refreshResult(true));
         resCtrl.add(calculateButton);
         add(resCtrl, BorderLayout.SOUTH);
         pane.getPanel(MatrixWithSizeBarPane.class).sizer.associatedFuncSolvScreen = this;
@@ -43,7 +43,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
         MatrixWithSizeBarPane pane = this.pane.getPanel(MatrixWithSizeBarPane.class);
         for (int i = 0; i < pane.matrix.matrix.height; i++) {
             for (int j = 0; j < pane.matrix.matrix.width; j++) {

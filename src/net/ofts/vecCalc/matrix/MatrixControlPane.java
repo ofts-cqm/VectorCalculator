@@ -50,7 +50,7 @@ public class MatrixControlPane extends BlankPane {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void onOperationChanged(ActionEvent e){
@@ -61,7 +61,7 @@ public class MatrixControlPane extends BlankPane {
             currentOperation.setText(operation[index]);
             parent.operandB.displayPanel(operandForm[index]);
             parent.result.displayPanel(resultForm[index]);
-            parent.refreshResult();
+            parent.refreshResult(false);
             Main.updateSelectedMenuItem(MatrixCalcScreen.items[index]);
         }else{
             MatrixPane matA = parent.matrixA.getPanel(MatrixWithSizeBarPane.class).matrix;

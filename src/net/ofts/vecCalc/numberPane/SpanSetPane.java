@@ -42,6 +42,11 @@ public class SpanSetPane extends AbstractNumberPane {
         return new SpanSetPane(this.name, this.parent, ((Matrix) number).toVectors(), this.editable);
     }
 
+    @Override
+    public INumber getNumber() {
+        return list.toMatrix();
+    }
+
     public void onDimensionChanged(int height, int width){
         remove(list);
         list = new VectorListPane(name, width, height, parent, editable);

@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CalculatorScreen extends ICalculatorScreen {
-    public KeyboardPane keyboard = new KeyboardPane(this::receiveInput, this::clearInput, this::refreshResult);
+    public KeyboardPane keyboard = new KeyboardPane(this::receiveInput, this::clearInput,  () -> refreshResult(true));
     public JTextField textField = new JTextField();
 
     public CalculatorScreen(){
@@ -15,7 +15,7 @@ public class CalculatorScreen extends ICalculatorScreen {
         add(Box.createRigidArea(new Dimension(500, 0)), BorderLayout.NORTH);
         add(textField, BorderLayout.CENTER);
         add(keyboard, BorderLayout.SOUTH);
-        textField.addActionListener(e -> refreshResult());
+        textField.addActionListener(e -> refreshResult(true));
         textField.setPreferredSize(new Dimension(500, 100));
     }
 
@@ -28,7 +28,7 @@ public class CalculatorScreen extends ICalculatorScreen {
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
         double evaluated = Calculator.evaluate(textField.getText(), true);
         if (Calculator.getLog().isEmpty()){
             textField.setText(evaluated + "");

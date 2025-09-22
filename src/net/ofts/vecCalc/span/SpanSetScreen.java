@@ -4,7 +4,6 @@ import net.ofts.vecCalc.*;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.numberPane.*;
-import net.ofts.vecCalc.vector.Vec3ControlPane;
 import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
@@ -45,7 +44,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
         SpanSetPane span = operandB.getPanel(SpanSetPane.class);
         VecN vector = operandA.getPanel(VecNPane.class).vector;
 

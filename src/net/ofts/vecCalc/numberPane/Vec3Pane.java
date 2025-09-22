@@ -2,6 +2,7 @@ package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.Number;
 import net.ofts.vecCalc.vector.Vec3;
 import net.ofts.vecCalc.vector.Vec3Screen;
 
@@ -36,10 +37,13 @@ public class Vec3Pane extends BlankPane {
         }else {
             x1.addFocusListener(focusManager);
             x1.getDocument().addDocumentListener(new TextFieldMonitor(x1));
+            x1.addActionListener(e -> handleChange((JTextField) e.getSource(), true));
             x2.addFocusListener(focusManager);
             x2.getDocument().addDocumentListener(new TextFieldMonitor(x2));
+            x2.addActionListener(e -> handleChange((JTextField) e.getSource(), true));
             x3.addFocusListener(focusManager);
             x3.getDocument().addDocumentListener(new TextFieldMonitor(x3));
+            x3.addActionListener(e -> handleChange((JTextField) e.getSource(), true));
         }
 
         this.add(Box.createRigidArea(new Dimension(100, 25)));
@@ -68,7 +72,7 @@ public class Vec3Pane extends BlankPane {
         repaint();
     }
 
-    public void handleChange(JTextField field){
+    public void handleChange(JTextField field, boolean recordResult){
         double val;
         int index;
 
@@ -92,12 +96,17 @@ public class Vec3Pane extends BlankPane {
         }
 
         vector.setByIndex(index, val);
-        parent.refreshResult();
+        parent.refreshResult(recordResult);
     }
 
     public AbstractNumberPane cloneWithValue(INumber number){
         assert number instanceof Vec3;
         Vec3 vec3 = (Vec3) number;
         return new Vec3Pane(this.name, this.parent, this.editable).setVector(vec3);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return vector;
     }
 }

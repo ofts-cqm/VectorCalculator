@@ -48,7 +48,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
         Matrix matA = matrixA.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         Matrix matB = operandB.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         VecN vecB = operandB.getPanel(VecNPane.class).vector;

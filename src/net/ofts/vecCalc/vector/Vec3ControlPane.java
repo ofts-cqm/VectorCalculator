@@ -50,7 +50,7 @@ public class Vec3ControlPane extends JPanel {
         else{
             parent.operandA.getPanel(Vec3Pane.class).setVector(parent.operandC.getPanel(Vec3Pane.class).vector);
         }
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void setOperator(int operator){
@@ -58,7 +58,7 @@ public class Vec3ControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.operandC.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void nextOperator(){
@@ -67,7 +67,7 @@ public class Vec3ControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.operandC.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 
@@ -78,7 +78,7 @@ public class Vec3ControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.operandC.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 

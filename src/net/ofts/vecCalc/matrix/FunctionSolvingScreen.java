@@ -76,6 +76,11 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     }
 
     @Override
+    public String getOperationName(String opcode) {
+        return "Function";
+    }
+
+    @Override
     public void onPageOpened(JFrame frame) {
         frame.setSize(540, 440);
         frame.setTitle("Function Solver (Matrix)");

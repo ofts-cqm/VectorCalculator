@@ -74,6 +74,11 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
     }
 
     @Override
+    public String getOperationName(String opcode) {
+        return "Vec3 " + Vec3ControlPane.operation[opcode.charAt(4) - '0'];
+    }
+
+    @Override
     public void setOperation(int operation) {
         control.setOperator(operation);
     }

@@ -5,6 +5,7 @@ import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.span.SpanSetScreen;
+import net.ofts.vecCalc.vector.Vec3ControlPane;
 import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
@@ -131,6 +132,11 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     public GenericPane getPaneByIndex(int index) {
         if (index == 0) return matrixA;
         return operandB;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "Matrix " + MatrixControlPane.operation[opcode.charAt(4) - '0'];
     }
 
     @Override

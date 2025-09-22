@@ -1,5 +1,6 @@
 package net.ofts.vecCalc.calc;
 
+import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 
 import javax.swing.*;
@@ -50,5 +51,15 @@ public class CalculatorScreen extends ICalculatorScreen {
         Calculator.logLevel = Calculator.LogLevel.ERROR;
         frame.setSize(540, 380);
         frame.setTitle("Calculator (Scientific)");
+    }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        return null;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "Calculate";
     }
 }

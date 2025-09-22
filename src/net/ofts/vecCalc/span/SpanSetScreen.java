@@ -4,6 +4,7 @@ import net.ofts.vecCalc.*;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.numberPane.*;
+import net.ofts.vecCalc.vector.Vec3ControlPane;
 import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
@@ -125,5 +126,10 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
     public GenericPane getPaneByIndex(int index) {
         if (index == 0) return operandA;
         else return operandB;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return SpanSetControlPane.operation[opcode.charAt(4) - '0'];
     }
 }

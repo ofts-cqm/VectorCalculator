@@ -109,5 +109,10 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
         if (index == 0) return operandA;
         else return operandB;
     }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "VecN " + VecNControlPane.operation[opcode.charAt(4) - '0'];
+    }
 }
 

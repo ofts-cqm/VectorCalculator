@@ -8,4 +8,6 @@ public abstract class ICalculatorScreen extends JPanel{
     public abstract void onPageOpened(JFrame frame);
 
     public abstract GenericPane getPaneByIndex(int index);
+
+    public abstract String getOperationName(String opcode);
 }

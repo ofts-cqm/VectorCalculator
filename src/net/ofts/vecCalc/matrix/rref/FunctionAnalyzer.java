@@ -180,4 +180,9 @@ public class FunctionAnalyzer extends ICalculatorScreen {
     public GenericPane getPaneByIndex(int index) {
         return null;
     }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "";
+    }
 }

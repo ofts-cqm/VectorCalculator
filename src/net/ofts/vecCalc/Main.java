@@ -94,7 +94,7 @@ public class Main {
         JMenuItem func = new JMenuItem("Function Solving");
         func.addActionListener(listener);
         func.setActionCommand("func");
-        menuItemMap.put("func", func);
+        menuItemMap.put("func1", func);
         matrix.add(func);
 
         JMenu matx = new JMenu("Matrix Calculation");

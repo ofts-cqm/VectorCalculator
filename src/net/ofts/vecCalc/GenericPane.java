@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Hashtable;
 
-public class GenericPane extends JPanel {
+public class GenericPane extends AbstractNumberPane {
     private final Hashtable<Class<? extends AbstractNumberPane>, AbstractNumberPane> panels = new Hashtable<>();
     private AbstractNumberPane current;
     private Dimension overrideSize = null;
@@ -64,5 +64,20 @@ public class GenericPane extends JPanel {
         add(current);
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void resetPane() {
+        getCurrent().resetPane();
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        return getCurrent().cloneWithValue(number);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return getCurrent().getNumber();
     }
 }

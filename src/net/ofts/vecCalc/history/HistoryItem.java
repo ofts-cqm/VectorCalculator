@@ -5,6 +5,7 @@ import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,22 +14,26 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HistoryItem {
     public String operatorCode;
-    public INumber[] operands;
+    public SuperNumber[] operands;
 
     public static ArrayList<HistoryItem> histories = new ArrayList<>();
 
     public HistoryItem(String operatorCode, INumber[] operands){
-        this.operands = operands;
+        this.operands = new SuperNumber[operands.length];
+        for (int i = 0; i < operands.length; i++) {
+            this.operands[i] = new SuperNumber(operands[i]);
+        }
         this.operatorCode = operatorCode;
     }
 
-    public static void recordHistory(String operatorCode, GenericPane... panes){
+    public static void recordHistory(String operatorCode, AbstractNumberPane... panes){
         ArrayList<INumber> numbers = new ArrayList<>();
-        for (GenericPane pane : panes) {
-            INumber temp = pane.getCurrent().getNumber();
+        for (AbstractNumberPane pane : panes) {
+            INumber temp = pane.getNumber();
             if (temp != null) numbers.add(temp.clone());
         }
         HistoryItem item = new HistoryItem(operatorCode, numbers.toArray(new INumber[]{}));
@@ -59,7 +64,7 @@ public class HistoryItem {
         ICalculatorScreen calc = Main.openCalculatorPage(operatorCode, Main.menuItemMap.get(operatorCode));
         for (int i = 0; i < operands.length - 1; i++) {
             GenericPane pane = calc.getPaneByIndex(i);
-            pane.setPanel(pane.getCurrent().cloneWithValue(operands[i].clone()));
+            pane.setPanel(pane.getCurrent().cloneWithValue(operands[i].degrade().clone()));
         }
         calc.refreshResult(false);
     }
@@ -69,6 +74,10 @@ public class HistoryItem {
     }
 
     public static void read(FileReader reader){
-        histories = new Gson().fromJson(reader, histories.getClass());
+        HistoryItem[] tmp = new Gson().fromJson(reader, HistoryItem[].class);
+        histories = new ArrayList<>(Arrays.asList(tmp));
+        for (HistoryItem history : histories) {
+            new HistoryPanel(history);
+        }
     }
 }

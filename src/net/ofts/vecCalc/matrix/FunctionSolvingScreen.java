@@ -2,8 +2,10 @@ package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.numberPane.MatrixWithSizeBarPane;
 import net.ofts.vecCalc.numberPane.VecNPane;
+import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +13,7 @@ import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
     public GenericPane pane = new GenericPane(new MatrixWithSizeBarPane("Matrix", 3, 3, this, true));
-    public VecNPane result = new VecNPane("Vector", 3, this, true);
+    public GenericPane result = new GenericPane(new VecNPane("Vector", 3, this, true));
     public JButton calculateButton = new JButton("Solve");
     public JLabel infoLabel = new JLabel("Click \"Solve\" to solve the function set!");
 
@@ -35,7 +37,7 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         //currentDimension = length;
 
         remove(result);
-        result = new VecNPane("Vector", length, this, true);
+        result.setPanel(new VecNPane("Vector", length, this, true));
         add(result, BorderLayout.EAST);
 
         revalidate();
@@ -55,7 +57,9 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
             }
         }
 
-        String info = pane.matrix.matrix.solveFunction(result.vector);
+        VecN previousFunction = (VecN) result.getPanel(VecNPane.class).vector.clone();
+
+        String info = pane.matrix.matrix.solveFunction(result.getPanel(VecNPane.class).vector);
         if(!Objects.equals(info, "")){
             infoLabel.setText(info);
             infoLabel.setForeground(Color.red);
@@ -65,14 +69,19 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         }
 
         pane.matrix.updateMatrixPane();
-        result.setVector(result.vector);
+        result.getPanel(VecNPane.class).setVector(result.getPanel(VecNPane.class).vector);
         revalidate();
         repaint();
+
+        if (recordResult){
+            HistoryItem.recordHistory("func1", pane, new VecNPane("", previousFunction.elements.length, this, false).setVector(previousFunction), result);
+        }
     }
 
     @Override
     public GenericPane getPaneByIndex(int index) {
-        return pane;
+        if (index == 0) return pane;
+        return result;
     }
 
     @Override

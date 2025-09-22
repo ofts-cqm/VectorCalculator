@@ -9,20 +9,25 @@ import java.util.Arrays;
  * However, when required to resize the vector, it becomes so painful. The only way is to create a new vec instead of resize it
  * This is a major engineering fatal!
  */
-public class VecN implements INumber {
+public class VecN extends INumber {
     public double[] elements;
 
-    public VecN(){}
+    public VecN(){
+        super("vecN");
+    }
 
     public VecN(int length){
+        super("vecN");
         elements = new double[length];
     }
 
     public VecN(double[] entries){
+        super("vecN");
         elements = entries;
     }
 
     public VecN(VecN copyFrom){
+        super("vecN");
         elements = copyFrom.elements.clone();
     }
 

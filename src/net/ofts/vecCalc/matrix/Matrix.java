@@ -5,25 +5,37 @@ import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
-public class Matrix implements INumber {
+public class Matrix extends INumber {
     public double[][] entries;
     public int height, width;
 
-    public Matrix(){}
+    public Matrix(){
+        super("matx");
+    }
 
     public Matrix(int size){
+        super("matx");
         entries = new double[size][size];
         this.height = size;
         this.width = size;
     }
 
+    public Matrix(double[][] entries){
+        super("matx");
+        this.entries = entries;
+        this.height = entries[0].length;
+        this.width = entries.length;
+    }
+
     public Matrix(int height, int width){
+        super("matx");
         entries = new double[width][height];
         this.height = height;
         this.width = width;
     }
 
     public Matrix(VecN[] columns){
+        super("matx");
         entries = new double[columns.length][];
 
         for (int i = 0; i < columns.length; i++) {

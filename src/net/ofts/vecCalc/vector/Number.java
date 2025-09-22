@@ -2,12 +2,11 @@ package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.INumber;
 
-public class Number implements INumber {
+public class Number extends INumber {
     public double num;
 
-    public Number(){}
-
     public Number(double num){
+        super("numb");
         this.num = num;
     }
 

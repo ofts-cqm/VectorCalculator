@@ -21,8 +21,8 @@ public class HistoryPanel extends JPanel {
         button.addActionListener(a -> item.openHistory());
         add(button);
 
-        for (INumber number : item.operands){
-            add(new HistoryNumberPanel(number));
+        for (SuperNumber number : item.operands){
+            add(new HistoryNumberPanel(number.degrade()));
         }
 
         HistoryFrame.addHistory(this);

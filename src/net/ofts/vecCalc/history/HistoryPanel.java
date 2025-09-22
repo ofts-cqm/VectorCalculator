@@ -1,7 +1,5 @@
 package net.ofts.vecCalc.history;
 
-import net.ofts.vecCalc.INumber;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;

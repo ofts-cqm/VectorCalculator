@@ -32,8 +32,6 @@ public class SuperNumber {
         }
     }
 
-    public SuperNumber(){}
-
     public INumber degrade(){
         return switch (type){
             case "matx" -> new Matrix(entries);

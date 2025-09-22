@@ -319,9 +319,7 @@ public class Matrix extends INumber {
     public INumber clone() {
         Matrix mat = new Matrix(this.height, this.width);
         for (int i = 0; i < entries.length; i++) {
-            for (int j = 0; j < entries[0].length; j++) {
-                mat.entries[i][j] = entries[i][j];
-            }
+            System.arraycopy(entries[i], 0, mat.entries[i], 0, entries[0].length);
         }
         return mat;
     }

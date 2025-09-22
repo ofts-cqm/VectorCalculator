@@ -47,7 +47,9 @@ public class HistoryItem {
             String userHome = System.getProperty("user.home");
             File file = new File(Paths.get(userHome, "vecCalc", "history.json").toUri());
             Files.createDirectories(Paths.get(userHome, "vecCalc"));
-            file.createNewFile();
+            if(!file.createNewFile()){
+                System.err.println("Error: File Creation Failed!");
+            }
             FileWriter writer = new FileWriter(file);
             save(writer);
             writer.close();

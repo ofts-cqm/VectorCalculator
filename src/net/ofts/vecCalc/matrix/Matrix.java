@@ -8,6 +8,8 @@ public class Matrix {
     public double[][] entries;
     public int height, width;
 
+    public Matrix(){}
+
     public Matrix(int size){
         entries = new double[size][size];
         this.height = size;

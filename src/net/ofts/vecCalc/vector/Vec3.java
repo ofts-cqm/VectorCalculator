@@ -3,6 +3,8 @@ package net.ofts.vecCalc.vector;
 public class Vec3 {
     public double x1, x2, x3;
 
+    public Vec3(){}
+
     public Vec3(double x1, double x2, double x3){
         this.x1 = x1;
         this.x2 = x2;

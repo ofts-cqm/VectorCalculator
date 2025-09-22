@@ -8,6 +8,8 @@ package net.ofts.vecCalc.vector;
 public class VecN {
     public double[] elements;
 
+    public VecN(){}
+
     public VecN(int length){
         elements = new double[length];
     }

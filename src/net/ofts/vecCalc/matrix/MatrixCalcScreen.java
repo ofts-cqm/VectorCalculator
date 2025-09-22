@@ -5,7 +5,6 @@ import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.span.SpanSetScreen;
-import net.ofts.vecCalc.vector.Vec3ControlPane;
 import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;

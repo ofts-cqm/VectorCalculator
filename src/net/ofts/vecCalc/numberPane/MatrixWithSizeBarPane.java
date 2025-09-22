@@ -3,7 +3,6 @@ package net.ofts.vecCalc.numberPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.matrix.Matrix;
-import net.ofts.vecCalc.vector.Number;
 
 import java.awt.*;
 

@@ -15,7 +15,7 @@ public class HistoryItem {
     public String operatorCode;
     public INumber[] operands;
 
-    public static ArrayList<HistoryItem> histories;
+    public static ArrayList<HistoryItem> histories = new ArrayList<>();
 
     public HistoryItem(String operatorCode, INumber[] operands){
         this.operands = operands;

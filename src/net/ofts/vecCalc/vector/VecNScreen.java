@@ -4,6 +4,7 @@ import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.IMultipleOperation;
 import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.numberPane.BlankPane;
 import net.ofts.vecCalc.numberPane.NumPane;
 import net.ofts.vecCalc.numberPane.VecNPane;
@@ -79,6 +80,8 @@ public class VecNScreen extends ICalculatorScreen implements IMultipleOperation 
             case 7 -> new VecNPane("Result", currentLength, this, false).setVector(VecN.Perp(v1, v2));
             default -> null;
         });
+
+        if(recordResult) HistoryItem.recordHistory("vecN" + control.index, operandA, operandB, result);
     }
 
     @Override

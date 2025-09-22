@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.history.HistoryFrame;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 import net.ofts.vecCalc.numberPane.BlankPane;
 import net.ofts.vecCalc.numberPane.NumPane;
@@ -59,6 +61,9 @@ public class Vec3Screen extends ICalculatorScreen implements IMultipleOperation 
             default -> null;
         };
         operandC.setPanel(result);
+        if (recordResult){
+            HistoryItem.recordHistory("vec3" + control.index, operandA, operandB, operandC);
+        }
     }
 
     @Override

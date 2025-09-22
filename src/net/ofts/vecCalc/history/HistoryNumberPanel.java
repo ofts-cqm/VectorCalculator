@@ -26,6 +26,7 @@ public class HistoryNumberPanel extends JPanel {
 
     public void initNumber(double val){
         this.setLayout(new BorderLayout());
+        this.setBorder(new TitledBorder("Num"));
         add(new JLabel(formatter.format(val)), BorderLayout.CENTER);
     }
 

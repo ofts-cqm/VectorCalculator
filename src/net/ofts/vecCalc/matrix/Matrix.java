@@ -302,4 +302,15 @@ public class Matrix implements INumber {
         }
         return true;
     }
+
+    @Override
+    public INumber clone() {
+        Matrix mat = new Matrix(this.height, this.width);
+        for (int i = 0; i < entries.length; i++) {
+            for (int j = 0; j < entries[0].length; j++) {
+                mat.entries[i][j] = entries[i][j];
+            }
+        }
+        return mat;
+    }
 }

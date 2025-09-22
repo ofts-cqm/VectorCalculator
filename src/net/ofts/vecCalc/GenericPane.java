@@ -44,6 +44,8 @@ public class GenericPane extends JPanel {
         panels.replace(panel.getClass(), panel);
         if(panel.getClass().equals(MatrixWithSizeBarPane.class)){
             panels.replace(MatrixPane.class, panel);
+        }else if(panel.getClass().equals(MatrixPane.class)){
+            panels.replace(MatrixWithSizeBarPane.class, panel);
         }
 
         if (current.getClass().equals(panel.getClass())){

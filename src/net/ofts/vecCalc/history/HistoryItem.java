@@ -26,7 +26,7 @@ public class HistoryItem {
         ArrayList<INumber> numbers = new ArrayList<>();
         for (GenericPane pane : panes) {
             INumber temp = pane.getCurrent().getNumber();
-            if (temp != null) numbers.add(temp);
+            if (temp != null) numbers.add(temp.clone());
         }
         HistoryItem item = new HistoryItem(operatorCode, numbers.toArray(new INumber[]{}));
         histories.add(item);
@@ -41,7 +41,7 @@ public class HistoryItem {
         ICalculatorScreen calc = Main.openCalculatorPage(operatorCode, Main.menuItemMap.get(operatorCode));
         for (int i = 0; i < operands.length - 1; i++) {
             GenericPane pane = calc.getPaneByIndex(i);
-            pane.setPanel(pane.getCurrent().cloneWithValue(operands[i]));
+            pane.setPanel(pane.getCurrent().cloneWithValue(operands[i].clone()));
         }
         calc.refreshResult(false);
     }

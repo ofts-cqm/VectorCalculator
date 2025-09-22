@@ -10,4 +10,9 @@ public class Number implements INumber {
     public Number(double num){
         this.num = num;
     }
+
+    @Override
+    public INumber clone() {
+        return new Number(num);
+    }
 }

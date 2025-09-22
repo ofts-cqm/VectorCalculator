@@ -66,4 +66,9 @@ public class Vec3 implements INumber {
     public static Vec3 Perp(Vec3 a, Vec3 b){
         return sub(a, Proj(a, b));
     }
+
+    @Override
+    public INumber clone() {
+        return new Vec3(x1, x2, x3);
+    }
 }

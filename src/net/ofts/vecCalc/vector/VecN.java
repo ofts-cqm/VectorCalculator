@@ -2,6 +2,8 @@ package net.ofts.vecCalc.vector;
 
 import net.ofts.vecCalc.INumber;
 
+import java.util.Arrays;
+
 /**
  * When designed, I set the vector's size as constant
  * However, when required to resize the vector, it becomes so painful. The only way is to create a new vec instead of resize it
@@ -100,5 +102,10 @@ public class VecN implements INumber {
 
     public static VecN Perp(VecN a, VecN b){
         return sub(a, Proj(a, b));
+    }
+
+    @Override
+    public INumber clone() {
+        return new VecN(Arrays.copyOf(elements, elements.length));
     }
 }

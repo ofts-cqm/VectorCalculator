@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.numberPane.*;
@@ -104,6 +105,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
             result.setPanel(ans);
             result.displayPanel(ans.getClass());
             control.setNoError();
+
+            if (recordResult) HistoryItem.recordHistory("matx" + (char)(control.index + '0'), matrixA, operandB, result);
         }catch (AssertionError e){
             control.setError(e.getMessage());
         }

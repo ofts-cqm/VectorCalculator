@@ -7,11 +7,14 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class HistoryFrame extends JFrame {
     public static HistoryFrame instance;
     public static JScrollPane pane;
     public static JPanel contentPanel = new JPanel();
+    public static Queue<JPanel> addedItems = new LinkedList<>();
 
     public HistoryFrame(){
         super("History");
@@ -32,5 +35,17 @@ public class HistoryFrame extends JFrame {
         instance = this;
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setSize(275, 350);
+    }
+
+    public static void addHistory(HistoryPanel panel){
+        contentPanel.add(panel);
+        addedItems.add(panel);
+
+        if (addedItems.size() > 10){
+            contentPanel.remove(addedItems.remove());
+        }
+
+        instance.revalidate();
+        instance.repaint();
     }
 }

@@ -6,9 +6,12 @@ import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.Main;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class HistoryItem {
@@ -30,7 +33,22 @@ public class HistoryItem {
         }
         HistoryItem item = new HistoryItem(operatorCode, numbers.toArray(new INumber[]{}));
         histories.add(item);
+        if (histories.size() > 10) histories.remove(0);
         new HistoryPanel(item);
+
+        if(!Main.recordFile) return;
+
+        try {
+            String userHome = System.getProperty("user.home");
+            File file = new File(Paths.get(userHome, "vecCalc", "history.json").toUri());
+            Files.createDirectories(Paths.get(userHome, "vecCalc"));
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            save(writer);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getOperationName(){

@@ -25,8 +25,6 @@ public class HistoryPanel extends JPanel {
             add(new HistoryNumberPanel(number));
         }
 
-        HistoryFrame.contentPanel.add(this);
-        HistoryFrame.instance.revalidate();
-        HistoryFrame.instance.repaint();
+        HistoryFrame.addHistory(this);
     }
 }

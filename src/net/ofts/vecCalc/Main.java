@@ -3,6 +3,7 @@ package net.ofts.vecCalc;
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.calc.CalculatorScreen;
 import net.ofts.vecCalc.history.HistoryFrame;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.matrix.FunctionSolvingScreen;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
 import net.ofts.vecCalc.span.SpanSetScreen;
@@ -13,6 +14,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Hashtable;
 
 public class Main {
@@ -23,6 +28,7 @@ public class Main {
     public static JMenuItem currentMenu;
     public static JFrame frame;
     public static JMenuItem hist;
+    public static boolean recordFile = false;
 
     public static void main(String[] args){
         frame = new JFrame();
@@ -50,6 +56,20 @@ public class Main {
         current.onPageOpened(frame);
         Calculator.setUp();
         new HistoryFrame();
+
+        try {
+            String userHome = System.getProperty("user.home");
+            File file = new File(Paths.get(userHome, "vecCalc", "history.json").toUri());
+            if (file.exists()){
+                HistoryItem.read(new FileReader(file));
+                recordFile = true;
+                return;
+            }
+
+            recordFile = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Do you want to store calculation histories on this computer?\nIf you choose no, your calculation history will not be stored\nand will be lost after you close this application", "Calculation History", JOptionPane.YES_NO_OPTION);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void setUpMenuBar(){

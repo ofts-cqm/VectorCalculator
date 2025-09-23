@@ -1,13 +1,14 @@
 package net.ofts.vecCalc;
 
-import net.ofts.vecCalc.matrix.MatrixPane;
-import net.ofts.vecCalc.matrix.MatrixWithSizeBarPane;
+import net.ofts.vecCalc.numberPane.MatrixPane;
+import net.ofts.vecCalc.numberPane.MatrixWithSizeBarPane;
+import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Hashtable;
 
-public class GenericPane extends JPanel {
+public class GenericPane extends AbstractNumberPane {
     private final Hashtable<Class<? extends AbstractNumberPane>, AbstractNumberPane> panels = new Hashtable<>();
     private AbstractNumberPane current;
     private Dimension overrideSize = null;
@@ -21,10 +22,15 @@ public class GenericPane extends JPanel {
                 panels.put(MatrixPane.class, pane);
             }
         }
-        add(panel[0], BorderLayout.CENTER);
-        current = panel[0];
+        if (panel.length > 0) {
+            add(panel[0], BorderLayout.CENTER);
+            current = panel[0];
+        }
     }
 
+    public AbstractNumberPane getCurrent(){
+        return current;
+    }
 
     public void setOverrideSize(Dimension size){
         overrideSize = size;
@@ -37,9 +43,12 @@ public class GenericPane extends JPanel {
     }
 
     public <T extends AbstractNumberPane> void setPanel(T panel){
+        if (panel == null) return;
         panels.replace(panel.getClass(), panel);
         if(panel.getClass().equals(MatrixWithSizeBarPane.class)){
             panels.replace(MatrixPane.class, panel);
+        }else if(panel.getClass().equals(MatrixPane.class)){
+            panels.replace(MatrixWithSizeBarPane.class, panel);
         }
 
         if (current.getClass().equals(panel.getClass())){
@@ -58,5 +67,20 @@ public class GenericPane extends JPanel {
         add(current);
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void resetPane() {
+        getCurrent().resetPane();
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        return getCurrent().cloneWithValue(number);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return getCurrent().getNumber();
     }
 }

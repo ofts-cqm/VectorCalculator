@@ -1,8 +1,9 @@
-package net.ofts.vecCalc.matrix;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
-import net.ofts.vecCalc.vector.BlankPane;
+import net.ofts.vecCalc.matrix.Matrix;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -15,6 +16,8 @@ public class MatrixPane extends BlankPane {
     public Matrix matrix;
     public JTextField[][] matrixField;
     public ICalculatorScreen parent;
+    public String name;
+    public boolean editable;
     public boolean inverseRowsAndColumns = false;
 
     public MatrixPane(String name, Matrix matrix, ICalculatorScreen parent){
@@ -24,6 +27,8 @@ public class MatrixPane extends BlankPane {
 
     public MatrixPane(String name, int height, int width, ICalculatorScreen parent, boolean editable){
         this.parent = parent;
+        this.name = name;
+        this.editable = editable;
         matrix = new Matrix(height, width);
         setLayout(new GridLayout(height, width));
         setBorder(new TitledBorder(name));
@@ -50,6 +55,11 @@ public class MatrixPane extends BlankPane {
         updateMatrixPane();
     }
 
+    public void setMatrixPreserveSize(Matrix matrix){
+        this.matrix.setMatrixPreserveSize(matrix);
+        updateMatrixPane();
+    }
+
     // there used to be a horizontally oriented matrix. This should not be used now
     @Deprecated
     public MatrixPane setInverseRowsAndColumns(){
@@ -60,7 +70,7 @@ public class MatrixPane extends BlankPane {
 
     public void onEnterPressed(ActionEvent e){
         KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
-        parent.refreshResult();
+        parent.refreshResult(true);
     }
 
     public void updateMatrixPane(){
@@ -96,6 +106,19 @@ public class MatrixPane extends BlankPane {
 
         if(inverseRowsAndColumns) matrix.entries[i][j] = val;
         else matrix.entries[j][i] = val;
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof Matrix;
+        Matrix matrix = (Matrix) number;
+        MatrixPane pane = new MatrixPane(this.name, matrix.height, matrix.width, this.parent, this.editable);
+        pane.setMatrix(matrix);
+        return pane;
+    }
+
+    @Override
+    public INumber getNumber() {
+        return matrix;
     }
 
     public class TextFieldMonitor implements DocumentListener {

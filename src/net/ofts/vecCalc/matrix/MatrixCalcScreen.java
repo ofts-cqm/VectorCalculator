@@ -1,20 +1,18 @@
 package net.ofts.vecCalc.matrix;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
-import net.ofts.vecCalc.span.SpanSetPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.span.SpanSetScreen;
-import net.ofts.vecCalc.vector.BlankPane;
-import net.ofts.vecCalc.vector.NumPane;
 import net.ofts.vecCalc.vector.VecN;
-import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOperation {
-    public MatrixWithSizeBarPane matrixA;
+    public GenericPane matrixA;
     public GenericPane operandB;
     public GenericPane result;
     public MatrixControlPane control;
@@ -22,7 +20,9 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     public static JMenuItem[] items;
 
     public MatrixCalcScreen(){
-        matrixA = new MatrixWithSizeBarPane("A", 3, 3, this, true);
+        matrixA = new GenericPane(
+                new MatrixWithSizeBarPane("A", 3, 3, this, true)
+        );
         operandB = new GenericPane(
                 new MatrixWithSizeBarPane("B", 3, 3, this, true),
                 new NumPane("Scale", this, true),
@@ -30,7 +30,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
                 new VecNPane("x", 3, this, true)
         );
         operandB.setOverrideSize(null);
-        matrixA.sizer.associatedVector = operandB;
+        matrixA.getPanel(MatrixWithSizeBarPane.class).sizer.associatedVector = operandB;
         result = new GenericPane(
                 new MatrixPane("Result", 3, 3, this, false),
                 new VecNPane("Result", 3, this, false),
@@ -48,8 +48,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     }
 
     @Override
-    public void refreshResult() {
-        Matrix matA = matrixA.matrix.matrix;
+    public void refreshResult(boolean recordResult) {
+        Matrix matA = matrixA.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         Matrix matB = operandB.getPanel(MatrixWithSizeBarPane.class).matrix.matrix;
         VecN vecB = operandB.getPanel(VecNPane.class).vector;
         double numB = operandB.getPanel(NumPane.class).num;
@@ -105,6 +105,8 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
             result.setPanel(ans);
             result.displayPanel(ans.getClass());
             control.setNoError();
+
+            if (recordResult) HistoryItem.recordHistory("matx" + (char)(control.index + '0'), matrixA, operandB, result);
         }catch (AssertionError e){
             control.setError(e.getMessage());
         }
@@ -116,6 +118,7 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
             JMenuItem item = new JMenuItem(MatrixControlPane.operation[i]);
             item.addActionListener(Main::operationListener);
             item.setActionCommand("matx" + (i > 9 ? ":" : i));
+            Main.menuItemMap.put("matx" + (i > 9 ? ":" : i), item);
             menu.add(item);
             items[i] = item;
         }
@@ -125,6 +128,17 @@ public class MatrixCalcScreen extends ICalculatorScreen implements IMultipleOper
     public void onPageOpened(JFrame frame) {
         frame.setSize(720, 480);
         frame.setTitle("Matrix Calculator");
+    }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return matrixA;
+        return operandB;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "Matrix " + MatrixControlPane.operation[opcode.charAt(4) - '0'];
     }
 
     @Override

@@ -1,6 +1,6 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
-import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.INumber;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,12 +19,22 @@ public class BlankPane extends AbstractNumberPane {
         this.setSize(100, 300);
     }
 
-    public void handleChange(JTextField field){
+    public void handleChange(JTextField field, boolean recordResult){
 
     }
 
     public void resetPane(){
 
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        return null;
+    }
+
+    @Override
+    public INumber getNumber() {
+        return null;
     }
 
     public static class TextFieldFocusMng implements FocusListener {
@@ -51,12 +61,12 @@ public class BlankPane extends AbstractNumberPane {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            handleChange(textField);
+            handleChange(textField, false);
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            handleChange(textField);
+            handleChange(textField, false);
         }
 
         @Override

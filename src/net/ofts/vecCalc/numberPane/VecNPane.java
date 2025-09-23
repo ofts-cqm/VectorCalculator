@@ -1,7 +1,9 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,10 +13,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
-public class VecNPane extends BlankPane{
+public class VecNPane extends BlankPane {
     public ICalculatorScreen parent;
     public VecN vector;
-    JTextField[] fields;
+    public JTextField[] fields;
     public boolean editable;
     public int size;
     public String name;
@@ -45,14 +47,15 @@ public class VecNPane extends BlankPane{
             }
 
             fields[i] = temp;
-            add(Box.createRigidArea(new Dimension(100, 7)));
+            add(Box.createVerticalGlue());
             add(temp);
         }
+        add(Box.createVerticalGlue());
     }
 
     public void onEnterPressed(ActionEvent e){
         KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
-        parent.refreshResult();
+        parent.refreshResult(true);
     }
 
     public VecNPane setVector(VecN vector){
@@ -64,15 +67,15 @@ public class VecNPane extends BlankPane{
         return this;
     }
 
-    public void setVectorPreserveLength(VecN vector){
+    public VecNPane setVectorPreserveLength(VecN vector){
         if (vector.elements.length == size){
             setVector(vector);
-        }
-        else {
+        } else {
             VecN vecn = new VecN(size);
             vecn.elements = Arrays.copyOf(vector.elements, size);
             setVector(vecn);
         }
+        return this;
     }
 
     public void resetVector(){
@@ -122,5 +125,16 @@ public class VecNPane extends BlankPane{
         public void changedUpdate(DocumentEvent e) {
 
         }
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof VecN;
+        VecN vec = (VecN) number;
+        return new VecNPane(this.name, vec.elements.length, this.parent, this.editable).setVector(vec);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return vector;
     }
 }

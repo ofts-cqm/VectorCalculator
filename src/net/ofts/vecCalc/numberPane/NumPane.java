@@ -1,7 +1,9 @@
-package net.ofts.vecCalc.vector;
+package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.calc.Calculator;
+import net.ofts.vecCalc.vector.Number;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -10,11 +12,15 @@ import java.awt.*;
 public class NumPane extends BlankPane {
     public ICalculatorScreen parent;
     public double num;
+    public String name;
+    public boolean editable;
     public TitledBorder title;
     public JTextField text = new JTextField("0");
 
     public NumPane(String name, ICalculatorScreen parent, boolean editable){
         title = new TitledBorder(name);
+        this.name = name;
+        this.editable = editable;
         this.setBorder(title);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.parent = parent;
@@ -24,6 +30,7 @@ public class NumPane extends BlankPane {
             text.setFocusable(false);
         }else {
             text.addFocusListener(focusManager);
+            text.addActionListener(e -> handleChange((JTextField) e.getSource(), true));
             text.getDocument().addDocumentListener(new TextFieldMonitor(text));
         }
 
@@ -32,10 +39,11 @@ public class NumPane extends BlankPane {
         this.add(Box.createRigidArea(new Dimension(100, 125)));
     }
 
-    public void setNum(double num){
+    public NumPane setNum(double num){
         this.num = num;
         text.setText(formatter.format(num));
         repaint();
+        return this;
     }
 
     public void resetNum(){
@@ -49,7 +57,7 @@ public class NumPane extends BlankPane {
         resetNum();
     }
 
-    public void handleChange(JTextField field){
+    public void handleChange(JTextField field, boolean recordResult){
         double val;
          try{
              val = Double.parseDouble(field.getText());
@@ -66,6 +74,17 @@ public class NumPane extends BlankPane {
              }
          }
          num = val;
-         parent.refreshResult();
+         parent.refreshResult(recordResult);
+    }
+
+    public AbstractNumberPane cloneWithValue(INumber number){
+        assert number instanceof Number;
+        double num = ((Number) number).num;
+        return new NumPane(this.name, this.parent, this.editable).setNum(num);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return new Number(num);
     }
 }

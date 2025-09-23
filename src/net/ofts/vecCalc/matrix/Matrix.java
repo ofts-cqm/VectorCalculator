@@ -1,26 +1,41 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.INumber;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
 import net.ofts.vecCalc.matrix.rref.FunctionAnalyzer;
 import net.ofts.vecCalc.vector.VecN;
 
-public class Matrix {
+public class Matrix extends INumber {
     public double[][] entries;
     public int height, width;
 
+    public Matrix(){
+        super("matx");
+    }
+
     public Matrix(int size){
+        super("matx");
         entries = new double[size][size];
         this.height = size;
         this.width = size;
     }
 
+    public Matrix(double[][] entries){
+        super("matx");
+        this.entries = entries;
+        this.height = entries[0].length;
+        this.width = entries.length;
+    }
+
     public Matrix(int height, int width){
+        super("matx");
         entries = new double[width][height];
         this.height = height;
         this.width = width;
     }
 
     public Matrix(VecN[] columns){
+        super("matx");
         entries = new double[columns.length][];
 
         for (int i = 0; i < columns.length; i++) {
@@ -268,6 +283,12 @@ public class Matrix {
         return v > 1e-10 || v < -(1e-10);
     }
 
+    public void setMatrixPreserveSize(Matrix other){
+        for(int i = 0; i < Math.min(width, other.width); i++){
+            System.arraycopy(other.entries[i], 0, entries[i], 0, Math.min(height, other.height));
+        }
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
@@ -292,5 +313,14 @@ public class Matrix {
             }
         }
         return true;
+    }
+
+    @Override
+    public INumber clone() {
+        Matrix mat = new Matrix(this.height, this.width);
+        for (int i = 0; i < entries.length; i++) {
+            System.arraycopy(entries[i], 0, mat.entries[i], 0, entries[0].length);
+        }
+        return mat;
     }
 }

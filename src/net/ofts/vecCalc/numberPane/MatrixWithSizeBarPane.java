@@ -1,7 +1,8 @@
-package net.ofts.vecCalc.matrix;
+package net.ofts.vecCalc.numberPane;
 
-import net.ofts.vecCalc.AbstractNumberPane;
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.matrix.Matrix;
 
 import java.awt.*;
 
@@ -35,5 +36,19 @@ public class MatrixWithSizeBarPane extends AbstractNumberPane {
     @Override
     public void resetPane() {
         matrix.resetPane();
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        assert number instanceof Matrix;
+        Matrix matrix = (Matrix) number;
+        MatrixWithSizeBarPane mat = new MatrixWithSizeBarPane(this.name, matrix.height, matrix.width, this.parent, this.editable);
+        mat.matrix.setMatrix(matrix);
+        return mat;
+    }
+
+    @Override
+    public INumber getNumber() {
+        return matrix.matrix;
     }
 }

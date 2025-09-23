@@ -1,9 +1,7 @@
 package net.ofts.vecCalc.matrix;
 
-import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.Main;
-import net.ofts.vecCalc.span.SpanSetPane;
-import net.ofts.vecCalc.vector.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -15,7 +13,9 @@ public class MatrixControlPane extends BlankPane {
     public JButton move;
     public JLabel error;
     public static final String[] operation = new String[]{"+", "-", "scale", "x Vec", "x Mat", "Transpose", "Inversion", "RREF", "rank", "Null/Kernal", "Column/Range"};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{MatrixPane.class, MatrixPane.class, NumPane.class, VecNPane.class, MatrixPane.class, BlankPane.class, BlankPane.class, BlankPane.class, BlankPane.class, BlankPane.class, BlankPane.class};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{MatrixPane.class, MatrixPane.class, MatrixPane.class, VecNPane.class, MatrixPane.class, MatrixPane.class, MatrixPane.class, MatrixPane.class, NumPane.class, SpanSetPane.class, SpanSetPane.class};
     public int index = 0;
     public MatrixCalcScreen parent;
@@ -50,7 +50,7 @@ public class MatrixControlPane extends BlankPane {
         currentOperation.setText(operation[index]);
         parent.operandB.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void onOperationChanged(ActionEvent e){
@@ -61,13 +61,15 @@ public class MatrixControlPane extends BlankPane {
             currentOperation.setText(operation[index]);
             parent.operandB.displayPanel(operandForm[index]);
             parent.result.displayPanel(resultForm[index]);
-            parent.refreshResult();
+            parent.refreshResult(false);
             Main.updateSelectedMenuItem(MatrixCalcScreen.items[index]);
         }else{
-            MatrixPane matA = parent.matrixA.matrix;
+            MatrixPane matA = parent.matrixA.getPanel(MatrixWithSizeBarPane.class).matrix;
             MatrixPane matR = parent.result.getPanel(MatrixPane.class);
             if (matA.matrix.height == matR.matrix.height && matA.matrix.width == matR.matrix.width){
                 matA.setMatrix(matR.matrix);
+            }else{
+                matA.setMatrixPreserveSize(matR.matrix);
             }
         }
     }

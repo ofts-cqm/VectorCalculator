@@ -1,22 +1,21 @@
 package net.ofts.vecCalc.matrix;
 
+import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
-import net.ofts.vecCalc.vector.VecNPane;
+import net.ofts.vecCalc.history.HistoryItem;
+import net.ofts.vecCalc.numberPane.MatrixWithSizeBarPane;
+import net.ofts.vecCalc.numberPane.VecNPane;
+import net.ofts.vecCalc.vector.VecN;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 public class FunctionSolvingScreen extends ICalculatorScreen {
-    public MatrixWithSizeBarPane pane = new MatrixWithSizeBarPane("Matrix", 3, 3, this, true);
-    //public MatrixPane pane = new MatrixPane("Matrix", 3, 3, this, true).setInverseRowsAndColumns();
-    //public SwapRowPane swapPane = new SwapRowPane(pane);
-    public VecNPane result = new VecNPane("Vector", 3, this, true);
-    //public JSlider dimension = new JSlider(SwingConstants.HORIZONTAL, 2, 10, 3);
+    public GenericPane pane = new GenericPane(new MatrixWithSizeBarPane("Matrix", 3, 3, this, true));
+    public GenericPane result = new GenericPane(new VecNPane("Vector", 3, this, true));
     public JButton calculateButton = new JButton("Solve");
     public JLabel infoLabel = new JLabel("Click \"Solve\" to solve the function set!");
-
-    //public int currentDimension = 3;
 
     public FunctionSolvingScreen(){
         setLayout(new BorderLayout());
@@ -28,17 +27,17 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         infoLabel.setForeground(Color.GREEN);
         resCtrl.add(infoLabel);
         calculateButton.setFocusable(false);
-        calculateButton.addActionListener(e -> refreshResult());
+        calculateButton.addActionListener(e -> refreshResult(true));
         resCtrl.add(calculateButton);
         add(resCtrl, BorderLayout.SOUTH);
-        pane.sizer.associatedFuncSolvScreen = this;
+        pane.getPanel(MatrixWithSizeBarPane.class).sizer.associatedFuncSolvScreen = this;
     }
 
     public void onDimensionChanged(int length){
         //currentDimension = length;
 
         remove(result);
-        result = new VecNPane("Vector", length, this, true);
+        result.setPanel(new VecNPane("Vector", length, this, true));
         add(result, BorderLayout.EAST);
 
         revalidate();
@@ -46,7 +45,8 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
     }
 
     @Override
-    public void refreshResult() {
+    public void refreshResult(boolean recordResult) {
+        MatrixWithSizeBarPane pane = this.pane.getPanel(MatrixWithSizeBarPane.class);
         for (int i = 0; i < pane.matrix.matrix.height; i++) {
             for (int j = 0; j < pane.matrix.matrix.width; j++) {
                 if (pane.matrix.matrixField[i][j].getBackground().equals(Color.red)) {
@@ -57,7 +57,9 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
             }
         }
 
-        String info = pane.matrix.matrix.solveFunction(result.vector);
+        VecN previousFunction = (VecN) result.getPanel(VecNPane.class).vector.clone();
+
+        String info = pane.matrix.matrix.solveFunction(result.getPanel(VecNPane.class).vector);
         if(!Objects.equals(info, "")){
             infoLabel.setText(info);
             infoLabel.setForeground(Color.red);
@@ -67,9 +69,24 @@ public class FunctionSolvingScreen extends ICalculatorScreen {
         }
 
         pane.matrix.updateMatrixPane();
-        result.setVector(result.vector);
+        result.getPanel(VecNPane.class).setVector(result.getPanel(VecNPane.class).vector);
         revalidate();
         repaint();
+
+        if (recordResult){
+            HistoryItem.recordHistory("func1", pane, new VecNPane("", previousFunction.elements.length, this, false).setVector(previousFunction), result);
+        }
+    }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return pane;
+        return result;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return "Function";
     }
 
     @Override

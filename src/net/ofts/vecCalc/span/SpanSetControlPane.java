@@ -1,10 +1,8 @@
 package net.ofts.vecCalc.span;
 
-import net.ofts.vecCalc.AbstractNumberPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.Main;
 import net.ofts.vecCalc.matrix.MatrixCalcScreen;
-import net.ofts.vecCalc.vector.BlankPane;
-import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -14,7 +12,9 @@ import java.awt.event.ActionEvent;
 public class SpanSetControlPane extends JPanel {
     public JButton currentOperation;
     public static final String[] operation = new String[]{"Find Base", "Is In"};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{BlankPane.class, VecNPane.class};
+    @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{SpanSetPane.class, BooleanPane.class};
     public int index = 0;
     public SpanSetScreen parent;
@@ -34,7 +34,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(currentOperation);
         add(Box.createRigidArea(new Dimension(100, 60)));
-        add(parent.operandB.sizer);
+        add(parent.operandB.getPanel(SpanSetPane.class).sizer);
     }
 
     public void setOperation(int opCode){
@@ -42,7 +42,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandA.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void onOperationChanged(ActionEvent e){
@@ -52,7 +52,7 @@ public class SpanSetControlPane extends JPanel {
         currentOperation.setText(operation[index]);
         parent.operandA.displayPanel(operandForm[index]);
         parent.result.displayPanel(resultForm[index]);
-        parent.refreshResult();
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(MatrixCalcScreen.items[index]);
     }
 

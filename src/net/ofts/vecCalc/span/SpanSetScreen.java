@@ -1,12 +1,11 @@
 package net.ofts.vecCalc.span;
 
 import net.ofts.vecCalc.*;
+import net.ofts.vecCalc.history.HistoryItem;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.matrix.rref.AugmentedMatrix;
-import net.ofts.vecCalc.vector.BlankPane;
-import net.ofts.vecCalc.vector.NumPane;
+import net.ofts.vecCalc.numberPane.*;
 import net.ofts.vecCalc.vector.VecN;
-import net.ofts.vecCalc.vector.VecNPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,7 @@ import static net.ofts.vecCalc.matrix.rref.AugmentedMatrix.isZero;
 
 public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperation {
     public GenericPane operandA;
-    public SpanSetPane operandB;
+    public GenericPane operandB;
     public GenericPane result;
     public SpanSetControlPane control;
 
@@ -28,8 +27,8 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
                 new VecNPane("Vector", 3, this, true)
         );
         operandA.setOverrideSize(null);
-        operandB = new SpanSetPane("Span Set", 3, 3, this, true);
-        operandB.sizer.associatedVector = operandA;
+        operandB = new GenericPane(new SpanSetPane("Span Set", 3, 3, this, true));
+        operandB.getPanel(SpanSetPane.class).sizer.associatedVector = operandA;
         result = new GenericPane(
                 new SpanSetPane("Base", 3, 3, this, false),
                 new BooleanPane("Is in", this, true),
@@ -46,8 +45,8 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
     }
 
     @Override
-    public void refreshResult() {
-        SpanSetPane span = operandB;
+    public void refreshResult(boolean recordResult) {
+        SpanSetPane span = operandB.getPanel(SpanSetPane.class);
         VecN vector = operandA.getPanel(VecNPane.class).vector;
 
         try{
@@ -62,6 +61,10 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
             result.setPanel(ans);
             result.displayPanel(ans.getClass());
             control.setNoError();
+
+            if(recordResult){
+                HistoryItem.recordHistory("span" + control.index, operandA, operandB, result);
+            }
         }catch (AssertionError e){
             control.setError(e.getMessage());
         }
@@ -95,8 +98,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
             for (int j = 0; j < main.width; j++) {
                 if (!isZero(main.entries[j][i])) continue lp;
             }
-            if(!isZero(answer.elements[i])) return false;
-            return true;
+            return isZero(answer.elements[i]);
         }
         return true;
     }
@@ -112,6 +114,7 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
         control.setOperation(operation);
     }
 
+    @Deprecated
     public static void addMenuItem(JMenu menu){
         items = new JMenuItem[SpanSetControlPane.operation.length];
         for (int i = 0; i < SpanSetControlPane.operation.length; i++) {
@@ -121,5 +124,16 @@ public class SpanSetScreen extends ICalculatorScreen implements IMultipleOperati
             menu.add(item);
             items[i] = item;
         }
+    }
+
+    @Override
+    public GenericPane getPaneByIndex(int index) {
+        if (index == 0) return operandA;
+        else return operandB;
+    }
+
+    @Override
+    public String getOperationName(String opcode) {
+        return SpanSetControlPane.operation[opcode.charAt(4) - '0'];
     }
 }

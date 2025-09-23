@@ -1,6 +1,8 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.numberPane.AbstractNumberPane;
 import net.ofts.vecCalc.Main;
+import net.ofts.vecCalc.numberPane.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -8,16 +10,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControlPane extends JPanel {
+public class Vec3ControlPane extends JPanel {
     public JButton currentOperation;
     public JButton move;
     public static final String[] operation = new String[]{"+", "-", "Scale", "Dot", "Cross", "Normalize", "Length", "Proj", "Perp"};
-    public byte[]operandForm = new byte[]{1, 1, 2, 1, 1, 0, 0, 1, 1};
-    public byte[]resultForm = new byte[]{1, 1, 1, 2, 1, 1, 2, 1, 1};
+    @SuppressWarnings("unchecked")
+    public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, BlankPane.class, BlankPane.class, Vec3Pane.class, Vec3Pane.class};
+    @SuppressWarnings("unchecked")
+    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class};
     public int index = 0;
     public Vec3Screen parent;
 
-    public ControlPane(Vec3Screen root){
+    public Vec3ControlPane(Vec3Screen root){
         this.parent = root;
         setBorder(new TitledBorder("Operation"));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -39,46 +43,42 @@ public class ControlPane extends JPanel {
     }
 
     public void move(){
-        if (parent.result.current.equals(parent.result.number)){
-            double num = parent.result.number.num;
-            parent.a.x1.setText(num + "");
-            parent.a.vector.x1 = num;
-
+        if (parent.operandC.getCurrent() instanceof NumPane number){
+            double num = number.num;
+            parent.operandA.getPanel(Vec3Pane.class).setVector(new Vec3(num, 0, 0));
         }
         else{
-            parent.a.setVector(parent.result.vector.vector);
+            parent.operandA.getPanel(Vec3Pane.class).setVector(parent.operandC.getPanel(Vec3Pane.class).vector);
         }
-        parent.a.repaint();
-        parent.b.vector.resetVector();
-        parent.b.number.resetNum();
-        parent.refreshResult();
+        parent.refreshResult(false);
     }
 
     public void setOperator(int operator){
         index = operator;
         currentOperation.setText(operation[index]);
-        parent.b.setOperand(operandForm[index]);
-        parent.result.setOperand(resultForm[index]);
-        parent.refreshResult();
+        parent.operandB.displayPanel(operandForm[index]);
+        parent.operandC.displayPanel(resultForm[index]);
+        parent.refreshResult(false);
     }
 
     public void nextOperator(){
         index++;
         if (index == operation.length) index = 0;
         currentOperation.setText(operation[index]);
-        parent.b.setOperand(operandForm[index]);
-        parent.result.setOperand(resultForm[index]);
-        parent.refreshResult();
+        parent.operandB.displayPanel(operandForm[index]);
+        parent.operandC.displayPanel(resultForm[index]);
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 
+    @Deprecated
     public void previousOperator(){
         index--;
         if (index == -1) index = operation.length - 1;
         currentOperation.setText(operation[index]);
-        parent.b.setOperand(operandForm[index]);
-        parent.result.setOperand(resultForm[index]);
-        parent.refreshResult();
+        parent.operandB.displayPanel(operandForm[index]);
+        parent.operandC.displayPanel(resultForm[index]);
+        parent.refreshResult(false);
         Main.updateSelectedMenuItem(Vec3Screen.items[index]);
     }
 

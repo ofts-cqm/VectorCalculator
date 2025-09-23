@@ -1,22 +1,33 @@
 package net.ofts.vecCalc.vector;
 
+import net.ofts.vecCalc.INumber;
+
+import java.util.Arrays;
+
 /**
  * When designed, I set the vector's size as constant
  * However, when required to resize the vector, it becomes so painful. The only way is to create a new vec instead of resize it
  * This is a major engineering fatal!
  */
-public class VecN {
+public class VecN extends INumber {
     public double[] elements;
 
+    public VecN(){
+        super("vecN");
+    }
+
     public VecN(int length){
+        super("vecN");
         elements = new double[length];
     }
 
     public VecN(double[] entries){
+        super("vecN");
         elements = entries;
     }
 
     public VecN(VecN copyFrom){
+        super("vecN");
         elements = copyFrom.elements.clone();
     }
 
@@ -42,6 +53,7 @@ public class VecN {
         return result;
     }
 
+    @Deprecated
     public VecN mutableScale(double b){
         for (int i = 0; i < elements.length; i++) {
             elements[i] *= b;
@@ -95,5 +107,10 @@ public class VecN {
 
     public static VecN Perp(VecN a, VecN b){
         return sub(a, Proj(a, b));
+    }
+
+    @Override
+    public INumber clone() {
+        return new VecN(Arrays.copyOf(elements, elements.length));
     }
 }

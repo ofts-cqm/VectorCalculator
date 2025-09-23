@@ -48,7 +48,10 @@ public class HistoryItem {
         histories.add(item);
         if (histories.size() > 10) histories.remove(0);
         new HistoryPanel(item);
+        prepareHistoryWriteDown();
+    }
 
+    public static void prepareHistoryWriteDown(){
         if(!Main.recordFile) return;
 
         try {

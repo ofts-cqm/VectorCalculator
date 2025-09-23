@@ -13,6 +13,7 @@ import java.util.Queue;
 public class HistoryFrame extends JFrame {
     public static HistoryFrame instance;
     public static JScrollPane pane;
+    public static JButton clear;
     public static JPanel contentPanel = new JPanel();
     public static Queue<JPanel> addedItems = new LinkedList<>();
 
@@ -35,6 +36,11 @@ public class HistoryFrame extends JFrame {
         instance = this;
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setSize(275, 350);
+        contentPanel.setPreferredSize(new Dimension(275, 350));
+        clear = new JButton("Clear History");
+        clear.addActionListener(a -> clearHistory());
+        clear.setPreferredSize(new Dimension(100, 30));
+        contentPanel.add(clear);
     }
 
     public static void addHistory(HistoryPanel panel){
@@ -47,5 +53,14 @@ public class HistoryFrame extends JFrame {
 
         instance.revalidate();
         instance.repaint();
+    }
+
+    public static void clearHistory(){
+        contentPanel.removeAll();
+        contentPanel.add(clear);
+        addedItems.clear();
+        contentPanel.repaint();
+        HistoryItem.histories.clear();
+        HistoryItem.prepareHistoryWriteDown();
     }
 }

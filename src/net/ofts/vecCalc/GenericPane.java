@@ -22,8 +22,10 @@ public class GenericPane extends AbstractNumberPane {
                 panels.put(MatrixPane.class, pane);
             }
         }
-        add(panel[0], BorderLayout.CENTER);
-        current = panel[0];
+        if (panel.length > 0) {
+            add(panel[0], BorderLayout.CENTER);
+            current = panel[0];
+        }
     }
 
     public AbstractNumberPane getCurrent(){

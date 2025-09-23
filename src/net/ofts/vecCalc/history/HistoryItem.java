@@ -14,18 +14,25 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HistoryItem {
     public String operatorCode;
-    public SuperNumber[] operands;
+    public INumber[] operands;
 
     public static ArrayList<HistoryItem> histories = new ArrayList<>();
 
     public HistoryItem(String operatorCode, INumber[] operands){
-        this.operands = new SuperNumber[operands.length];
+        this.operands = new INumber[operands.length];
         for (int i = 0; i < operands.length; i++) {
-            this.operands[i] = new SuperNumber(operands[i]);
+            this.operands[i] = operands[i].clone();
+        }
+        this.operatorCode = operatorCode;
+    }
+
+    public HistoryItem(String operatorCode, SuperNumber[] operands){
+        this.operands = new INumber[operands.length];
+        for (int i = 0; i < operands.length; i++) {
+            this.operands[i] = operands[i].degrade();
         }
         this.operatorCode = operatorCode;
     }
@@ -65,7 +72,7 @@ public class HistoryItem {
         ICalculatorScreen calc = Main.openCalculatorPage(operatorCode, Main.menuItemMap.get(operatorCode));
         for (int i = 0; i < operands.length - 1; i++) {
             GenericPane pane = calc.getPaneByIndex(i);
-            INumber num = operands[i].degrade();
+            INumber num = operands[i];
             pane.setPanel(pane.getCurrent().cloneWithValue(num == null ? null : num.clone()));
         }
         calc.refreshResult(false);
@@ -76,10 +83,17 @@ public class HistoryItem {
     }
 
     public static void read(FileReader reader){
-        HistoryItem[] tmp = new Gson().fromJson(reader, HistoryItem[].class);
-        histories = new ArrayList<>(Arrays.asList(tmp));
+        HistoryBuffer[] tmp = new Gson().fromJson(reader, HistoryBuffer[].class);
+        for (HistoryBuffer buff : tmp) {
+            histories.add(new HistoryItem(buff.operatorCode, buff.operands));
+        }
         for (HistoryItem history : histories) {
             new HistoryPanel(history);
         }
+    }
+
+    public static class HistoryBuffer{
+        public String operatorCode;
+        public SuperNumber[] operands;
     }
 }

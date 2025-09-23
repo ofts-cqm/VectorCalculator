@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.history;
 
 import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.calc.TextNumber;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Number;
 import net.ofts.vecCalc.vector.Vec3;
@@ -22,6 +23,15 @@ public class HistoryNumberPanel extends JPanel {
         else if (number instanceof Vec3 vec) initVector(new double[]{vec.x1, vec.x2, vec.x3});
         else if (number instanceof VecN vec) initVector(vec.elements);
         else if (number instanceof Number num) initNumber(num.num);
+        else if (number instanceof TextNumber text) initText(text.text);
+    }
+
+    public void initText(String text){
+        this.setMaximumSize(new Dimension(150, 75));
+        this.setPreferredSize(new Dimension(150, 75));
+        this.setBorder(new TitledBorder("Expression"));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(new JLabel("<html><body>" + text + "</body></html>"), BorderLayout.CENTER);
     }
 
     public void initNumber(double val){

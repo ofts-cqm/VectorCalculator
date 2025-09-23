@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.history;
 
 import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.calc.TextNumber;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Number;
 import net.ofts.vecCalc.vector.Vec3;
@@ -8,11 +9,9 @@ import net.ofts.vecCalc.vector.VecN;
 
 public class SuperNumber {
     public double[][] entries;
-    public int height, width;
-    public double num;
-    public double x1, x2, x3;
+    public Double num, x1, x2, x3;
     public double[] elements;
-    public String type;
+    public String type, text;
 
     public SuperNumber(INumber num){
         if (num instanceof Matrix matx){
@@ -29,6 +28,9 @@ public class SuperNumber {
         }else if (num instanceof VecN vn){
             this.elements = vn.elements;
             type = "vecN";
+        }else if (num instanceof TextNumber txt){
+            this.text = txt.text;
+            type = "text";
         }else if(num == null){
             type = "null";
         }
@@ -40,6 +42,7 @@ public class SuperNumber {
             case "numb" -> new Number(num);
             case "vec3" -> new Vec3(x1, x2, x3);
             case "vecN" -> new VecN(elements);
+            case "text" -> new TextNumber(text);
             default -> null;
         };
     }

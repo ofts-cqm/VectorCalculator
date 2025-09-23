@@ -1,13 +1,18 @@
 package net.ofts.vecCalc.calc;
 
+import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.numberPane.AbstractNumberPane;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-public class KeyboardPane extends JPanel {
+public class KeyboardPane extends AbstractNumberPane {
     public Consumer<String> inputStream;
     public Runnable clear, evaluate;
+    public Supplier<String> getInput;
     public boolean hyperbolaForm = false;
 
     public static final String[][] layout = new String[][]{
@@ -20,9 +25,10 @@ public class KeyboardPane extends JPanel {
 
     public static final JButton[][] buttons = new JButton[layout.length][layout[0].length];
 
-    public KeyboardPane(Consumer<String> inputStream, Runnable clear, Runnable evaluate){
+    public KeyboardPane(Consumer<String> inputStream, Runnable clear, Runnable evaluate, Supplier<String> getInput){
         this.inputStream = inputStream;
         this.clear = clear;
+        this.getInput = getInput;
         this.evaluate = evaluate;
         setLayout(new GridLayout(5, 8));
         for (int i = 0; i < 5; i++) {
@@ -83,5 +89,24 @@ public class KeyboardPane extends JPanel {
             default -> e.getActionCommand();
         };
         if (!value.isEmpty()) inputStream.accept(value);
+    }
+
+    @Override
+    public void resetPane() {
+        clear.run();
+    }
+
+    @Override
+    public AbstractNumberPane cloneWithValue(INumber number) {
+        assert number instanceof TextNumber;
+        String input = ((TextNumber) number).text;
+        clear.run();
+        inputStream.accept(input);
+        return new KeyboardPane(inputStream, clear, evaluate, getInput);
+    }
+
+    @Override
+    public INumber getNumber() {
+        return new TextNumber(getInput.get());
     }
 }

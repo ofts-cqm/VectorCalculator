@@ -1,5 +1,7 @@
 package net.ofts.vecCalc.history;
 
+import net.ofts.vecCalc.INumber;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -19,8 +21,8 @@ public class HistoryPanel extends JPanel {
         button.addActionListener(a -> item.openHistory());
         add(button);
 
-        for (SuperNumber number : item.operands){
-            add(new HistoryNumberPanel(number.degrade()));
+        for (INumber number : item.operands){
+            add(new HistoryNumberPanel(number));
         }
 
         HistoryFrame.addHistory(this);

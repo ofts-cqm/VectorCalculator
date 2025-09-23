@@ -2,21 +2,30 @@ package net.ofts.vecCalc.calc;
 
 import net.ofts.vecCalc.GenericPane;
 import net.ofts.vecCalc.ICalculatorScreen;
+import net.ofts.vecCalc.history.HistoryItem;
+import net.ofts.vecCalc.numberPane.NumPane;
+import net.ofts.vecCalc.numberPane.TextPane;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CalculatorScreen extends ICalculatorScreen {
-    public KeyboardPane keyboard = new KeyboardPane(this::receiveInput, this::clearInput,  () -> refreshResult(true));
     public JTextField textField = new JTextField();
+    public JTextField result = new JTextField("Press 'Enter' or '=' to evaluate");
+    public KeyboardPane keyboard = new KeyboardPane(this::receiveInput, this::clearInput,  () -> refreshResult(true), () -> textField.getText());
 
     public CalculatorScreen(){
-        setLayout(new BorderLayout(50, 50));
-        add(Box.createRigidArea(new Dimension(500, 0)), BorderLayout.NORTH);
-        add(textField, BorderLayout.CENTER);
-        add(keyboard, BorderLayout.SOUTH);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(Box.createVerticalGlue());
+        add(textField);
+        add(Box.createVerticalGlue());
+        add(result);
+        add(Box.createVerticalGlue());
+        add(keyboard);
         textField.addActionListener(e -> refreshResult(true));
-        textField.setPreferredSize(new Dimension(500, 100));
+        textField.setPreferredSize(new Dimension(500, 75));
+        result.setPreferredSize(new Dimension(500, 25));
+        result.setEditable(false);
     }
 
     public void receiveInput(String input){
@@ -29,9 +38,11 @@ public class CalculatorScreen extends ICalculatorScreen {
 
     @Override
     public void refreshResult(boolean recordResult) {
+        String preText = textField.getText();
         double evaluated = Calculator.evaluate(textField.getText(), true);
         if (Calculator.getLog().isEmpty()){
-            textField.setText(evaluated + "");
+            result.setText("= " + evaluated);
+            if (recordResult) HistoryItem.recordHistory("calc1", new TextPane(preText + " = " + evaluated), new NumPane("", this, false).setNum(evaluated));
             return;
         }
 
@@ -55,7 +66,7 @@ public class CalculatorScreen extends ICalculatorScreen {
 
     @Override
     public GenericPane getPaneByIndex(int index) {
-        return null;
+        return new HolderPane(this);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class Vec3ControlPane extends JPanel {
     @SuppressWarnings("unchecked")
     public static final Class<? extends AbstractNumberPane>[] operandForm = new Class[]{Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, BlankPane.class, BlankPane.class, Vec3Pane.class, Vec3Pane.class};
     @SuppressWarnings("unchecked")
-    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, Vec3Pane.class};
+    public static final Class<? extends AbstractNumberPane>[] resultForm = new Class[]{Vec3Pane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class, NumPane.class, Vec3Pane.class, Vec3Pane.class};
     public int index = 0;
     public Vec3Screen parent;
 

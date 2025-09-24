@@ -24,7 +24,7 @@ public class HistoryItem {
     public HistoryItem(String operatorCode, INumber[] operands){
         this.operands = new INumber[operands.length];
         for (int i = 0; i < operands.length; i++) {
-            this.operands[i] = operands[i].clone();
+            this.operands[i] = operands[i] == null ? null : operands[i].clone();
         }
         this.operatorCode = operatorCode;
     }
@@ -32,7 +32,7 @@ public class HistoryItem {
     public HistoryItem(String operatorCode, SuperNumber[] operands){
         this.operands = new INumber[operands.length];
         for (int i = 0; i < operands.length; i++) {
-            this.operands[i] = operands[i].degrade();
+            this.operands[i] = operands[i] == null ? null : operands[i].degrade();
         }
         this.operatorCode = operatorCode;
     }

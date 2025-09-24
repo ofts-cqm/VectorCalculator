@@ -14,8 +14,8 @@ public class HistoryPanel extends JPanel {
         this.item = item;
         this.setBorder(new TitledBorder(item.getOperationName()));
         this.setLayout(new FlowLayout());
-        this.setMaximumSize(new Dimension(275, 105));
-        this.setPreferredSize(new Dimension(275, 105));
+        this.setMaximumSize(new Dimension(285, 105));
+        this.setPreferredSize(new Dimension(285, 105));
 
         button = new JButton("open");
         button.addActionListener(a -> item.openHistory());

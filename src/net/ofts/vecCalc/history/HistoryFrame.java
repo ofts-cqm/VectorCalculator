@@ -35,8 +35,8 @@ public class HistoryFrame extends JFrame {
         setVisible(false);
         instance = this;
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setSize(275, 350);
-        contentPanel.setPreferredSize(new Dimension(275, 350));
+        //contentPanel.setSize(275, 114514);
+        //contentPanel.setPreferredSize(new Dimension(275, 114514));
         clear = new JButton("Clear History");
         clear.addActionListener(a -> clearHistory());
         clear.setPreferredSize(new Dimension(100, 30));

@@ -147,7 +147,7 @@ public class FunctionAnalyzer extends ICalculatorScreen {
         // adding vectors to JFrame
         vectorPane.add(new JLabel("X = "));
         for (int i = 0; i < assignedVariable + 1; i++) {
-            VecNPane pane = new VecNPane(i == 0 ? "Const" : (variableList[i - 1] + ""), height, this, false);
+            VecNPane pane = new VecNPane(i == 0 ? "Const" : (variableList[i - 1] + ""), width, this, false);
             pane.setVector(answerMatrix.getColumn(i));
             pane.setSize(100, width * 27 + 20);
             pane.setPreferredSize(new Dimension(100, width * 35 + 25));

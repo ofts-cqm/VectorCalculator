@@ -1,6 +1,7 @@
 package net.ofts.vecCalc.history;
 
 import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.ValueDisplayer;
 import net.ofts.vecCalc.calc.TextNumber;
 import net.ofts.vecCalc.matrix.Matrix;
 import net.ofts.vecCalc.vector.Number;
@@ -10,10 +11,16 @@ import net.ofts.vecCalc.vector.VecN;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 
 public class HistoryNumberPanel extends JPanel {
     public INumber number;
+    public Dimension magnifierSize;
+    public String magnifierString;
+    public boolean isValidPanel = true;
+
     public static final NumberFormat formatter = NumberFormat.getNumberInstance();
 
     public HistoryNumberPanel(INumber number){
@@ -24,6 +31,12 @@ public class HistoryNumberPanel extends JPanel {
         else if (number instanceof VecN vec) initVector(vec.elements);
         else if (number instanceof Number num) initNumber(num.num);
         else if (number instanceof TextNumber text) initText(text.text);
+        else isValidPanel = false;
+        addMouseListener(new MouseHandler());
+    }
+
+    public static int getTextWidth(JLabel label){
+        return label.getFontMetrics(label.getFont()).stringWidth(label.getText());
     }
 
     public void initText(String text){
@@ -31,13 +44,21 @@ public class HistoryNumberPanel extends JPanel {
         this.setPreferredSize(new Dimension(150, 75));
         this.setBorder(new TitledBorder("Expression"));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("<html><body>" + text + "</body></html>"), BorderLayout.CENTER);
+        JLabel label = new JLabel("<html><body>" + text + "</body></html>");
+        add(label, BorderLayout.CENTER);
+
+        magnifierString = label.getText();
+        magnifierSize = new Dimension(getTextWidth(new JLabel(text)) + 30, 30);
     }
 
     public void initNumber(double val){
         this.setLayout(new BorderLayout());
         this.setBorder(new TitledBorder("Num"));
-        add(new JLabel(formatter.format(val)), BorderLayout.CENTER);
+
+        magnifierString = formatter.format(val);
+        JLabel label = new JLabel(magnifierString);
+        add(label, BorderLayout.CENTER);
+        magnifierSize = new Dimension(getTextWidth(label) + 30, 30);
     }
 
     public void initVector(double[] values){
@@ -51,6 +72,14 @@ public class HistoryNumberPanel extends JPanel {
         else if(values.length > 3){
             add(new JLabel("..."));
         }
+
+        StringBuilder builder = new StringBuilder("< ");
+        for (double val : values){
+            builder.append(formatter.format(val)).append(' ');
+        }
+        builder.append('>');
+        magnifierString = builder.toString();
+        magnifierSize = new Dimension(getTextWidth(new JLabel(magnifierString)) + 30, 30);
     }
 
     public void initMatrix(Matrix matrix){
@@ -73,6 +102,35 @@ public class HistoryNumberPanel extends JPanel {
             add(new JLabel("..."));
             add(new JLabel("..."));
             add(new JLabel("..."));
+        }
+
+        StringBuilder overall = new StringBuilder("<html><body>");
+        int currentWidth = 0;
+        for (int i = 0; i < matrix.height; i++){
+            StringBuilder inner = new StringBuilder("[ ");
+            for (int j = 0; j < matrix.width; j++) {
+                inner.append(formatter.format(matrix.entries[j][i])).append(' ');
+            }
+            inner.append(']');
+            currentWidth = Math.max(currentWidth, getTextWidth(new JLabel(inner.toString())));
+            overall.append(inner).append("<br>");
+        }
+        overall.append("</body></html>");
+        magnifierString = overall.toString();
+        magnifierSize = new Dimension(currentWidth + 30, matrix.height * 20);
+    }
+
+    public class MouseHandler extends MouseAdapter{
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if(isValidPanel)
+                ValueDisplayer.displayValue(magnifierString, magnifierSize, getLocationOnScreen());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if(isValidPanel)
+                ValueDisplayer.closeDisplay();
         }
     }
 

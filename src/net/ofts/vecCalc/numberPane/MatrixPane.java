@@ -2,6 +2,7 @@ package net.ofts.vecCalc.numberPane;
 
 import net.ofts.vecCalc.ICalculatorScreen;
 import net.ofts.vecCalc.INumber;
+import net.ofts.vecCalc.ValueDisplayer;
 import net.ofts.vecCalc.calc.Calculator;
 import net.ofts.vecCalc.matrix.Matrix;
 
@@ -11,17 +12,24 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MatrixPane extends BlankPane {
     public Matrix matrix;
     public JTextField[][] matrixField;
+    public JButton[][] resultField;
     public ICalculatorScreen parent;
     public String name;
     public boolean editable;
+    @Deprecated
     public boolean inverseRowsAndColumns = false;
+    public int matWidth, matHeight;
 
     public MatrixPane(String name, Matrix matrix, ICalculatorScreen parent){
         this(name, matrix.height, matrix.width, parent, false);
+        this.matWidth = matrix.width;
+        this.matHeight = matrix.height;
         setMatrix(matrix);
     }
 
@@ -33,19 +41,25 @@ public class MatrixPane extends BlankPane {
         setLayout(new GridLayout(height, width));
         setBorder(new TitledBorder(name));
         matrixField = new JTextField[height][width];
+        resultField = new JButton[height][width];
+        this.matWidth = width;
+        this.matHeight = height;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                JTextField temp = new JTextField("0");
-                matrixField[i][j] = temp;
                 if (editable) {
+                    JTextField temp = new JTextField("0");
+                    matrixField[i][j] = temp;
                     temp.addFocusListener(focusManager);
                     temp.getDocument().addDocumentListener(new TextFieldMonitor(i, j));
                     temp.addActionListener(this::onEnterPressed);
+                    add(temp);
                 }else{
-                    temp.setEditable(false);
+                    JButton temp = new JButton("0");
+                    resultField[i][j] = temp;
+                    temp.addMouseListener(new MouseListener(temp));
                     temp.setFocusable(false);
+                    add(temp);
                 }
-                add(temp);
             }
         }
     }
@@ -74,16 +88,18 @@ public class MatrixPane extends BlankPane {
     }
 
     public void updateMatrixPane(){
-        for (int i = 0; i < matrixField.length; i++) {
-            for (int j = 0; j < matrixField[0].length; j++) {
-                matrixField[i][j].setText(formatter.format(inverseRowsAndColumns? matrix.entries[i][j] : matrix.entries[j][i]));
+        for (int i = 0; i < matHeight; i++) {
+            for (int j = 0; j < matWidth; j++) {
+                String text = formatter.format(/*inverseRowsAndColumns? matrix.entries[i][j] : */matrix.entries[j][i]);
+                if (editable) matrixField[i][j].setText(text);
+                else resultField[i][j].setText(text);
             }
         }
     }
 
     @Override
     public void resetPane(){
-        matrix = new Matrix(matrixField.length, matrixField[0].length);
+        matrix = new Matrix(matHeight, matWidth);
         updateMatrixPane();
     }
 
@@ -104,8 +120,9 @@ public class MatrixPane extends BlankPane {
             }
         }
 
-        if(inverseRowsAndColumns) matrix.entries[i][j] = val;
-        else matrix.entries[j][i] = val;
+        //if(inverseRowsAndColumns) matrix.entries[i][j] = val;
+        //else
+        matrix.entries[j][i] = val;
     }
 
     public AbstractNumberPane cloneWithValue(INumber number){
@@ -139,6 +156,24 @@ public class MatrixPane extends BlankPane {
         @Override
         public void changedUpdate(DocumentEvent e) {
 
+        }
+    }
+
+    public static class MouseListener extends MouseAdapter {
+        public JButton button;
+
+        public MouseListener(JButton button){
+            this.button = button;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ValueDisplayer.displayValue(button.getText(), new Dimension(150, 30), button.getLocationOnScreen());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            ValueDisplayer.closeDisplay();
         }
     }
 }

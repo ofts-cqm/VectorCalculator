@@ -7,12 +7,13 @@ public class ValueDisplayer {
     private static final JWindow valueFrame;
     private static final JLabel valueLabel;
 
-    public static void displayValue(String val, Point location){
+    public static void displayValue(String val, Dimension size, Point location){
         valueLabel.setText(val);
-        valueFrame.revalidate();
-        location.y -= 35;
+        valueFrame.setSize(size);
+        location.y -= size.height + 5;
         valueFrame.setLocation(location);
         valueFrame.setVisible(true);
+        valueFrame.revalidate();
     }
 
     public static void closeDisplay(){
@@ -21,8 +22,7 @@ public class ValueDisplayer {
 
     static{
         valueLabel = new JLabel("");
-        valueFrame = new JWindow();//JFrame("Value:");
-        valueFrame.setSize(150, 30);
+        valueFrame = new JWindow();
         valueFrame.setLayout(new FlowLayout());
         valueFrame.add(valueLabel);
         valueFrame.setAlwaysOnTop(true);

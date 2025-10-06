@@ -14,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MatrixPane extends BlankPane {
     public Matrix matrix;
@@ -169,7 +168,7 @@ public class MatrixPane extends BlankPane {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ValueDisplayer.displayValue(button.getText(), button.getLocationOnScreen());
+            ValueDisplayer.displayValue(button.getText(), new Dimension(150, 30), button.getLocationOnScreen());
         }
 
         @Override

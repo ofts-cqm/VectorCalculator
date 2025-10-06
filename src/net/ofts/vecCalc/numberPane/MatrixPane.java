@@ -12,6 +12,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MatrixPane extends BlankPane {
     public Matrix matrix;
@@ -54,17 +57,11 @@ public class MatrixPane extends BlankPane {
                 }else{
                     JButton temp = new JButton("0");
                     resultField[i][j] = temp;
-                    temp.addActionListener(this::magnifyValue);
+                    temp.addMouseListener(new MouseListener(temp));
                     temp.setFocusable(false);
                     add(temp);
                 }
             }
-        }
-    }
-
-    public void magnifyValue(ActionEvent e){
-        if (e.getSource() instanceof JButton jButton){
-            ValueDisplayer.displayValue(jButton.getText());
         }
     }
 
@@ -160,6 +157,24 @@ public class MatrixPane extends BlankPane {
         @Override
         public void changedUpdate(DocumentEvent e) {
 
+        }
+    }
+
+    public static class MouseListener extends MouseAdapter {
+        public JButton button;
+
+        public MouseListener(JButton button){
+            this.button = button;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ValueDisplayer.displayValue(button.getText(), button.getLocationOnScreen());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            ValueDisplayer.closeDisplay();
         }
     }
 }
